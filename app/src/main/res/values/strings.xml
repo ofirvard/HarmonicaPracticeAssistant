@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Harmonica Practice Assistant</string>
+    <string name="load_song">Load Song</string>
+    <string name="new_song">New Song</string>
+</resources>
