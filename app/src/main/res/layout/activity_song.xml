@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SongActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/record"
         android:layout_width="wrap_content"
@@ -40,5 +31,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/pencil"
         app:tint="@null" />
+
+    <EditText
+        android:id="@+id/song_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/song_name"
+        android:inputType="text"
+        android:text="@string/new_song"
+        android:textColor="@color/disabled_color"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/song_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5sp"
+        android:layout_marginTop="693dp"
+        android:ems="10"
+        android:enabled="false"
+        android:gravity="start"
+        android:hint="@string/tabs"
+        android:inputType="textMultiLine"
+        android:text="@string/lorem_ipsum"
+        android:textColor="@color/disabled_color"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/song_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
