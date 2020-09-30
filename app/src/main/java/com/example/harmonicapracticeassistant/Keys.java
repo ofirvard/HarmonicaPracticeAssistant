@@ -2,5 +2,7 @@ package com.example.harmonicapracticeassistant;
 
 public class Keys
 {
-    final static String IS_NEW_SONG = "IS_NEW_SONG";
+    public static final String IS_NEW_SONG = "IS_NEW_SONG";
+    public static final String SONGS = "SONGS";
+    public static final String SONG = "SONG";
 }

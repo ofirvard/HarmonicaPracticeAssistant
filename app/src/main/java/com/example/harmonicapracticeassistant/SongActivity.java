@@ -1,14 +1,17 @@
 package com.example.harmonicapracticeassistant;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SongActivity extends AppCompatActivity
 {
@@ -16,6 +19,9 @@ public class SongActivity extends AppCompatActivity
     private boolean isEditing = false;
     private EditText songName;
     private EditText songTabs;
+    private List<Song> songs;
+    private Song song;
+    private boolean isNewSong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,9 +32,12 @@ public class SongActivity extends AppCompatActivity
         songName = findViewById(R.id.song_title);
         songTabs = findViewById(R.id.song_edit_text);
 
-        if (getIntent().getExtras().getBoolean(Keys.IS_NEW_SONG))
+        songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
+
+        isNewSong = getIntent().getExtras().getBoolean(Keys.IS_NEW_SONG);
+        if (!isNewSong)
         {
-//            getActionBar().setTitle("New Song");
+            song = getIntent().getExtras().getParcelable(Keys.SONG);
         }
     }
 
@@ -66,5 +75,60 @@ public class SongActivity extends AppCompatActivity
                 songName.setEnabled(true);
                 songTabs.setEnabled(true);
             }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // TODO: 9/30/2020 cancel recording if recording
+        //this is tmp
+//        List<Song> songs = new ArrayList<>();
+//        songs.add(new Song(songName.getText().toString(), songTabs.getText().toString(), false, new ArrayList<String>()));
+//
+//        SaveHandler.save(getApplicationContext(), songs);
+//
+//        List<Song> songs1 = SaveHandler.load(getApplicationContext());
+
+
+        if (!checkSongNameFree())
+        {
+            //popup to ask if name should be changed
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.name_in_use);
+            builder.setMessage(R.string.name_in_use_dialog);
+
+            // add the buttons
+            builder.setPositiveButton(R.string.rename, null);
+            builder.setNegativeButton(R.string.discard, new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    SongActivity.super.onBackPressed();
+                }
+            });
+
+            // create and show the alert dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else
+        {
+            // TODO: 9/30/2020 add main recording and recordings once there done 
+            if (isNewSong)
+                songs.add(new Song(songName.getText().toString(), songTabs.getText().toString(), false, new ArrayList<String>()));
+
+            SaveHandler.save(getApplicationContext(), songs);
+            super.onBackPressed();
+        }
+        //save
+    }
+
+    private boolean checkSongNameFree()
+    {
+        for (Song song : songs)
+            if (song.name.equals(songName.getText().toString()))
+                return false;
+        return true;
     }
 }

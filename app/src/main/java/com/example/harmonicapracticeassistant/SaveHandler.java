@@ -13,9 +13,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonReadWrite
+public class SaveHandler
 {
-    static List<Song> read(Context context)
+    static List<Song> load(Context context)
     {
         List<Song> Songs = new ArrayList<>();
         String data;
@@ -24,7 +24,7 @@ public class JsonReadWrite
         {
             FileInputStream in = context.openFileInput("songs.json");
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            data = read(reader);
+            data = load(reader);
             JSONArray list = new JSONArray(data);
             Gson gson = new Gson();
             for (int i = 0; i < list.length(); i++)
@@ -54,7 +54,7 @@ public class JsonReadWrite
 //        }
     }
 
-    static void write(Context context, List<Song> Songs)
+    static void save(Context context, List<Song> Songs)
     {
         try
         {
@@ -69,7 +69,7 @@ public class JsonReadWrite
         }
     }
 
-    private static String read(BufferedReader reader)
+    private static String load(BufferedReader reader)
     {
         try
         {

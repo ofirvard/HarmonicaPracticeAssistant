@@ -5,4 +5,8 @@
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla posuere, libero non facilisis bibendum, purus ligula malesuada arcu, et sagittis ipsum felis non felis. Quisque ut augue lacinia, malesuada elit eget, dictum mauris. Mauris consectetur in lorem vitae tristique. Mauris sollicitudin, nisl eu consectetur mattis, neque libero suscipit dui, vitae mollis tortor mi ut eros. Phasellus tincidunt facilisis velit, et varius tortor accumsan eget. Ut vitae mauris quis diam tincidunt ultrices nec quis lorem. Nullam felis nisl, eleifend non hendrerit vel, consequat sit amet turpis. In dictum accumsan dolor. Quisque id fringilla elit. Proin hendrerit nisl in condimentum dapibus. Integer sit amet condimentum est, sit amet mollis mi. Sed vulputate dui a varius feugiat. Mauris euismod dolor orci, vel eleifend risus sollicitudin non. Pellentesque in commodo urna, sed ullamcorper nunc. Quisque euismod ante et elementum lacinia. Aliquam eu pretium dui, in eleifend ipsum.</string>
     <string name="song_name">Song Name</string>
     <string name="tabs">Tabs</string>
+    <string name="name_in_use">Name already in use</string>
+    <string name="name_in_use_dialog">If you continue your song will be discarded, change its name?</string>
+    <string name="rename">Rename</string>
+    <string name="discard">Discard</string>
 </resources>
