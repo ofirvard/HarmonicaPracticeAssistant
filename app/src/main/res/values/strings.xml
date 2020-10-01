@@ -9,4 +9,8 @@
     <string name="name_in_use_dialog">If you continue your song will be discarded, change its name?</string>
     <string name="rename">Rename</string>
     <string name="discard">Discard</string>
+    <string name="delete_message">Delete song?</string>
+    <string name="delete_message_dialog">Are you sure you want to delete this song?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

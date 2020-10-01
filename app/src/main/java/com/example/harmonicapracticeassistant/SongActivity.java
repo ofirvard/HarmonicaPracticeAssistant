@@ -89,14 +89,12 @@ public class SongActivity extends AppCompatActivity
     public void onBackPressed()
     {
         // TODO: 9/30/2020 stop recording if recording
-        if (isNewSong && !checkSongNameFree())
+        if (!checkSongNameFree())
         {
-            //popup to ask if name should be changed
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.name_in_use);
             builder.setMessage(R.string.name_in_use_dialog);
 
-            // add the buttons
             builder.setPositiveButton(R.string.rename, null);
             builder.setNegativeButton(R.string.discard, new DialogInterface.OnClickListener()
             {
@@ -107,7 +105,6 @@ public class SongActivity extends AppCompatActivity
                 }
             });
 
-            // create and show the alert dialog
             AlertDialog dialog = builder.create();
             dialog.show();
         }

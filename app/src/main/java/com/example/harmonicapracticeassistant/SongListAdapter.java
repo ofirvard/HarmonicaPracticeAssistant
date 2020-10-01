@@ -1,7 +1,9 @@
 package com.example.harmonicapracticeassistant;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -74,6 +76,34 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
 //                context.startActivity(intent);
                 ((Activity) context).startActivityForResult(intent, 1);
 
+            }
+        });
+
+        holder.button.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View view)
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(R.string.delete_message);
+                builder.setMessage(R.string.delete_message_dialog);
+
+                builder.setNegativeButton(R.string.no, null);
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        songs.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, songs.size());
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                return true;
             }
         });
     }
