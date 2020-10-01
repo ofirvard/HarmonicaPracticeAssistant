@@ -2,7 +2,9 @@ package com.example.harmonicapracticeassistant;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.EditText;
 
@@ -37,7 +39,13 @@ public class SongActivity extends AppCompatActivity
         isNewSong = getIntent().getExtras().getBoolean(Keys.IS_NEW_SONG);
         if (!isNewSong)
         {
-            song = getIntent().getExtras().getParcelable(Keys.SONG);
+            int songPosition = getIntent().getExtras().getInt(Keys.SONG_POSITION);
+            song = songs.get(songPosition);
+
+            songName.setText(song.getName());
+            songTabs.setText(song.getTabs());
+
+            // TODO: 10/1/2020 load recordings 
         }
     }
 
@@ -80,17 +88,8 @@ public class SongActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        // TODO: 9/30/2020 cancel recording if recording
-        //this is tmp
-//        List<Song> songs = new ArrayList<>();
-//        songs.add(new Song(songName.getText().toString(), songTabs.getText().toString(), false, new ArrayList<String>()));
-//
-//        SaveHandler.save(getApplicationContext(), songs);
-//
-//        List<Song> songs1 = SaveHandler.load(getApplicationContext());
-
-
-        if (!checkSongNameFree())
+        // TODO: 9/30/2020 stop recording if recording
+        if (isNewSong && !checkSongNameFree())
         {
             //popup to ask if name should be changed
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -117,17 +116,27 @@ public class SongActivity extends AppCompatActivity
             // TODO: 9/30/2020 add main recording and recordings once there done 
             if (isNewSong)
                 songs.add(new Song(songName.getText().toString(), songTabs.getText().toString(), false, new ArrayList<String>()));
+            else
+            {
+                song.setName(songName.getText().toString());
+                song.setTabs(songTabs.getText().toString());
+            }
 
             SaveHandler.save(getApplicationContext(), songs);
-            super.onBackPressed();
+
+            Intent intent = new Intent();
+            intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+            setResult(RESULT_OK, intent);
+            finish();
+
+//            super.onBackPressed();
         }
-        //save
     }
 
     private boolean checkSongNameFree()
     {
         for (Song song : songs)
-            if (song.name.equals(songName.getText().toString()))
+            if (song.getName().equals(songName.getText().toString()))
                 return false;
         return true;
     }

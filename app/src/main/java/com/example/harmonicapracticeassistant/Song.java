@@ -8,10 +8,10 @@ import java.util.List;
 
 public class Song implements Parcelable
 {
-    String name;
-    String tabs;
-    boolean hasMainRecording;
-    List<String> recordings;
+    private String name;
+    private String tabs;
+    private boolean hasMainRecording;
+    private List<String> recordings;
 
     public Song(String name, String tabs, boolean hasMainRecording, List<String> recordings)
     {
@@ -28,7 +28,7 @@ public class Song implements Parcelable
         hasMainRecording = in.readByte() != 0x00;
         if (in.readByte() == 0x01)
         {
-            recordings = new ArrayList<String>();
+            recordings = new ArrayList<>();
             in.readList(recordings, String.class.getClassLoader());
         }
         else
@@ -75,4 +75,32 @@ public class Song implements Parcelable
             return new Song[size];
         }
     };
+
+    @Override
+    public String toString()
+    {
+        return "Song{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getTabs()
+    {
+        return tabs;
+    }
+
+    public void setTabs(String tabs)
+    {
+        this.tabs = tabs;
+    }
 }
