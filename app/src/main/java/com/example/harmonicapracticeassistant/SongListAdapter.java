@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyViewHolder>
 {
     private List<Song> songs;
-    public OnBindCallback onBind;
     private Context context;
 
     public SongListAdapter(List<Song> songs, Context context)
@@ -54,11 +53,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position)
     {
-        if (onBind != null)
-        {
-            onBind.onViewBound(holder, position);
-        }
-
         holder.button.setText(songs.get(position).getName());
 
         holder.button.setOnClickListener(new View.OnClickListener()
