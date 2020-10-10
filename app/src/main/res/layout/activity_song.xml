@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="@id/edit_save"
         app:layout_constraintStart_toEndOf="@id/edit_save"
         app:layout_constraintTop_toTopOf="@id/edit_save"
-        app:srcCompat="@drawable/zoom_in"
+        app:srcCompat="@drawable/plus"
         app:tint="@null" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -90,9 +90,10 @@
         android:focusable="true"
         android:onClick="zoomOut"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/zoom_in"
         app:layout_constraintStart_toEndOf="@id/zoom_in"
-        app:srcCompat="@drawable/zoom_out"
+        app:layout_constraintTop_toTopOf="@id/zoom_in"
+        app:srcCompat="@drawable/minus"
         app:tint="@null" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

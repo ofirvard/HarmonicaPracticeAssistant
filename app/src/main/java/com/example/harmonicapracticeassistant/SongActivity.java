@@ -94,14 +94,20 @@ public class SongActivity extends AppCompatActivity
 
     public void zoomIn(View view)
     {
-        if (textSize <= Keys.MAX_TEXT_SIZE)// TODO: 10/10/2020 figure out why there is a deley here and in zoom out 
-            songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, (textSize++));
+        if (textSize <= Keys.MAX_TEXT_SIZE)
+        {
+            textSize++;
+            songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        }
     }
 
     public void zoomOut(View view)
     {
         if (textSize >= Keys.MIN_TEXT_SIZE)
-            songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize--);
+        {
+            textSize--;
+            songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        }
     }
 
     @Override

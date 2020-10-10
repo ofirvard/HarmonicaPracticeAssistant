@@ -8,5 +8,5 @@ public class Keys
     public static final String SETTINGS = "SETTINGS";
     public static final int DEFAULT_TEXT_SIZE = 15;
     public static final int MAX_TEXT_SIZE = 30;
-    public static final int MIN_TEXT_SIZE = 5;
+    public static final int MIN_TEXT_SIZE = 10;
 }
