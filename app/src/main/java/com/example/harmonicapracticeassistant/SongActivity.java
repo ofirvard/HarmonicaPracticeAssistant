@@ -94,7 +94,7 @@ public class SongActivity extends AppCompatActivity
 
     public void zoomIn(View view)
     {
-        if (textSize <= Keys.MAX_TEXT_SIZE)
+        if (textSize < Keys.MAX_TEXT_SIZE)
         {
             textSize++;
             songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -103,7 +103,7 @@ public class SongActivity extends AppCompatActivity
 
     public void zoomOut(View view)
     {
-        if (textSize >= Keys.MIN_TEXT_SIZE)
+        if (textSize > Keys.MIN_TEXT_SIZE)
         {
             textSize--;
             songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -112,7 +112,7 @@ public class SongActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed()
-    {
+    {// TODO: 10/10/2020 check why this is causing crash 
         // TODO: 9/30/2020 stop recording if recording
         if (!checkSongNameFree())
         {

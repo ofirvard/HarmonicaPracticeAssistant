@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(Keys.IS_NEW_SONG, true);
         intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Keys.SETTINGS, settings);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, Keys.NEW_SONG_REQUEST_CODE);
     }
 
     public void loadSongs(View view)
@@ -44,11 +44,43 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void settings(View view)
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra(Keys.SETTINGS, settings);
+        startActivityForResult(intent, Keys.SETTINGS_REQUEST_CODE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode)
+        {
+            case Keys.NEW_SONG_REQUEST_CODE:
+                if (resultCode == RESULT_OK)
+                    songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
+                break;
+
+            case Keys.SETTINGS_REQUEST_CODE:
+                if (resultCode == RESULT_OK)
+                {
+                    settings = data.getExtras().getParcelable(Keys.SETTINGS);
+                    if (data.getExtras().getBoolean(Keys.NEW_SONGS_IMPORTED))
+                        songs = SaveHandler.loadSongs(getApplicationContext());
+                }
+                break;
+
+        }
+
         if (requestCode == 1)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
+            }
+        }
+        if (requestCode == 2)
         {
             if (resultCode == RESULT_OK)
             {

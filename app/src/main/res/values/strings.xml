@@ -13,4 +13,10 @@
     <string name="delete_message_dialog">Are you sure you want to delete this song?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="increase_text_size">&gt;</string>
+    <string name="decrease_text_size">&lt;</string>
+    <string name="text_size_text">Change default text size</string>
+    <string name="import_songs">Import songs</string>
+    <string name="export_songs">Export songs</string>
+    <string name="save_settings">Save Settings</string>
 </resources>

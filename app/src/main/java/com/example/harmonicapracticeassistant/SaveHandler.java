@@ -71,7 +71,7 @@ public class SaveHandler
         return settings;
     }
 
-    private static void saveSettings(Context context, AppSettings settings)
+    static void saveSettings(Context context, AppSettings settings)
     {
         try
         {
