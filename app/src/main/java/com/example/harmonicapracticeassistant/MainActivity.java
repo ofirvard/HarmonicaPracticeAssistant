@@ -3,7 +3,6 @@ package com.example.harmonicapracticeassistant;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,6 +14,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
     private List<Song> songs;
+    private AppSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -22,7 +22,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        songs = SaveHandler.load(getApplicationContext());
+        songs = SaveHandler.loadSongs(getApplicationContext());
+
+        settings = SaveHandler.loadSettings(getApplicationContext());
     }
 
     public void newSong(View view)
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, SongActivity.class);
         intent.putExtra(Keys.IS_NEW_SONG, true);
         intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+        intent.putExtra(Keys.SETTINGS, settings);
         startActivityForResult(intent, 1);
     }
 
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, SongListActivity.class);
         intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+        intent.putExtra(Keys.SETTINGS, settings);
         startActivity(intent);
     }
 

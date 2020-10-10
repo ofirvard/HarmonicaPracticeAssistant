@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SaveHandler
 {
-    static List<Song> load(Context context)
+    static List<Song> loadSongs(Context context)
     {
         List<Song> Songs = new ArrayList<>();
         String data;
@@ -34,33 +34,50 @@ public class SaveHandler
             e.printStackTrace();
         }
 
-        checkFileStillExist(Songs);
-
         return Songs;
     }
 
-    private static void checkFileStillExist(List<Song> Songs)
-    {
-//        for (int i = 0; i < Songs.size(); i++)
-//        {
-//            Song item = Songs.get(i);
-//
-//            File file = new File(item.getPath());
-//            if (!file.exists())
-//            {
-//                Songs.remove(item);
-//                i--;
-//            }
-//        }
-    }
-
-    static void save(Context context, List<Song> Songs)
+    static void saveSongs(Context context, List<Song> Songs)
     {
         try
         {
             Gson gson = new Gson();
             String data = gson.toJson(Songs);
             FileOutputStream out = context.openFileOutput("songs.json", Context.MODE_PRIVATE);
+            out.write(data.getBytes());
+            out.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    static AppSettings loadSettings(Context context)
+    {
+        AppSettings settings = new AppSettings(Keys.DEFAULT_TEXT_SIZE);
+        try
+        {
+            String data;
+            FileInputStream in = context.openFileInput("settings.json");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            data = load(reader);
+            Gson gson = new Gson();
+            return gson.fromJson(data, AppSettings.class);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            saveSettings(context, settings);
+        }
+        return settings;
+    }
+
+    private static void saveSettings(Context context, AppSettings settings)
+    {
+        try
+        {
+            Gson gson = new Gson();
+            String data = gson.toJson(settings);
+            FileOutputStream out = context.openFileOutput("settings.json", Context.MODE_PRIVATE);
             out.write(data.getBytes());
             out.close();
         } catch (Exception e)

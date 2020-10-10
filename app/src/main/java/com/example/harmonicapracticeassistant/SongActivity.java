@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 
@@ -24,6 +25,8 @@ public class SongActivity extends AppCompatActivity
     private List<Song> songs;
     private Song song;
     private boolean isNewSong;
+    private AppSettings settings;
+    private int textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,6 +38,7 @@ public class SongActivity extends AppCompatActivity
         songTabs = findViewById(R.id.song_edit_text);
 
         songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
+        settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
 
         isNewSong = getIntent().getExtras().getBoolean(Keys.IS_NEW_SONG);
         if (!isNewSong)
@@ -47,6 +51,9 @@ public class SongActivity extends AppCompatActivity
 
             // TODO: 10/1/2020 load recordings 
         }
+
+        songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
+        textSize = settings.getDefaultTextSize();
     }
 
     public void record(View view)
@@ -85,6 +92,18 @@ public class SongActivity extends AppCompatActivity
             }
     }
 
+    public void zoomIn(View view)
+    {
+        if (textSize <= Keys.MAX_TEXT_SIZE)// TODO: 10/10/2020 figure out why there is a deley here and in zoom out 
+            songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, (textSize++));
+    }
+
+    public void zoomOut(View view)
+    {
+        if (textSize >= Keys.MIN_TEXT_SIZE)
+            songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize--);
+    }
+
     @Override
     public void onBackPressed()
     {
@@ -119,7 +138,7 @@ public class SongActivity extends AppCompatActivity
                 song.setTabs(songTabs.getText().toString());
             }
 
-            SaveHandler.save(getApplicationContext(), songs);
+            SaveHandler.saveSongs(getApplicationContext(), songs);
 
             Intent intent = new Intent();
             intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
