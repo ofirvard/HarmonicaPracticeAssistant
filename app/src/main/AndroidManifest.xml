@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.harmonicapracticeassistant">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/harmonica"
@@ -9,7 +11,7 @@
         android:roundIcon="@drawable/harmonica"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".SongActivity" />
         <activity android:name=".SongListActivity" />
         <activity android:name=".MainActivity">

@@ -72,20 +72,5 @@ public class MainActivity extends AppCompatActivity
                 break;
 
         }
-
-        if (requestCode == 1)
-        {
-            if (resultCode == RESULT_OK)
-            {
-                songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
-            }
-        }
-        if (requestCode == 2)
-        {
-            if (resultCode == RESULT_OK)
-            {
-                songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
-            }
-        }
     }
 }
