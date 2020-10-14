@@ -103,7 +103,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 File file = new File(FileUtils.getPath(this, fileUri));
                 List<Song> songs = SaveHandler.loadSongs(file);
-// TODO: 10/13/20 find out why the file is empty 
+// TODO: 10/13/20 find out why the file is emptyZ
 
                 if (songs.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
