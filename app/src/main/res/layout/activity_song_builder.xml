@@ -45,6 +45,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="1" />
 
             <TextView
@@ -54,6 +55,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="6" />
         </LinearLayout>
 
@@ -70,6 +72,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="2" />
 
             <TextView
@@ -79,6 +82,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="7" />
         </LinearLayout>
 
@@ -95,6 +99,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="3" />
 
             <TextView
@@ -104,6 +109,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="8" />
         </LinearLayout>
 
@@ -120,6 +126,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="4" />
 
             <TextView
@@ -129,6 +136,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="9" />
         </LinearLayout>
 
@@ -145,6 +153,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="5" />
 
             <TextView
@@ -154,21 +163,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:gravity="center"
+                android:onClick="note"
                 android:text="10" />
         </LinearLayout>
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/enter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="3sp"
-        android:layout_marginBottom="5sp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/space"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/enter" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/space"
@@ -178,31 +176,60 @@
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="space"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/enter"
+        app:srcCompat="@drawable/spacebar" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="enter"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@+id/backspace"
+        app:srcCompat="@drawable/enter" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/backspace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="backspace"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/spacebar" />
+        app:srcCompat="@drawable/backspace" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/blowDraw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginSart="3sp"
+        android:layout_marginStart="3sp"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="blowDraw"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editSave"
         app:srcCompat="@drawable/plus" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/editSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginSart="3sp"
+        android:layout_marginStart="3sp"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/blowDraw"
+        android:onClick="editSave"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/pencil"
         app:tint="@null" />
@@ -211,12 +238,13 @@
         android:id="@+id/zoomIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginSart="3sp"
+        android:layout_marginStart="3sp"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/zoomOut"
-        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="zoomIn"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@id/editSave"
         app:srcCompat="@drawable/zoom_in"
         app:tint="@null" />
 
@@ -224,12 +252,13 @@
         android:id="@+id/zoomOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginSart="3sp"
+        android:layout_marginStart="3sp"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/editSave"
-        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="zoomOut"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@id/zoomIn"
         app:srcCompat="@drawable/zoom_out"
         app:tint="@null" />
 
@@ -237,13 +266,30 @@
         android:id="@+id/record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginSart="3sp"
+        android:layout_marginStart="3sp"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@+id/zoomIn"
-        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="record"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@id/zoomOut"
         app:srcCompat="@drawable/record"
         app:tint="@null" />
+
+    <TextView
+        android:id="@+id/song_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="2sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginBottom="2sp"
+        android:textColor="@color/disabled_color"
+        android:textSize="15sp"
+        android:typeface="monospace"
+        app:layout_constraintBottom_toTopOf="@id/editSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/song_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

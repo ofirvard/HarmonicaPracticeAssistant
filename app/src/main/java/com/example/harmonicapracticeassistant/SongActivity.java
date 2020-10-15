@@ -8,6 +8,8 @@ import android.os.Parcelable;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -21,24 +23,26 @@ public class SongActivity extends AppCompatActivity
     private boolean isRecording = false;
     private boolean isEditing = false;
     private EditText songName;
-    private EditText songTabs;
+    private TextView songTabs;
     private List<Song> songs;
     private Song song;
     private boolean isNewSong;
-    private AppSettings settings;
     private int textSize;
+    private boolean isBlow = true;
+    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song);
+        setContentView(R.layout.activity_song_builder);
 
         songName = findViewById(R.id.song_title);
-        songTabs = findViewById(R.id.song_edit_text);
+        songTabs = findViewById(R.id.song_text);
+        linearLayout = findViewById(R.id.linearLayout);
 
         songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
-        settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
+        AppSettings settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
 
         isNewSong = getIntent().getExtras().getBoolean(Keys.IS_NEW_SONG);
         if (!isNewSong)
@@ -54,6 +58,12 @@ public class SongActivity extends AppCompatActivity
 
         songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
         textSize = settings.getDefaultTextSize();
+
+        linearLayout.setVisibility(LinearLayout.GONE);
+        findViewById(R.id.backspace).setVisibility(View.GONE);
+        findViewById(R.id.enter).setVisibility(View.GONE);
+        findViewById(R.id.blowDraw).setVisibility(View.GONE);
+        findViewById(R.id.space).setVisibility(View.GONE);
     }
 
     public void record(View view)
@@ -74,21 +84,39 @@ public class SongActivity extends AppCompatActivity
     public void editSave(View view)
     {
         if (!isRecording)
-            if (isEditing)
+            if (isEditing)/// TODO: 10/15/2020 debug this
             {
                 ((FloatingActionButton) view).setImageDrawable(getResources().getDrawable(R.drawable.pencil, getTheme()));
                 isEditing = false;
 
+                linearLayout.setVisibility(LinearLayout.GONE);
+                findViewById(R.id.backspace).setVisibility(View.GONE);
+                findViewById(R.id.enter).setVisibility(View.GONE);
+                findViewById(R.id.blowDraw).setVisibility(View.GONE);
+                findViewById(R.id.space).setVisibility(View.GONE);
+
+                findViewById(R.id.record).setVisibility(View.VISIBLE);
+                findViewById(R.id.zoomIn).setVisibility(View.VISIBLE);
+                findViewById(R.id.zoomOut).setVisibility(View.VISIBLE);
+
                 songName.setEnabled(false);
-                songTabs.setEnabled(false);
             }
             else
             {
                 ((FloatingActionButton) view).setImageDrawable(getResources().getDrawable(R.drawable.floppy_disk, getTheme()));
                 isEditing = true;
 
+                findViewById(R.id.record).setVisibility(View.GONE);
+                findViewById(R.id.zoomIn).setVisibility(View.GONE);
+                findViewById(R.id.zoomOut).setVisibility(View.GONE);
+
+                linearLayout.setVisibility(LinearLayout.VISIBLE);
+                findViewById(R.id.backspace).setVisibility(View.VISIBLE);
+                findViewById(R.id.enter).setVisibility(View.VISIBLE);
+                findViewById(R.id.blowDraw).setVisibility(View.VISIBLE);
+                findViewById(R.id.space).setVisibility(View.VISIBLE);
+
                 songName.setEnabled(true);
-                songTabs.setEnabled(true);
             }
     }
 
@@ -110,9 +138,62 @@ public class SongActivity extends AppCompatActivity
         }
     }
 
+    public void blowDraw(View view)
+    {
+        if (isEditing)
+            if (isBlow)
+            {
+                ((FloatingActionButton) view).setImageDrawable(getResources().getDrawable(R.drawable.minus, getTheme()));
+                isBlow = false;
+            }
+            else
+            {
+                ((FloatingActionButton) view).setImageDrawable(getResources().getDrawable(R.drawable.plus, getTheme()));
+                isBlow = true;
+            }
+    }
+
+    public void space(View view)
+    {
+        if (isEditing)
+            songTabs.append(" _ ");
+    }
+
+    public void enter(View view)
+    {
+        if (isEditing)
+            songTabs.append("\n");
+    }
+
+    public void backspace(View view)
+    {
+        if (isEditing)
+        {
+            // TODO: 10/15/2020
+        }
+    }
+
+    public void note(View view)
+    {
+        if (isEditing)
+        {
+            String note = "";
+            if (isBlow)
+                note += "+";
+            else
+                note += "-";
+
+            note += ((TextView) view).getText().toString();
+            note += " ";
+
+            songTabs.append(note);
+        }
+    }
+
     @Override
     public void onBackPressed()
-    {// TODO: 10/10/2020 check why this is causing crash 
+    {
+        // TODO: 10/10/2020 check why this is causing crash
         // TODO: 9/30/2020 stop recording if recording
         if (!checkSongNameFree())
         {

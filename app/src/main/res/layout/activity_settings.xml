@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:enabled="false"
         android:textColor="@color/colorAccent"
+        android:typeface="monospace"
         app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
         app:layout_constraintEnd_toStartOf="@+id/increase_text_size"
         app:layout_constraintStart_toEndOf="@+id/decrease_text_size"
