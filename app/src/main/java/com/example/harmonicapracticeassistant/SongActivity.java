@@ -51,9 +51,13 @@ public class SongActivity extends AppCompatActivity
             song = songs.get(songPosition);
 
             songName.setText(song.getName());
-            songTabs.setText(song.getTabs());
+            songTabs.setText(song.toString());
 
             // TODO: 10/1/2020 load recordings 
+        }
+        else
+        {
+            song = new Song();
         }
 
         songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
@@ -156,20 +160,27 @@ public class SongActivity extends AppCompatActivity
     public void space(View view)
     {
         if (isEditing)
-            songTabs.append(" _ ");
+        {
+            song.addNote(Keys.NOTE_SPACE);
+            songTabs.append(Song.noteTranslator(Keys.NOTE_SPACE));
+        }
     }
 
     public void enter(View view)
     {
         if (isEditing)
-            songTabs.append("\n");
+        {
+            song.addNote(Keys.NOTE_ENTER);
+            songTabs.append(Song.noteTranslator(Keys.NOTE_ENTER));
+        }
     }
 
     public void backspace(View view)
     {
         if (isEditing)
         {
-            // TODO: 10/15/2020
+            song.deleteLastNote();
+            songTabs.setText(song.toString());
         }
     }
 
@@ -177,15 +188,12 @@ public class SongActivity extends AppCompatActivity
     {
         if (isEditing)
         {
-            String note = "";
-            if (isBlow)
-                note += "+";
-            else
-                note += "-";
+            int noteNumber = Integer.parseInt(((TextView) view).getText().toString());
+            if (!isBlow)
+                noteNumber *= -1;
 
-            note += ((TextView) view).getText().toString();
-            note += " ";
-
+            String note = Song.noteTranslator(noteNumber);
+            song.addNote(noteNumber);
             songTabs.append(note);
         }
     }
@@ -216,14 +224,12 @@ public class SongActivity extends AppCompatActivity
         }
         else
         {
-            // TODO: 9/30/2020 add main recording and recordings once there done 
+            // TODO: 9/30/2020 add main recording and recordings once there done
+
+            song.setName(songName.getText().toString());
+
             if (isNewSong)
-                songs.add(new Song(songName.getText().toString(), songTabs.getText().toString(), false, new ArrayList<String>()));
-            else
-            {
-                song.setName(songName.getText().toString());
-                song.setTabs(songTabs.getText().toString());
-            }
+                songs.add(song);
 
             SaveHandler.saveSongs(getApplicationContext(), songs);
 
