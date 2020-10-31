@@ -203,42 +203,50 @@ public class SongActivity extends AppCompatActivity
     {// TODO: 10/30/2020 is !isNewSong dont do discard 
         // TODO: 10/10/2020 check why this is causing crash
         // TODO: 9/30/2020 stop recording if recording
-        if (!checkSongNameFree())
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.name_in_use);
-            builder.setMessage(R.string.name_in_use_dialog);
-
-            builder.setPositiveButton(R.string.rename, null);
-            builder.setNegativeButton(R.string.discard, new DialogInterface.OnClickListener()
+        if (isNewSong)
+            if (!checkSongNameFree())
             {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
-                    SongActivity.super.onBackPressed();
-                }
-            });
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.name_in_use);
+                builder.setMessage(R.string.name_in_use_dialog);
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
+                builder.setPositiveButton(R.string.rename, null);
+                builder.setNegativeButton(R.string.discard, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        SongActivity.super.onBackPressed();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+            else
+            {
+                // TODO: 9/30/2020 add main recording and recordings once there done
+
+                song.setName(songName.getText().toString());
+
+                if (isNewSong)
+                    songs.add(song);
+
+                SaveHandler.saveSongs(getApplicationContext(), songs);
+
+                Intent intent = new Intent();
+                intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+                setResult(RESULT_OK, intent);
+                finish();
+
+//            super.onBackPressed();
+            }
         else
         {
-            // TODO: 9/30/2020 add main recording and recordings once there done
-
-            song.setName(songName.getText().toString());
-
-            if (isNewSong)
-                songs.add(song);
-
-            SaveHandler.saveSongs(getApplicationContext(), songs);
-
             Intent intent = new Intent();
             intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
             setResult(RESULT_OK, intent);
             finish();
-
-//            super.onBackPressed();
         }
     }
 
