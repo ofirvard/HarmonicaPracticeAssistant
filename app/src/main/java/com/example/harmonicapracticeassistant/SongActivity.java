@@ -200,7 +200,7 @@ public class SongActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed()
-    {
+    {// TODO: 10/30/2020 is !isNewSong dont do discard 
         // TODO: 10/10/2020 check why this is causing crash
         // TODO: 9/30/2020 stop recording if recording
         if (!checkSongNameFree())

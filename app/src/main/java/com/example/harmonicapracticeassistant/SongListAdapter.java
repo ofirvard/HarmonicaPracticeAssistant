@@ -20,11 +20,13 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
 {
     private List<Song> songs;
     private Context context;
+    private AppSettings settings;
 
-    public SongListAdapter(List<Song> songs, Context context)
+    public SongListAdapter(List<Song> songs, Context context, AppSettings settings)
     {
         this.songs = songs;
         this.context = context;
+        this.settings = settings;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
@@ -66,6 +68,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
                 intent.putExtra(Keys.IS_NEW_SONG, false);
                 intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
                 intent.putExtra(Keys.SONG_POSITION, position);
+                intent.putExtra(Keys.SETTINGS, settings);
 
 //                context.startActivity(intent);
                 ((Activity) context).startActivityForResult(intent, 1);

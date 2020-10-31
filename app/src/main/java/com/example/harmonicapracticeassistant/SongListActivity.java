@@ -16,7 +16,7 @@ public class SongListActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private SongListAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
+    private AppSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +25,7 @@ public class SongListActivity extends AppCompatActivity
         setContentView(R.layout.activity_song_list);
 
         songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
+        settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -32,9 +33,8 @@ public class SongListActivity extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new SongListAdapter(songs, SongListActivity.this);
+        mAdapter = new SongListAdapter(songs, SongListActivity.this, settings);
         recyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
