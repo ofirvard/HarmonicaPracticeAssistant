@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     public void settings(View view)
     {
         Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Keys.SETTINGS, settings);
         startActivityForResult(intent, Keys.SETTINGS_REQUEST_CODE);
     }
