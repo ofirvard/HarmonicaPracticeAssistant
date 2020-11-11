@@ -14,6 +14,7 @@ public class Keys
     public static final int NEW_SONG_REQUEST_CODE = 1;
     public static final int SETTINGS_REQUEST_CODE = 2;
     public static final int FILE_PICKER_REQUEST_CODE = 3;
+    public static final int FILE_SAVE_REQUEST_CODE = 4;
     public static final int NOTE_SPACE = 11;
     public static final int NOTE_ENTER = 12;
     public static final int NOTE_DRAW_TEN = -10;

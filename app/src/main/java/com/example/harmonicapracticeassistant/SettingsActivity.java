@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +18,8 @@ import androidx.core.content.ContextCompat;
 import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
+import java.io.OutputStream;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -86,23 +83,28 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public void exportSongs(View view) {
-        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
-        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+//        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
+//        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+//
+//        try {
+//            File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//            File myFile = new File(folder, "harmonica-songs" + Calendar.getInstance().getTime().toString() + ".json");
+//            Gson gson = new Gson();
+//
+//            FileOutputStream fileOutputStream = new FileOutputStream(myFile);
+//            fileOutputStream.write(gson.toJson(songs).getBytes());
+//            fileOutputStream.close();
+//            Toast.makeText(getApplicationContext(), "Details Saved in " + myFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        try {
-            File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File myFile = new File(folder, "harmonica-songs" + Calendar.getInstance().getTime().toString() + ".json");
-            Gson gson = new Gson();
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/json");
+        intent.putExtra(Intent.EXTRA_TITLE, "harmonica-songs.json");
 
-            FileOutputStream fileOutputStream = new FileOutputStream(myFile);
-            fileOutputStream.write(gson.toJson(songs).getBytes());
-            fileOutputStream.close();
-            Toast.makeText(getApplicationContext(), "Details Saved in " + myFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        startActivityForResult(intent, Keys.FILE_SAVE_REQUEST_CODE);
     }
 
 
@@ -125,7 +127,24 @@ public class SettingsActivity extends AppCompatActivity {
                     dialog.show();
                 }
             }
+        if (requestCode == Keys.FILE_SAVE_REQUEST_CODE)
+            if (resultCode == RESULT_OK) {
+                fileUri = data.getData();
 
+                try {
+
+                    Gson gson = new Gson();
+
+                    OutputStream os = this.getContentResolver().openOutputStream(fileUri);
+                    if (os != null) {
+                        os.write(gson.toJson(songs).getBytes());
+                        os.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
     }
 
     public void save(View view) {
