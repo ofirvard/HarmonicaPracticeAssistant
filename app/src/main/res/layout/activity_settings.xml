@@ -6,6 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_horizontal2"
+        android:layout_width="0sp"
+        android:layout_height="0sp"
+        android:clickable="false"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <Button
+        android:id="@+id/import_songs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:onClick="importSongs"
+        android:text="@string/import_songs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal2" />
+
+    <Button
+        android:id="@+id/export_songs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:onClick="exportSongs"
+        android:text="@string/export_songs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/import_songs" />
+
+    <TextView
+        android:id="@+id/keyboard_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:onClick="exportSongs"
+        android:text="@string/keyboard"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@id/slim"
+        app:layout_constraintStart_toStartOf="@id/export_songs"
+        app:layout_constraintTop_toBottomOf="@+id/export_songs" />
+
+    <CheckBox
+        android:id="@+id/slim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@id/keyboard_type"
+        app:layout_constraintEnd_toEndOf="@id/export_songs"
+        app:layout_constraintStart_toEndOf="@id/keyboard_type"
+        app:layout_constraintTop_toTopOf="@id/keyboard_type" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_horizontal"
@@ -23,9 +75,10 @@
         android:text="@string/text_size_text"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/text_size_preview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/export_songs" />
+        app:layout_constraintTop_toBottomOf="@+id/keyboard_type" />
 
     <EditText
         android:id="@+id/text_size_preview"
@@ -57,35 +110,6 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
         app:layout_constraintStart_toEndOf="@+id/export_songs" />
 
-    <Button
-        android:id="@+id/import_songs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:onClick="importSongs"
-        android:text="@string/import_songs"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal2" />
-
-    <Button
-        android:id="@+id/export_songs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:onClick="exportSongs"
-        android:text="@string/export_songs"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/import_songs" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_horizontal2"
-        android:layout_width="0sp"
-        android:layout_height="0sp"
-        android:clickable="false"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
 
     <Button
         android:id="@+id/save"

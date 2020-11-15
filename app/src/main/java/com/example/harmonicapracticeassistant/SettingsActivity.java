@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -28,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean newSongsImported;
     private Uri fileUri;
     private List<Song> songs;
+    private CheckBox slim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         textSizePreview = findViewById(R.id.text_size_preview);
         setPreviewText();
+
+        slim = findViewById(R.id.slim);
+        slim.setChecked(settings.isKeyboardSlim());
     }
 
     public void increase(View view) {// TODO: 10/10/2020 why dose this seem smaller?
@@ -148,6 +153,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void save(View view) {
+        settings.setKeyboardSlim(slim.isChecked());
         SaveHandler.saveSettings(getApplicationContext(), settings);
 
         Intent intent = new Intent();

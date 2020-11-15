@@ -23,150 +23,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ViewStub
+        android:id="@+id/layout_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/button1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="1" />
-
-            <TextView
-                android:id="@+id/button6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="6" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="2" />
-
-            <TextView
-                android:id="@+id/button7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="7" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="3" />
-
-            <TextView
-                android:id="@+id/button8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="8" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="4" />
-
-            <TextView
-                android:id="@+id/button9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="9" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="5" />
-
-            <TextView
-                android:id="@+id/button10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:onClick="note"
-                android:text="10" />
-        </LinearLayout>
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/space"
@@ -177,7 +40,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="space"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toStartOf="@+id/enter"
         app:srcCompat="@drawable/spacebar" />
 
@@ -190,7 +53,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="enter"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toStartOf="@+id/backspace"
         app:srcCompat="@drawable/enter" />
 
@@ -203,7 +66,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="backspace"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/backspace" />
 
@@ -216,7 +79,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="blowDraw"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintStart_toEndOf="@id/editSave"
         app:srcCompat="@drawable/plus" />
 
@@ -229,7 +92,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="editSave"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/pencil"
         app:tint="@null" />
@@ -243,7 +106,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="zoomIn"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintStart_toEndOf="@id/editSave"
         app:srcCompat="@drawable/zoom_in"
         app:tint="@null" />
@@ -257,7 +120,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="zoomOut"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintStart_toEndOf="@id/zoomIn"
         app:srcCompat="@drawable/zoom_out"
         app:tint="@null" />
@@ -271,7 +134,7 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="record"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintStart_toEndOf="@id/zoomOut"
         app:srcCompat="@drawable/record"
         app:tint="@null" />

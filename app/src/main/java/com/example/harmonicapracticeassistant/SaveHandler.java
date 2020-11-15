@@ -72,7 +72,8 @@ public class SaveHandler {
     }
 
     public static AppSettings loadSettings(Context context) {
-        AppSettings settings = new AppSettings(Keys.DEFAULT_TEXT_SIZE);
+        AppSettings settings = new AppSettings(Keys.DEFAULT_TEXT_SIZE, true);
+
         try {
             String data;
             FileInputStream in = context.openFileInput("settings.json");
