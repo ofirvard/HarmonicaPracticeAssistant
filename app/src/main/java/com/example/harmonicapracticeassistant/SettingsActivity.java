@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -16,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean newSongsImported;
     private Uri fileUri;
     private List<Song> songs;
-    private CheckBox slim;
+    private SwitchMaterial slim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
