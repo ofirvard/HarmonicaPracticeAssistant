@@ -91,6 +91,7 @@ public class Song implements Parcelable
             case Keys.NOTE_BLOW_TEN:
                 return "+10 ";
 
+
             default:
                 if (note > 0)
                     return " +" + note + " ";

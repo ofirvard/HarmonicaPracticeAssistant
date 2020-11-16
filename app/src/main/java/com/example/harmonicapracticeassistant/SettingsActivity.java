@@ -26,7 +26,7 @@ import java.util.List;
 public class SettingsActivity extends AppCompatActivity {
     private AppSettings settings;
     private EditText textSizePreview;
-    private boolean newSongsImported;
+    private boolean newSongsImported = false;
     private Uri fileUri;
     private List<Song> songs;
     private SwitchMaterial slim;
@@ -66,11 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
-        intent.setType("*/*");
+        intent.setType("application/json");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         startActivityForResult(Intent.createChooser(intent, "Choose a file"), Keys.FILE_PICKER_REQUEST_CODE);
-
     }
 
     public void checkPermission(String permission, int requestCode) {
@@ -78,11 +77,6 @@ public class SettingsActivity extends AppCompatActivity {
                 == PackageManager.PERMISSION_DENIED) {
 
             ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-        } else {
-//            Toast.makeText(SettingsActivity.this,
-//                    "Permission already granted",
-//                    Toast.LENGTH_SHORT)
-//                    .show();
         }
     }
 
@@ -121,16 +115,17 @@ public class SettingsActivity extends AppCompatActivity {
                 fileUri = data.getData();
 
                 File file = new File(FileUtils.getPath(this, fileUri));
-                List<Song> songs = SaveHandler.loadSongs(file);
+                List<Song> importedSongs = SaveHandler.loadSongs(file);
 // TODO: 10/13/20 find out why the file is emptyZ
 
-                if (songs.isEmpty()) {
+                if (importedSongs.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage(R.string.bad_file);
                     builder.setPositiveButton(R.string.ok, null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
+                } else
+                    setNewSongsImported(importedSongs);
             }
         if (requestCode == Keys.FILE_SAVE_REQUEST_CODE)
             if (resultCode == RESULT_OK) {
@@ -152,9 +147,31 @@ public class SettingsActivity extends AppCompatActivity {
             }
     }
 
+    private void setNewSongsImported(List<Song> songsImported) {
+        newSongsImported = true;
+        for (Song song : songsImported) {
+            if (isNameTaken(song.getName())) {
+                int i = 1;
+                while (isNameTaken(song.getName() + "_" + i))
+                    i++;
+                song.setName(song.getName() + "_" + i);
+            }
+            songs.add(song);
+        }
+    }
+
+    private boolean isNameTaken(String name) {
+        for (Song song : songs)
+            if (song.getName().equals(name))
+                return true;
+
+        return false;
+    }
+
     public void save(View view) {
         settings.setKeyboardSlim(slim.isChecked());
         SaveHandler.saveSettings(getApplicationContext(), settings);
+        SaveHandler.saveSongs(getApplicationContext(), songs);
 
         Intent intent = new Intent();
         intent.putExtra(Keys.SETTINGS, settings);
@@ -166,5 +183,11 @@ public class SettingsActivity extends AppCompatActivity {
     private void setPreviewText() {
         textSizePreview.setText(String.format("%d", settings.getDefaultTextSize()));
         textSizePreview.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
+    }
+
+    @Override
+    public void onBackPressed() {
+        save(null);
+        super.onBackPressed();
     }
 }

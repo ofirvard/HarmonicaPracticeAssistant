@@ -20,6 +20,6 @@
     <string name="export_songs">Export songs</string>
     <string name="save_settings">Save Settings</string>
     <string name="ok">OK</string>
-    <string name="bad_file">The file is not the right type</string>
+    <string name="bad_file">The file is wrong</string>
     <string name="keyboard">Slim Keyboard</string>
 </resources>
