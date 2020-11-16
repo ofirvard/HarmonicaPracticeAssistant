@@ -46,67 +46,6 @@ public class SettingsActivity extends AppCompatActivity {
         slim.setChecked(settings.isKeyboardSlim());
     }
 
-    public void increase(View view) {// TODO: 10/10/2020 why dose this seem smaller?
-        if (settings.getDefaultTextSize() < Keys.MAX_TEXT_SIZE) {
-            settings.setDefaultTextSize(settings.getDefaultTextSize() + 1);
-            setPreviewText();
-        }
-    }
-
-    public void decrease(View view) {
-        if (settings.getDefaultTextSize() > Keys.MIN_TEXT_SIZE) {
-            settings.setDefaultTextSize(settings.getDefaultTextSize() - 1);
-            setPreviewText();
-        }
-    }
-
-    public void importSongs(View view) {
-        // TODO: 10/10/2020 file picker
-        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-
-        intent.setType("application/json");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        startActivityForResult(Intent.createChooser(intent, "Choose a file"), Keys.FILE_PICKER_REQUEST_CODE);
-    }
-
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(SettingsActivity.this, permission)
-                == PackageManager.PERMISSION_DENIED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
-        }
-    }
-
-
-    public void exportSongs(View view) {
-//        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
-//        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
-//
-//        try {
-//            File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-//            File myFile = new File(folder, "harmonica-songs" + Calendar.getInstance().getTime().toString() + ".json");
-//            Gson gson = new Gson();
-//
-//            FileOutputStream fileOutputStream = new FileOutputStream(myFile);
-//            fileOutputStream.write(gson.toJson(songs).getBytes());
-//            fileOutputStream.close();
-//            Toast.makeText(getApplicationContext(), "Details Saved in " + myFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/json");
-        intent.putExtra(Intent.EXTRA_TITLE, "harmonica-songs.json");
-
-        startActivityForResult(intent, Keys.FILE_SAVE_REQUEST_CODE);
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -147,6 +86,83 @@ public class SettingsActivity extends AppCompatActivity {
             }
     }
 
+    public void increase(View view) {// TODO: 10/10/2020 why dose this seem smaller?
+        if (settings.getDefaultTextSize() < Keys.MAX_TEXT_SIZE) {
+            settings.setDefaultTextSize(settings.getDefaultTextSize() + 1);
+            setPreviewText();
+        }
+    }
+
+    public void decrease(View view) {
+        if (settings.getDefaultTextSize() > Keys.MIN_TEXT_SIZE) {
+            settings.setDefaultTextSize(settings.getDefaultTextSize() - 1);
+            setPreviewText();
+        }
+    }
+
+    public void importSongs(View view) {
+        // TODO: 10/10/2020 file picker
+        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+        intent.setType("application/json");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        startActivityForResult(Intent.createChooser(intent, "Choose a file"), Keys.FILE_PICKER_REQUEST_CODE);
+    }
+
+    public void checkPermission(String permission, int requestCode) {
+        if (ContextCompat.checkSelfPermission(SettingsActivity.this, permission)
+                == PackageManager.PERMISSION_DENIED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+        }
+    }
+
+    public void exportSongs(View view) {
+//        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
+//        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+//
+//        try {
+//            File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//            File myFile = new File(folder, "harmonica-songs" + Calendar.getInstance().getTime().toString() + ".json");
+//            Gson gson = new Gson();
+//
+//            FileOutputStream fileOutputStream = new FileOutputStream(myFile);
+//            fileOutputStream.write(gson.toJson(songs).getBytes());
+//            fileOutputStream.close();
+//            Toast.makeText(getApplicationContext(), "Details Saved in " + myFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/json");
+        intent.putExtra(Intent.EXTRA_TITLE, "harmonica-songs.json");
+
+        startActivityForResult(intent, Keys.FILE_SAVE_REQUEST_CODE);
+    }
+
+    public void save(View view) {
+        settings.setKeyboardSlim(slim.isChecked());
+        SaveHandler.saveSettings(getApplicationContext(), settings);
+        SaveHandler.saveSongs(getApplicationContext(), songs);
+
+        Intent intent = new Intent();
+        intent.putExtra(Keys.SETTINGS, settings);
+        intent.putExtra(Keys.NEW_SONGS_IMPORTED, newSongsImported);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        save(null);
+        super.onBackPressed();
+    }
+
     private void setNewSongsImported(List<Song> songsImported) {
         newSongsImported = true;
         for (Song song : songsImported) {
@@ -168,26 +184,8 @@ public class SettingsActivity extends AppCompatActivity {
         return false;
     }
 
-    public void save(View view) {
-        settings.setKeyboardSlim(slim.isChecked());
-        SaveHandler.saveSettings(getApplicationContext(), settings);
-        SaveHandler.saveSongs(getApplicationContext(), songs);
-
-        Intent intent = new Intent();
-        intent.putExtra(Keys.SETTINGS, settings);
-        intent.putExtra(Keys.NEW_SONGS_IMPORTED, newSongsImported);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
     private void setPreviewText() {
         textSizePreview.setText(String.format("%d", settings.getDefaultTextSize()));
         textSizePreview.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
-    }
-
-    @Override
-    public void onBackPressed() {
-        save(null);
-        super.onBackPressed();
     }
 }
