@@ -11,30 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyViewHolder>
-{
+public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyViewHolder> {
     private List<Song> songs;
     private Context context;
     private AppSettings settings;
 
-    public SongListAdapter(List<Song> songs, Context context, AppSettings settings)
-    {
+    public SongListAdapter(List<Song> songs, Context context, AppSettings settings) {
         this.songs = songs;
         this.context = context;
         this.settings = settings;
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         public Button button;
 
-        public MyViewHolder(View v)
-        {
+        public MyViewHolder(View v) {
             super(v);
             button = v.findViewById(R.id.song_button);
         }
@@ -42,8 +38,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
 
     @Override
     public SongListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                           int viewType)
-    {
+                                                           int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.song_list_button, parent, false);
@@ -53,15 +48,12 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.button.setText(songs.get(position).getName());
 
-        holder.button.setOnClickListener(new View.OnClickListener()
-        {
+        holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
 //                Context context = view.getContext();
 
                 Intent intent = new Intent(context, SongActivity.class);
@@ -76,24 +68,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
             }
         });
 
-        holder.button.setOnLongClickListener(new View.OnLongClickListener()
-        {
+        holder.button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view)
-            {
+            public boolean onLongClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(R.string.delete_message);
                 builder.setMessage(R.string.delete_message_dialog);
 
                 builder.setNegativeButton(R.string.no, null);
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-                {
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         songs.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, songs.size());
+                        SaveHandler.saveSongs(context, songs);
                     }
                 });
 
@@ -106,13 +95,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return songs.size();
     }
 
-    public void setSongs(List<Song> songs)
-    {
+    public void setSongs(List<Song> songs) {
         this.songs = songs;
     }
 }

@@ -47,6 +47,7 @@ public class SongListActivity extends AppCompatActivity
             {
                 songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
                 mAdapter.setSongs(songs);
+                SaveHandler.saveSongs(getApplicationContext(), songs);
             }
         }
     }

@@ -112,16 +112,17 @@ public class SongActivity extends AppCompatActivity {
                 ((FloatingActionButton) view).setImageDrawable(getResources().getDrawable(R.drawable.floppy_disk, getTheme()));
                 isEditing = true;
 
-                findViewById(R.id.record).setVisibility(View.GONE);
-                findViewById(R.id.zoomIn).setVisibility(View.GONE);
-                findViewById(R.id.zoomOut).setVisibility(View.GONE);
-
                 keyboard.setVisibility(LinearLayout.VISIBLE);
                 findViewById(R.id.backspace).setVisibility(View.VISIBLE);
                 findViewById(R.id.enter).setVisibility(View.VISIBLE);
                 findViewById(R.id.space).setVisibility(View.VISIBLE);
-                if (settings.isKeyboardSlim())
+                if (settings.isKeyboardSlim()) {
                     findViewById(R.id.blowDraw).setVisibility(View.VISIBLE);
+                }
+
+                findViewById(R.id.record).setVisibility(View.GONE);
+                findViewById(R.id.zoomIn).setVisibility(View.GONE);
+                findViewById(R.id.zoomOut).setVisibility(View.GONE);
 
                 songName.setEnabled(true);
             }
@@ -213,7 +214,7 @@ public class SongActivity extends AppCompatActivity {
                 if (isNewSong)
                     songs.add(song);
 
-                SaveHandler.saveSongs(getApplicationContext(), songs);
+
 
                 Intent intent = new Intent();
                 intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
