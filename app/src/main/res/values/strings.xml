@@ -22,4 +22,6 @@
     <string name="ok">OK</string>
     <string name="bad_file">The file is wrong</string>
     <string name="keyboard">Slim Keyboard</string>
+    <string name="bracket_open">[</string>
+    <string name="bracket_close">]</string>
 </resources>

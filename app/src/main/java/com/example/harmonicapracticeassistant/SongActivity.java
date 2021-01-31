@@ -61,11 +61,14 @@ public class SongActivity extends AppCompatActivity {
         this.songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
         this.textSize = settings.getDefaultTextSize();
 
+        // TODO: 1/31/21 move to function 
         this.keyboard.setVisibility(LinearLayout.GONE);
         findViewById(R.id.backspace).setVisibility(View.GONE);
         findViewById(R.id.enter).setVisibility(View.GONE);
         findViewById(R.id.blowDraw).setVisibility(View.GONE);
         findViewById(R.id.space).setVisibility(View.GONE);
+        findViewById(R.id.bracketOpen).setVisibility(View.GONE);
+        findViewById(R.id.bracketClose).setVisibility(View.GONE);
     }
 
     private View setKeyboard() {
@@ -91,6 +94,7 @@ public class SongActivity extends AppCompatActivity {
 
     public void editSave(View view) {
         if (!isRecording)
+            // TODO: 1/31/21 seperate to functions
             if (isEditing)/// TODO: 10/15/2020 debug this
             {
                 ((FloatingActionButton) view).setImageDrawable(getResources().getDrawable(R.drawable.pencil, getTheme()));
@@ -100,6 +104,8 @@ public class SongActivity extends AppCompatActivity {
                 findViewById(R.id.backspace).setVisibility(View.GONE);
                 findViewById(R.id.enter).setVisibility(View.GONE);
                 findViewById(R.id.space).setVisibility(View.GONE);
+                findViewById(R.id.bracketOpen).setVisibility(View.GONE);
+                findViewById(R.id.bracketClose).setVisibility(View.GONE);
                 if (settings.isKeyboardSlim())
                     findViewById(R.id.blowDraw).setVisibility(View.GONE);
 
@@ -116,6 +122,8 @@ public class SongActivity extends AppCompatActivity {
                 findViewById(R.id.backspace).setVisibility(View.VISIBLE);
                 findViewById(R.id.enter).setVisibility(View.VISIBLE);
                 findViewById(R.id.space).setVisibility(View.VISIBLE);
+                findViewById(R.id.bracketOpen).setVisibility(View.VISIBLE);
+                findViewById(R.id.bracketClose).setVisibility(View.VISIBLE);
                 if (settings.isKeyboardSlim()) {
                     findViewById(R.id.blowDraw).setVisibility(View.VISIBLE);
                 }
