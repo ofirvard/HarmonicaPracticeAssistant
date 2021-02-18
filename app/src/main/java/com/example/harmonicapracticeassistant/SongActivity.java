@@ -12,12 +12,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SongActivity extends AppCompatActivity
 {
@@ -72,8 +72,9 @@ public class SongActivity extends AppCompatActivity
         findViewById(R.id.enter).setVisibility(View.GONE);
         findViewById(R.id.blowDraw).setVisibility(View.GONE);
         findViewById(R.id.space).setVisibility(View.GONE);
-        findViewById(R.id.bracketOpen).setVisibility(View.GONE);
-        findViewById(R.id.bracketClose).setVisibility(View.GONE);
+        findViewById(R.id.special_keys).setVisibility(View.GONE);
+//        findViewById(R.id.bracketOpen).setVisibility(View.GONE);
+//        findViewById(R.id.bracketClose).setVisibility(View.GONE);
     }
 
     private View setKeyboard()
@@ -141,6 +142,10 @@ public class SongActivity extends AppCompatActivity
             }
     }
 
+    public void openSpecialMenu(View view)
+    {
+    }
+
     public void space(View view)
     {
         if (isEditing)
@@ -180,6 +185,10 @@ public class SongActivity extends AppCompatActivity
             song.addNote(noteNumber);
             songTabs.append(note);
         }
+    }
+
+    public void specialKey(View view)
+    {
     }
 
     @Override
@@ -253,8 +262,9 @@ public class SongActivity extends AppCompatActivity
             findViewById(R.id.backspace).setVisibility(View.GONE);
             findViewById(R.id.enter).setVisibility(View.GONE);
             findViewById(R.id.space).setVisibility(View.GONE);
-            findViewById(R.id.bracketOpen).setVisibility(View.GONE);
-            findViewById(R.id.bracketClose).setVisibility(View.GONE);
+            findViewById(R.id.special_keys).setVisibility(View.GONE);
+//            findViewById(R.id.bracketOpen).setVisibility(View.GONE);
+//            findViewById(R.id.bracketClose).setVisibility(View.GONE);
             if (settings.isKeyboardSlim())
                 findViewById(R.id.blowDraw).setVisibility(View.GONE);
 
@@ -273,8 +283,9 @@ public class SongActivity extends AppCompatActivity
             findViewById(R.id.backspace).setVisibility(View.VISIBLE);
             findViewById(R.id.enter).setVisibility(View.VISIBLE);
             findViewById(R.id.space).setVisibility(View.VISIBLE);
-            findViewById(R.id.bracketOpen).setVisibility(View.VISIBLE);
-            findViewById(R.id.bracketClose).setVisibility(View.VISIBLE);
+            findViewById(R.id.special_keys).setVisibility(View.VISIBLE);
+//            findViewById(R.id.bracketOpen).setVisibility(View.VISIBLE);
+//            findViewById(R.id.bracketClose).setVisibility(View.VISIBLE);
             if (settings.isKeyboardSlim())
             {
                 findViewById(R.id.blowDraw).setVisibility(View.VISIBLE);

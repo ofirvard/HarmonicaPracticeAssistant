@@ -85,18 +85,17 @@ public class Song implements Parcelable
             case Keys.NOTE_ENTER:
                 return "\n";
 
-            case Keys.NOTE_DRAW_TEN:
-                return "-10 ";
+//            case Keys.NOTE_DRAW_TEN:
+//                return "-10 ";
 
-            case Keys.NOTE_BLOW_TEN:
-                return "+10 ";
-
+//            case Keys.NOTE_BLOW_TEN:
+//                return "+10 ";
 
             default:
                 if (note > 0)
-                    return " +" + note + " ";
+                    return "+" + note + "";
                 else
-                    return " " + note + " ";
+                    return "" + note + "";
         }
     }
 

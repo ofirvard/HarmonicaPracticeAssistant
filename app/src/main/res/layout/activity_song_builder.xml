@@ -32,6 +32,19 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/special_keys"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="specialKey"
+        app:layout_constraintBottom_toTopOf="@+id/keyboard"
+        app:layout_constraintEnd_toStartOf="@+id/space"
+        app:srcCompat="@drawable/menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,32 +69,6 @@
         app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toStartOf="@+id/backspace"
         app:srcCompat="@drawable/enter" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bracketOpen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="3sp"
-        android:layout_marginBottom="5sp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick=""
-        app:layout_constraintBottom_toTopOf="@+id/keyboard"
-        app:layout_constraintEnd_toStartOf="@+id/bracketClose"
-        app:srcCompat="@drawable/bracket_open" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bracketClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="3sp"
-        android:layout_marginBottom="5sp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick=""
-        app:layout_constraintBottom_toTopOf="@+id/keyboard"
-        app:layout_constraintEnd_toStartOf="@+id/space"
-        app:srcCompat="@drawable/bracket_close" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/backspace"
@@ -121,7 +108,8 @@
         app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/pencil"
-        app:tint="@null" />
+        app:tint="@null"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/zoomIn"
@@ -149,7 +137,8 @@
         app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintStart_toEndOf="@id/zoomIn"
         app:srcCompat="@drawable/zoom_out"
-        app:tint="@null" />
+        app:tint="@null"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/record"
