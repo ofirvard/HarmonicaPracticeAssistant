@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SongActivity extends AppCompatActivity
 {
+
+    SpecialKeysFABHandler specialKeysFABHandler;
     private boolean isRecording = false;
     private boolean isEditing = false;
     private EditText songName;
@@ -38,6 +40,8 @@ public class SongActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_builder);
+
+        specialKeysFABHandler = new SpecialKeysFABHandler(this);
 
         this.songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
         this.settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
@@ -57,9 +61,7 @@ public class SongActivity extends AppCompatActivity
             // TODO: 10/1/2020 load recordings 
         }
         else
-        {
             song = new Song();
-        }
 
         this.keyboard = (LinearLayout) setKeyboard();
 
@@ -73,20 +75,8 @@ public class SongActivity extends AppCompatActivity
         findViewById(R.id.blowDraw).setVisibility(View.GONE);
         findViewById(R.id.space).setVisibility(View.GONE);
         findViewById(R.id.special_keys).setVisibility(View.GONE);
-//        findViewById(R.id.bracketOpen).setVisibility(View.GONE);
-//        findViewById(R.id.bracketClose).setVisibility(View.GONE);
     }
 
-    private View setKeyboard()
-    {
-        ViewStub stub = findViewById(R.id.layout_stub);
-        if (settings.isKeyboardSlim())
-            stub.setLayoutResource(R.layout.buttons_slim);
-        else
-            stub.setLayoutResource(R.layout.buttons_full);
-
-        return stub.inflate();
-    }
 
     public void record(View view)
     {
@@ -105,12 +95,16 @@ public class SongActivity extends AppCompatActivity
 
     public void editSave(View view)
     {
+        basicClick();
+
         if (!isRecording)
             switchKeyboard((FloatingActionButton) view);
     }
 
     public void zoomIn(View view)
     {
+        basicClick();
+
         if (textSize < Keys.MAX_TEXT_SIZE)
         {
             textSize++;
@@ -120,6 +114,8 @@ public class SongActivity extends AppCompatActivity
 
     public void zoomOut(View view)
     {
+        basicClick();
+
         if (textSize > Keys.MIN_TEXT_SIZE)
         {
             textSize--;
@@ -129,6 +125,8 @@ public class SongActivity extends AppCompatActivity
 
     public void blowDraw(View view)
     {
+        basicClick();
+
         if (isEditing)
             if (isBlow)
             {
@@ -142,39 +140,11 @@ public class SongActivity extends AppCompatActivity
             }
     }
 
-    public void openSpecialMenu(View view)
-    {
-    }
-
-    public void space(View view)
-    {
-        if (isEditing)
-        {
-            song.addNote(Keys.NOTE_SPACE);
-            songTabs.append(Song.noteTranslator(Keys.NOTE_SPACE));
-        }
-    }
-
-    public void enter(View view)
-    {
-        if (isEditing)
-        {
-            song.addNote(Keys.NOTE_ENTER);
-            songTabs.append(Song.noteTranslator(Keys.NOTE_ENTER));
-        }
-    }
-
-    public void backspace(View view)
-    {
-        if (isEditing)
-        {
-            song.deleteLastNote();
-            songTabs.setText(song.toString());
-        }
-    }
 
     public void note(View view)
     {
+        basicClick();
+
         if (isEditing)
         {
             int noteNumber = Integer.parseInt(((TextView) view).getText().toString().replaceAll(" ", ""));
@@ -189,6 +159,64 @@ public class SongActivity extends AppCompatActivity
 
     public void specialKey(View view)
     {
+        basicClick();
+
+        if (isEditing)
+        {
+            switch (view.getId())
+            {
+                case R.id.space:
+                    song.addNote(Keys.NOTE_SPACE);
+                    songTabs.append(Song.noteTranslator(Keys.NOTE_SPACE));
+                    break;
+
+                case R.id.enter:
+                    song.addNote(Keys.NOTE_ENTER);
+                    songTabs.append(Song.noteTranslator(Keys.NOTE_ENTER));
+                    break;
+
+                case R.id.backspace:
+                    song.deleteLastNote();
+                    songTabs.setText(song.toString());
+                    break;
+
+                case R.id.bracket_open_fab:
+                    song.addNote(Keys.BRACKET_OPEN);
+                    songTabs.append(Song.noteTranslator(Keys.BRACKET_OPEN));
+                    break;
+
+                case R.id.bracket_close_fab:
+                    song.addNote(Keys.BRACKET_CLOSE);
+                    songTabs.append(Song.noteTranslator(Keys.BRACKET_CLOSE));
+                    break;
+
+                case R.id.half_bend_fab:
+                    song.addNote(Keys.HALF_BEND);
+                    songTabs.append(Song.noteTranslator(Keys.HALF_BEND));
+                    break;
+
+                case R.id.whole_bend_fab:
+                    song.addNote(Keys.WHOLE_BEND);
+                    songTabs.append(Song.noteTranslator(Keys.WHOLE_BEND));
+                    break;
+
+                case R.id.whole_half_bend_fab:
+                    song.addNote(Keys.WHOLE_HALF_BEND);
+                    songTabs.append(Song.noteTranslator(Keys.WHOLE_HALF_BEND));
+
+                    break;
+
+                case R.id.over_fab:
+                    song.addNote(Keys.OVER);
+                    songTabs.append(Song.noteTranslator(Keys.OVER));
+                    break;
+
+                case R.id.wave_fab:
+                    song.addNote(Keys.WAVE);
+                    songTabs.append(Song.noteTranslator(Keys.WAVE));
+                    break;
+            }
+        }
     }
 
     @Override
@@ -196,6 +224,8 @@ public class SongActivity extends AppCompatActivity
     {// TODO: 10/30/2020 is !isNewSong dont do discard
         // TODO: 10/10/2020 check why this is causing crash
         // TODO: 9/30/2020 stop recording if recording
+        basicClick();
+
         if (isNewSong)
             if (!checkSongNameFree())
             {
@@ -252,11 +282,12 @@ public class SongActivity extends AppCompatActivity
 
     private void switchKeyboard(FloatingActionButton view)
     {
-        // TODO: 1/31/21 seperate to functions
+        // TODO: 1/31/21 separate to functions
         if (isEditing)/// TODO: 10/15/2020 debug this
         {
             view.setImageDrawable(getResources().getDrawable(R.drawable.pencil, getTheme()));
             isEditing = false;
+            basicClick();
 
             keyboard.setVisibility(LinearLayout.GONE);
             findViewById(R.id.backspace).setVisibility(View.GONE);
@@ -297,5 +328,27 @@ public class SongActivity extends AppCompatActivity
 
             songName.setEnabled(true);
         }
+    }
+
+    public void clearFocus(View view)
+    {
+        songName.clearFocus();
+    }
+
+    private void basicClick()
+    {
+        songName.clearFocus();
+        specialKeysFABHandler.closeFABMenu();
+    }
+
+    private View setKeyboard()
+    {
+        ViewStub stub = findViewById(R.id.layout_stub);
+        if (settings.isKeyboardSlim())
+            stub.setLayoutResource(R.layout.buttons_slim);
+        else
+            stub.setLayoutResource(R.layout.buttons_full);
+
+        return stub.inflate();
     }
 }

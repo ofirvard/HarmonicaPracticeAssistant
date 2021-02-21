@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="standard_55">60sp</dimen>
-    <dimen name="standard_105">120sp</dimen>
-    <dimen name="standard_155">180sp</dimen>
+    <dimen name="fab_1">60sp</dimen>
+    <dimen name="fab_2">120sp</dimen>
+    <dimen name="fab_3">180sp</dimen>
+    <dimen name="fab_4">240sp</dimen>
+    <dimen name="fab_5">300sp</dimen>
+    <dimen name="fab_6">360sp</dimen>
+    <dimen name="fab_7">420sp</dimen>
 
 </resources>

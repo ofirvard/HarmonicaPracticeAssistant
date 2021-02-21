@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,6 +24,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/fab_bg_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:visibility="gone" />
+
     <ViewStub
         android:id="@+id/layout_stub"
         android:layout_width="match_parent"
@@ -30,6 +38,209 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/bracket_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/special_keys"
+        app:layout_constraintTop_toTopOf="@id/special_keys">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/bracket_open_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="specialKey"
+            android:src="@android:color/transparent"
+            app:elevation="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="16dp"
+            android:text="@string/bracket_open"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/bracket_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/special_keys"
+        app:layout_constraintTop_toTopOf="@id/special_keys">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/bracket_close_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="specialKey"
+            android:src="@android:color/transparent"
+            app:elevation="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="16dp"
+            android:text="@string/bracket_close"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/special_keys"
+        app:layout_constraintTop_toTopOf="@id/special_keys">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/wave_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="specialKey"
+            android:src="@android:color/transparent"
+            app:elevation="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="16dp"
+            android:text="@string/wave"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/special_keys"
+        app:layout_constraintTop_toTopOf="@id/special_keys">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/over_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="specialKey"
+            android:src="@android:color/transparent"
+            app:elevation="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="16dp"
+            android:text="@string/over"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/whole_half_bend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:elevation="2dp"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/special_keys"
+        app:layout_constraintTop_toTopOf="@id/special_keys">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/whole_half_bend_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="specialKey"
+            android:src="@android:color/transparent"
+            app:elevation="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:elevation="16dp"
+            android:focusable="false"
+            android:text="@string/whole_half_bend"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/whole_bend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/special_keys"
+        app:layout_constraintTop_toTopOf="@id/special_keys">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/whole_bend_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="specialKey"
+            android:src="@color/transparent"
+            app:elevation="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:elevation="16dp"
+            android:focusable="false"
+            android:text="@string/whole_bend"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/half_bend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/special_keys"
+        app:layout_constraintTop_toTopOf="@id/special_keys">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/half_bend_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="specialKey"
+            android:src="@android:color/transparent"
+            app:elevation="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:elevation="16dp"
+            android:focusable="false"
+            android:text="@string/half_bend"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/special_keys"
@@ -39,20 +250,19 @@
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="specialKey"
         app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toStartOf="@+id/space"
         app:srcCompat="@drawable/menu" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/space"
+        android:onClick="specialKey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3sp"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="space"
         app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toStartOf="@+id/enter"
         app:srcCompat="@drawable/spacebar" />
@@ -62,10 +272,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3sp"
+        android:onClick="specialKey"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="enter"
         app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toStartOf="@+id/backspace"
         app:srcCompat="@drawable/enter" />
@@ -75,10 +285,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3sp"
+        android:onClick="specialKey"
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="backspace"
         app:layout_constraintBottom_toTopOf="@+id/keyboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/backspace" />
@@ -165,6 +375,7 @@
         android:textColor="@color/disabled_color"
         android:textSize="15sp"
         android:typeface="monospace"
+        android:onClick="clearFocus"
         app:layout_constraintBottom_toTopOf="@id/editSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
