@@ -21,4 +21,9 @@ public class Keys
     public static final int NOTE_ENTER = 12;
     public static final int BRACKET_OPEN = 14;
     public static final int BRACKET_CLOSE = 15;
+    public static final int WAVE = 16;
+    public static final int HALF_BEND = 17;
+    public static final int WHOLE_BEND = 18;
+    public static final int WHOLE_HALF_BEND = 19;
+    public static final int OVER = 20;
 }

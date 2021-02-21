@@ -80,23 +80,42 @@ public class Song implements Parcelable
         switch (note)
         {
             case Keys.NOTE_SPACE:
-                return " __ ";
+                return "_";
 
             case Keys.NOTE_ENTER:
                 return "\n";
 
-            case Keys.NOTE_DRAW_TEN:
-                return "-10 ";
+//            case Keys.NOTE_DRAW_TEN:
+//                return "-10 ";
 
-            case Keys.NOTE_BLOW_TEN:
-                return "+10 ";
+//            case Keys.NOTE_BLOW_TEN:
+//                return "+10 ";
+            case Keys.BRACKET_OPEN:
+                return App.getContext().getResources().getString(R.string.bracket_open);
 
+            case Keys.BRACKET_CLOSE:
+                return App.getContext().getResources().getString(R.string.bracket_close) + " ";
+
+            case Keys.HALF_BEND:
+                return App.getContext().getResources().getString(R.string.half_bend) + " ";
+
+            case Keys.WHOLE_BEND:
+                return App.getContext().getResources().getString(R.string.whole_bend) + " ";
+
+            case Keys.WHOLE_HALF_BEND:
+                return App.getContext().getResources().getString(R.string.whole_half_bend) + " ";
+
+            case Keys.OVER:
+                return App.getContext().getResources().getString(R.string.over);
+
+            case Keys.WAVE:
+                return App.getContext().getResources().getString(R.string.wave);
 
             default:
                 if (note > 0)
-                    return " +" + note + " ";
+                    return "+" + note + " ";
                 else
-                    return " " + note + " ";
+                    return "" + note + " ";
         }
     }
 

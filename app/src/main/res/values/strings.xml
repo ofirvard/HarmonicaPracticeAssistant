@@ -24,4 +24,10 @@
     <string name="keyboard">Slim Keyboard</string>
     <string name="bracket_open">[</string>
     <string name="bracket_close">]</string>
+    <string name="hello_world">Hello Square World!</string>
+    <string name="whole_half_bend">\"\'</string>
+    <string name="whole_bend">\"</string>
+    <string name="half_bend">\'</string>
+    <string name="wave">~</string>
+    <string name="over">o</string>
 </resources>
