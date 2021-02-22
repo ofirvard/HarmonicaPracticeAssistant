@@ -11,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyViewHolder> {
     private List<Song> songs;
@@ -25,6 +27,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
         this.songs = songs;
         this.context = context;
         this.settings = settings;
+        Collections.sort(this.songs, songComparator);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -95,11 +98,22 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return songs.size();
     }
 
-    public void setSongs(List<Song> songs) {
+    public void setSongs(List<Song> songs)
+    {
         this.songs = songs;
     }
+
+    private static Comparator<Song> songComparator = new Comparator<Song>()
+    {
+        @Override
+        public int compare(Song o1, Song o2)
+        {
+            return o1.getName().compareTo(o2.getName());
+        }
+    };
 }
