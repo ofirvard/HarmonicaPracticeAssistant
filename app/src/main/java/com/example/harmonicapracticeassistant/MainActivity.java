@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(Keys.IS_NEW_SONG, true);
         intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Keys.SETTINGS, settings);
-        startActivityForResult(intent, Keys.NEW_SONG_REQUEST_CODE);
+        startActivityForResult(intent, Keys.SONG_LIST_UPDATE_CODE);
     }
 
     public void loadSongs(View view)
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, SongListActivity.class);
         intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Keys.SETTINGS, settings);
-        startActivity(intent);
+        startActivityForResult(intent, Keys.SONG_LIST_UPDATE_CODE);
     }
 
     public void settings(View view)
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode)
         {
-            case Keys.NEW_SONG_REQUEST_CODE:
+            case Keys.SONG_LIST_UPDATE_CODE:
                 if (resultCode == RESULT_OK)
                     songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
                 break;

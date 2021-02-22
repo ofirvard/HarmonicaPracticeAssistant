@@ -11,7 +11,7 @@ public class Keys
     public static final int DEFAULT_TEXT_SIZE = 15;
     public static final int MAX_TEXT_SIZE = 30;
     public static final int MIN_TEXT_SIZE = 10;
-    public static final int NEW_SONG_REQUEST_CODE = 1;
+    public static final int SONG_LIST_UPDATE_CODE = 1;
     public static final int SETTINGS_REQUEST_CODE = 2;
     public static final int FILE_PICKER_REQUEST_CODE = 3;
     public static final int FILE_SAVE_REQUEST_CODE = 4;

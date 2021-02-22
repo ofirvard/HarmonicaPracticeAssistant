@@ -1,14 +1,16 @@
 package com.example.harmonicapracticeassistant;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-
-import java.util.List;
 
 public class SongListActivity extends AppCompatActivity
 {
@@ -50,5 +52,14 @@ public class SongListActivity extends AppCompatActivity
                 SaveHandler.saveSongs(getApplicationContext(), songs);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent();
+        intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
