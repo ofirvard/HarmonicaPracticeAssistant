@@ -17,6 +17,7 @@
     <string name="decrease_text_size">&lt;</string>
     <string name="text_size_text">Change default text size</string>
     <string name="import_songs">Import songs</string>
+    <string name="import_songs_fail">Can\'t import songs due to lack of permission</string>
     <string name="export_songs">Export songs</string>
     <string name="save_settings">Save Settings</string>
     <string name="ok">OK</string>

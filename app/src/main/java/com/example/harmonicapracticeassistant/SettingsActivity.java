@@ -9,11 +9,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import android.widget.Toast;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.gson.Gson;
@@ -23,6 +19,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 public class SettingsActivity extends AppCompatActivity {
     private AppSettings settings;
     private EditText textSizePreview;
@@ -30,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Uri fileUri;
     private List<Song> songs;
     private SwitchMaterial slim;
+    private ActivityResultLauncher<String> requestPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,99 +47,108 @@ public class SettingsActivity extends AppCompatActivity {
 
         slim = findViewById(R.id.slim);
         slim.setChecked(settings.isKeyboardSlim());
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    if (isGranted)
+                    {
+//                        Toast.makeText(this, "yes", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+//                        Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Keys.FILE_PICKER_REQUEST_CODE)
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK)
+            {
                 fileUri = data.getData();
-
                 File file = new File(FileUtils.getPath(this, fileUri));
                 List<Song> importedSongs = SaveHandler.loadSongs(file);
-// TODO: 10/13/20 find out why the file is emptyZ
-
-                if (importedSongs.isEmpty()) {
+                if (importedSongs.isEmpty())
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage(R.string.bad_file);
                     builder.setPositiveButton(R.string.ok, null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else
+                }
+                else
                     setNewSongsImported(importedSongs);
             }
         if (requestCode == Keys.FILE_SAVE_REQUEST_CODE)
-            if (resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK)
+            {
                 fileUri = data.getData();
-
-                try {
-
+                try
+                {
                     Gson gson = new Gson();
-
                     OutputStream os = this.getContentResolver().openOutputStream(fileUri);
-                    if (os != null) {
+                    if (os != null)
+                    {
                         os.write(gson.toJson(songs).getBytes());
                         os.close();
                     }
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
-
             }
     }
 
-    public void increase(View view) {// TODO: 10/10/2020 why dose this seem smaller?
-        if (settings.getDefaultTextSize() < Keys.MAX_TEXT_SIZE) {
+    public void increase(View view)
+    {// TODO: 10/10/2020 why dose this seem smaller?
+        if (settings.getDefaultTextSize() < Keys.MAX_TEXT_SIZE)
+        {
             settings.setDefaultTextSize(settings.getDefaultTextSize() + 1);
             setPreviewText();
         }
     }
 
-    public void decrease(View view) {
-        if (settings.getDefaultTextSize() > Keys.MIN_TEXT_SIZE) {
+    public void decrease(View view)
+    {
+        if (settings.getDefaultTextSize() > Keys.MIN_TEXT_SIZE)
+        {
             settings.setDefaultTextSize(settings.getDefaultTextSize() - 1);
             setPreviewText();
         }
     }
 
-    public void importSongs(View view) {
-        // TODO: 10/10/2020 file picker
-        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-
-        intent.setType("application/json");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        startActivityForResult(Intent.createChooser(intent, "Choose a file"), Keys.FILE_PICKER_REQUEST_CODE);
-    }
-
-    public void checkPermission(String permission, int requestCode) {
-        if (ContextCompat.checkSelfPermission(SettingsActivity.this, permission)
-                == PackageManager.PERMISSION_DENIED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+    public void importSongs(View view)
+    {
+        if (checkPermission())
+        {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("application/json");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(Intent.createChooser(intent, "Choose a file"), Keys.FILE_PICKER_REQUEST_CODE);
         }
     }
 
-    public void exportSongs(View view) {
-//        checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
-//        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
-//
-//        try {
-//            File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-//            File myFile = new File(folder, "harmonica-songs" + Calendar.getInstance().getTime().toString() + ".json");
-//            Gson gson = new Gson();
-//
-//            FileOutputStream fileOutputStream = new FileOutputStream(myFile);
-//            fileOutputStream.write(gson.toJson(songs).getBytes());
-//            fileOutputStream.close();
-//            Toast.makeText(getApplicationContext(), "Details Saved in " + myFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public boolean checkPermission()
+    {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        {
+            return true;
+        }
+        else if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+        {
+            Toast.makeText(this, R.string.import_songs_fail, Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        return false;
+    }
 
+    public void exportSongs(View view)
+    {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
@@ -145,7 +157,8 @@ public class SettingsActivity extends AppCompatActivity {
         startActivityForResult(intent, Keys.FILE_SAVE_REQUEST_CODE);
     }
 
-    public void save(View view) {
+    public void save(View view)
+    {
         settings.setKeyboardSlim(slim.isChecked());
         SaveHandler.saveSettings(getApplicationContext(), settings);
         SaveHandler.saveSongs(getApplicationContext(), songs);
