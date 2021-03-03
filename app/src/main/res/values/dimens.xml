@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="fab_1">60sp</dimen>
-    <dimen name="fab_2">120sp</dimen>
-    <dimen name="fab_3">180sp</dimen>
-    <dimen name="fab_4">240sp</dimen>
-    <dimen name="fab_5">300sp</dimen>
-    <dimen name="fab_6">360sp</dimen>
-    <dimen name="fab_7">420sp</dimen>
+    <dimen name="fab_1">55sp</dimen>
+    <dimen name="fab_2">110sp</dimen>
+    <dimen name="fab_3">165sp</dimen>
+    <dimen name="fab_4">220sp</dimen>
+    <dimen name="fab_5">275sp</dimen>
+    <dimen name="fab_6">330sp</dimen>
+    <dimen name="fab_7">385sp</dimen>
 
 </resources>
