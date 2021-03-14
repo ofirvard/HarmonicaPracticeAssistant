@@ -29,7 +29,6 @@ public class SettingsActivity extends AppCompatActivity {
     private AppSettings settings;
     private EditText textSizePreview;
     private boolean newSongsImported = false;
-    private Uri fileUri;
     private List<Song> songs;
     private SwitchMaterial slim;
     private ActivityResultLauncher<String> requestPermissionLauncher;
@@ -47,23 +46,22 @@ public class SettingsActivity extends AppCompatActivity {
 
         slim = findViewById(R.id.slim);
         slim.setChecked(settings.isKeyboardSlim());
-        requestPermissionLauncher =
-                registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                    if (isGranted)
-                    {
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted)
+            {
 //                        Toast.makeText(this, "yes", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+            }
+            else
+            {
 //                        Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Uri fileUri;
         if (requestCode == Keys.FILE_PICKER_REQUEST_CODE)
             if (resultCode == RESULT_OK)
             {
