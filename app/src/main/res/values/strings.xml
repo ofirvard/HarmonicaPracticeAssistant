@@ -31,4 +31,5 @@
     <string name="half_bend">\'</string>
     <string name="wave">~</string>
     <string name="over">o</string>
+    <string name="song_text">Song Text</string>
 </resources>

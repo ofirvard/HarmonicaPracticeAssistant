@@ -11,7 +11,7 @@ public class Song implements Parcelable
     private String name;
     private boolean hasMainRecording;
     private List<String> recordings;
-    private List<Integer> notes;
+    private List<Tab> tabs;
 
     protected Song(Parcel in)
     {
@@ -28,21 +28,21 @@ public class Song implements Parcelable
         }
         if (in.readByte() == 0x01)
         {
-            notes = new ArrayList<Integer>();
-            in.readList(notes, Integer.class.getClassLoader());
+            tabs = new ArrayList<Tab>();
+            in.readList(tabs, Tab.class.getClassLoader());
         }
         else
         {
-            notes = null;
+            tabs = null;
         }
     }
 
-    public Song(String name, boolean hasMainRecording, List<String> recordings, List<Integer> notes)
+    public Song(String name, boolean hasMainRecording, List<String> recordings, List<Tab> tabs)
     {
         this.name = name;
         this.hasMainRecording = hasMainRecording;
         this.recordings = recordings;
-        this.notes = notes;
+        this.tabs = tabs;
     }
 
     public Song()
@@ -50,27 +50,27 @@ public class Song implements Parcelable
         this.name = "";
         this.hasMainRecording = false;
         this.recordings = new ArrayList<>();
-        this.notes = new ArrayList<>();
+        this.tabs = new ArrayList<>();
     }
 
-    public void addNote(int note)
+    public void addNote(Tab tab)
     {
-        notes.add(note);
+        tabs.add(tab);
     }
 
     public void deleteLastNote()
     {
-        if (notes.size() > 0)
-            notes.remove(notes.size() - 1);
+        if (tabs.size() > 0)
+            tabs.remove(tabs.size() - 1);
     }
 
     @Override
-    public String toString()
+    public String toString()//todo remove?
     {
         StringBuilder song = new StringBuilder();
 
-        for (int note : notes)
-            song.append(noteTranslator(note));
+//        for (Note note : notes)
+//            song.append(noteTranslator(note));
 
         return song.toString();
     }
@@ -149,14 +149,14 @@ public class Song implements Parcelable
             dest.writeByte((byte) (0x01));
             dest.writeList(recordings);
         }
-        if (notes == null)
+        if (tabs == null)
         {
             dest.writeByte((byte) (0x00));
         }
         else
         {
             dest.writeByte((byte) (0x01));
-            dest.writeList(notes);
+            dest.writeList(tabs);
         }
     }
 

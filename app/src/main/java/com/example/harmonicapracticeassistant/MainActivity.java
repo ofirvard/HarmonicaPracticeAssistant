@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         songs = SaveHandler.loadSongs(getApplicationContext());
-
         settings = SaveHandler.loadSettings(getApplicationContext());
     }
 
