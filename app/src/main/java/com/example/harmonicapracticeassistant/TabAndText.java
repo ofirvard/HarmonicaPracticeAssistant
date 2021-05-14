@@ -7,8 +7,8 @@ public class TabAndText
 
     public TabAndText()
     {
-        this.tabs = "";
-        this.text = "";
+        this.tabs = "hello";
+        this.text = "hello";
     }
 
     public TabAndText(String tabs, String text)

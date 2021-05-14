@@ -23,6 +23,11 @@ public class Song2 implements Parcelable
         this.tabAndTexts = tabAndTexts;
     }
 
+    public void addLine()
+    {
+        tabAndTexts.add(new TabAndText());
+    }
+
     protected Song2(Parcel in)
     {
         name = in.readString();

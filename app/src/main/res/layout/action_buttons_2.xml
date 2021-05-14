@@ -4,9 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
+    android:background="@android:color/transparent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     app:layout_constraintBottom_toTopOf="@+id/keyboard"
+    tools:context=".SongBuilder2"
     app:layout_constraintEnd_toEndOf="parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,9 +19,14 @@
         android:layout_marginBottom="5sp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="more_buttons"
+        android:onClick="openFABMenu"
+        android:tint="@color/transparent"
+        app:rippleColor="@null"
+        android:outlineProvider="none"
+        android:background="@null"
         app:srcCompat="@drawable/menu"
         tools:ignore="ContentDescription" />
+    <!--    todo find out what removed the shadow and add it to the rest, also transperant background-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/space"
