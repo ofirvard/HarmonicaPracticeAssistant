@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.activities;
 
 import android.app.Application;
 import android.content.Context;

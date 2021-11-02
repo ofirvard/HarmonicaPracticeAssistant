@@ -3,6 +3,9 @@ package com.example.harmonicapracticeassistant;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.harmonicapracticeassistant.activities.App;
+import com.example.harmonicapracticeassistant.utils.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +14,7 @@ public class Song implements Parcelable
     private String name;
     private boolean hasMainRecording;
     private List<String> recordings;
-    private List<Integer> notes;
+    private List<Tab> tabs;
 
     protected Song(Parcel in)
     {
@@ -28,21 +31,21 @@ public class Song implements Parcelable
         }
         if (in.readByte() == 0x01)
         {
-            notes = new ArrayList<Integer>();
-            in.readList(notes, Integer.class.getClassLoader());
+            tabs = new ArrayList<Tab>();
+            in.readList(tabs, Tab.class.getClassLoader());
         }
         else
         {
-            notes = null;
+            tabs = null;
         }
     }
 
-    public Song(String name, boolean hasMainRecording, List<String> recordings, List<Integer> notes)
+    public Song(String name, boolean hasMainRecording, List<String> recordings, List<Tab> tabs)
     {
         this.name = name;
         this.hasMainRecording = hasMainRecording;
         this.recordings = recordings;
-        this.notes = notes;
+        this.tabs = tabs;
     }
 
     public Song()
@@ -50,27 +53,27 @@ public class Song implements Parcelable
         this.name = "";
         this.hasMainRecording = false;
         this.recordings = new ArrayList<>();
-        this.notes = new ArrayList<>();
+        this.tabs = new ArrayList<>();
     }
 
-    public void addNote(int note)
+    public void addNote(Tab tab)
     {
-        notes.add(note);
+        tabs.add(tab);
     }
 
     public void deleteLastNote()
     {
-        if (notes.size() > 0)
-            notes.remove(notes.size() - 1);
+        if (tabs.size() > 0)
+            tabs.remove(tabs.size() - 1);
     }
 
     @Override
-    public String toString()
+    public String toString()//todo remove?
     {
         StringBuilder song = new StringBuilder();
 
-        for (int note : notes)
-            song.append(noteTranslator(note));
+//        for (Note note : notes)
+//            song.append(noteTranslator(note));
 
         return song.toString();
     }
@@ -79,10 +82,10 @@ public class Song implements Parcelable
     {
         switch (note)
         {
-            case Keys.NOTE_SPACE:
+            case Constants.NOTE_SPACE:
                 return "_";
 
-            case Keys.NOTE_ENTER:
+            case Constants.NOTE_ENTER:
                 return "\n";
 
 //            case Keys.NOTE_DRAW_TEN:
@@ -90,25 +93,25 @@ public class Song implements Parcelable
 
 //            case Keys.NOTE_BLOW_TEN:
 //                return "+10 ";
-            case Keys.BRACKET_OPEN:
+            case Constants.BRACKET_OPEN:
                 return App.getContext().getResources().getString(R.string.bracket_open);
 
-            case Keys.BRACKET_CLOSE:
+            case Constants.BRACKET_CLOSE:
                 return App.getContext().getResources().getString(R.string.bracket_close) + " ";
 
-            case Keys.HALF_BEND:
+            case Constants.HALF_BEND:
                 return App.getContext().getResources().getString(R.string.half_bend) + " ";
 
-            case Keys.WHOLE_BEND:
+            case Constants.WHOLE_BEND:
                 return App.getContext().getResources().getString(R.string.whole_bend) + " ";
 
-            case Keys.WHOLE_HALF_BEND:
+            case Constants.WHOLE_HALF_BEND:
                 return App.getContext().getResources().getString(R.string.whole_half_bend) + " ";
 
-            case Keys.OVER:
+            case Constants.OVER:
                 return App.getContext().getResources().getString(R.string.over);
 
-            case Keys.WAVE:
+            case Constants.WAVE:
                 return App.getContext().getResources().getString(R.string.wave);
 
             default:
@@ -149,14 +152,14 @@ public class Song implements Parcelable
             dest.writeByte((byte) (0x01));
             dest.writeList(recordings);
         }
-        if (notes == null)
+        if (tabs == null)
         {
             dest.writeByte((byte) (0x00));
         }
         else
         {
             dest.writeByte((byte) (0x01));
-            dest.writeList(notes);
+            dest.writeList(tabs);
         }
     }
 

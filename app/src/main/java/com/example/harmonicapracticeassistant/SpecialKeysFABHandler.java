@@ -28,38 +28,26 @@ public class SpecialKeysFABHandler
 
         fab1 = activity.findViewById(R.id.half_bend);
         fab2 = activity.findViewById(R.id.whole_bend);
-        fab3 = activity.findViewById(R.id.whole_half_bend);
-        fab4 = activity.findViewById(R.id.over);
-        fab5 = activity.findViewById(R.id.wave);
-        fab6 = activity.findViewById(R.id.bracket_open);
-        fab7 = activity.findViewById(R.id.bracket_close);
+        fab3 = activity.findViewById(R.id.step_and_a_half_bend);
+//        fab4 = activity.findViewById(R.id.over);
+//        fab5 = activity.findViewById(R.id.wave);
+//        fab6 = activity.findViewById(R.id.bracket_open);
+//        fab7 = activity.findViewById(R.id.bracket_close);
         title = activity.findViewById(R.id.song_title);
 
-        FloatingActionButton fab = activity.findViewById(R.id.special_keys);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+        FloatingActionButton fab = activity.findViewById(R.id.more_buttons);
+        fab.setOnClickListener(view -> {
+            if (!isFABOpen)
             {
-                if (!isFABOpen)
-                {
-                    showFABMenu();
-                }
-                else
-                {
-                    closeFABMenu();
-                }
+                showFABMenu();
             }
-        });
-        fabBGLayout = activity.findViewById(R.id.fab_bg_layout);
-        fabBGLayout.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+            else
             {
                 closeFABMenu();
             }
         });
+        fabBGLayout = activity.findViewById(R.id.fab_bg_layout);
+        fabBGLayout.setOnClickListener(view -> closeFABMenu());
     }
 
     public void closeFABMenu()
@@ -73,11 +61,12 @@ public class SpecialKeysFABHandler
 
             fab1.animate().translationY(0);
             fab2.animate().translationY(0);
-            fab3.animate().translationY(0);
-            fab4.animate().translationY(0);
-            fab5.animate().translationY(0);
-            fab6.animate().translationY(0);
-            fab7.animate().translationY(0).setListener(new Animator.AnimatorListener()
+//            fab3.animate().translationY(0);
+//            fab4.animate().translationY(0);
+//            fab5.animate().translationY(0);
+//            fab6.animate().translationY(0);
+//            fab7.animate().translationY(0)
+            fab3.animate().translationY(0).setListener(new Animator.AnimatorListener()
             {
                 @Override
                 public void onAnimationStart(Animator animator)
@@ -93,10 +82,10 @@ public class SpecialKeysFABHandler
                         fab1.setVisibility(View.GONE);
                         fab2.setVisibility(View.GONE);
                         fab3.setVisibility(View.GONE);
-                        fab4.setVisibility(View.GONE);
-                        fab5.setVisibility(View.GONE);
-                        fab6.setVisibility(View.GONE);
-                        fab7.setVisibility(View.GONE);
+//                        fab4.setVisibility(View.GONE);
+//                        fab5.setVisibility(View.GONE);
+//                        fab6.setVisibility(View.GONE);
+//                        fab7.setVisibility(View.GONE);
                     }
                 }
 
@@ -126,17 +115,17 @@ public class SpecialKeysFABHandler
         fab1.setVisibility(View.VISIBLE);
         fab2.setVisibility(View.VISIBLE);
         fab3.setVisibility(View.VISIBLE);
-        fab4.setVisibility(View.VISIBLE);
-        fab5.setVisibility(View.VISIBLE);
-        fab6.setVisibility(View.VISIBLE);
-        fab7.setVisibility(View.VISIBLE);
+//        fab4.setVisibility(View.VISIBLE);
+//        fab5.setVisibility(View.VISIBLE);
+//        fab6.setVisibility(View.VISIBLE);
+//        fab7.setVisibility(View.VISIBLE);
 
         fab1.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_1));
         fab2.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_2));
         fab3.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_3));
-        fab4.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_4));
-        fab5.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_5));
-        fab6.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_6));
-        fab7.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_7));
+//        fab4.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_4));
+//        fab5.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_5));
+//        fab6.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_6));
+//        fab7.animate().translationY(-activity.getResources().getDimension(R.dimen.fab_7));
     }
 }

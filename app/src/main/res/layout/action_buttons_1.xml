@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toTopOf="@+id/keyboard"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:context=".SongBuilder2">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="switchMode"
+        app:srcCompat="@drawable/pencil"
+        app:tint="@null"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/zoom_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="zoomIn"
+        app:srcCompat="@drawable/zoom_in"
+        app:tint="@null"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/zoom_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="zoomOut"
+        app:srcCompat="@drawable/zoom_out"
+        app:tint="@null"
+        tools:ignore="ContentDescription" />
+</LinearLayout>
