@@ -11,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.harmonicapracticeassistant.activities.SongActivity;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
+import com.example.harmonicapracticeassistant.utils.SaveHandler;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -56,14 +61,15 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
 
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 //                Context context = view.getContext();
 
                 Intent intent = new Intent(context, SongActivity.class);
-                intent.putExtra(Keys.IS_NEW_SONG, false);
-                intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
-                intent.putExtra(Keys.SONG_POSITION, position);
-                intent.putExtra(Keys.SETTINGS, settings);
+                intent.putExtra(Constants.IS_NEW_SONG, false);
+                intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
+                intent.putExtra(Constants.SONG_POSITION, position);
+                intent.putExtra(Constants.SETTINGS, settings);
 
 //                context.startActivity(intent);
                 ((Activity) context).startActivityForResult(intent, 1);

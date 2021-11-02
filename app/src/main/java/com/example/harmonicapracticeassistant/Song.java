@@ -3,6 +3,9 @@ package com.example.harmonicapracticeassistant;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.harmonicapracticeassistant.activities.App;
+import com.example.harmonicapracticeassistant.utils.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,10 +82,10 @@ public class Song implements Parcelable
     {
         switch (note)
         {
-            case Keys.NOTE_SPACE:
+            case Constants.NOTE_SPACE:
                 return "_";
 
-            case Keys.NOTE_ENTER:
+            case Constants.NOTE_ENTER:
                 return "\n";
 
 //            case Keys.NOTE_DRAW_TEN:
@@ -90,25 +93,25 @@ public class Song implements Parcelable
 
 //            case Keys.NOTE_BLOW_TEN:
 //                return "+10 ";
-            case Keys.BRACKET_OPEN:
+            case Constants.BRACKET_OPEN:
                 return App.getContext().getResources().getString(R.string.bracket_open);
 
-            case Keys.BRACKET_CLOSE:
+            case Constants.BRACKET_CLOSE:
                 return App.getContext().getResources().getString(R.string.bracket_close) + " ";
 
-            case Keys.HALF_BEND:
+            case Constants.HALF_BEND:
                 return App.getContext().getResources().getString(R.string.half_bend) + " ";
 
-            case Keys.WHOLE_BEND:
+            case Constants.WHOLE_BEND:
                 return App.getContext().getResources().getString(R.string.whole_bend) + " ";
 
-            case Keys.WHOLE_HALF_BEND:
+            case Constants.WHOLE_HALF_BEND:
                 return App.getContext().getResources().getString(R.string.whole_half_bend) + " ";
 
-            case Keys.OVER:
+            case Constants.OVER:
                 return App.getContext().getResources().getString(R.string.over);
 
-            case Keys.WAVE:
+            case Constants.WAVE:
                 return App.getContext().getResources().getString(R.string.wave);
 
             default:

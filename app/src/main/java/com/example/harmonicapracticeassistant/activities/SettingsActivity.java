@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -11,6 +11,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.Song;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
+import com.example.harmonicapracticeassistant.utils.FileUtils;
+import com.example.harmonicapracticeassistant.utils.SaveHandler;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.gson.Gson;
 
@@ -35,12 +41,13 @@ public class SettingsActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
-        songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
+        settings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
+        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
 
         textSizePreview = findViewById(R.id.text_size_preview);
         setPreviewText();
@@ -64,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Keys.FILE_PICKER_REQUEST_CODE)
+        if (requestCode == Constants.FILE_PICKER_REQUEST_CODE)
             if (resultCode == RESULT_OK)
             {
                 fileUri = data.getData();
@@ -81,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                 else
                     setNewSongsImported(importedSongs);
             }
-        if (requestCode == Keys.FILE_SAVE_REQUEST_CODE)
+        if (requestCode == Constants.FILE_SAVE_REQUEST_CODE)
             if (resultCode == RESULT_OK)
             {
                 fileUri = data.getData();
@@ -103,7 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void increase(View view)
     {// TODO: 10/10/2020 why dose this seem smaller?
-        if (settings.getDefaultTextSize() < Keys.MAX_TEXT_SIZE)
+        if (settings.getDefaultTextSize() < Constants.MAX_TEXT_SIZE)
         {
             settings.setDefaultTextSize(settings.getDefaultTextSize() + 1);
             setPreviewText();
@@ -112,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void decrease(View view)
     {
-        if (settings.getDefaultTextSize() > Keys.MIN_TEXT_SIZE)
+        if (settings.getDefaultTextSize() > Constants.MIN_TEXT_SIZE)
         {
             settings.setDefaultTextSize(settings.getDefaultTextSize() - 1);
             setPreviewText();
@@ -126,7 +133,7 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("application/json");
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, "Choose a file"), Keys.FILE_PICKER_REQUEST_CODE);
+            startActivityForResult(Intent.createChooser(intent, "Choose a file"), Constants.FILE_PICKER_REQUEST_CODE);
         }
     }
 
@@ -154,7 +161,7 @@ public class SettingsActivity extends AppCompatActivity {
         intent.setType("application/json");
         intent.putExtra(Intent.EXTRA_TITLE, "harmonica-songs.json");
 
-        startActivityForResult(intent, Keys.FILE_SAVE_REQUEST_CODE);
+        startActivityForResult(intent, Constants.FILE_SAVE_REQUEST_CODE);
     }
 
     public void save(View view)
@@ -164,8 +171,8 @@ public class SettingsActivity extends AppCompatActivity {
         SaveHandler.saveSongs(getApplicationContext(), songs);
 
         Intent intent = new Intent();
-        intent.putExtra(Keys.SETTINGS, settings);
-        intent.putExtra(Keys.NEW_SONGS_IMPORTED, newSongsImported);
+        intent.putExtra(Constants.SETTINGS, settings);
+        intent.putExtra(Constants.NEW_SONGS_IMPORTED, newSongsImported);
         setResult(RESULT_OK, intent);
         finish();
     }

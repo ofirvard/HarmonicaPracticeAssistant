@@ -1,8 +1,15 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+
+import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.Song;
+import com.example.harmonicapracticeassistant.SongListAdapter;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
+import com.example.harmonicapracticeassistant.utils.SaveHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +33,8 @@ public class SongListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
-        settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
+        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
+        settings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -47,7 +54,7 @@ public class SongListActivity extends AppCompatActivity
         {
             if (resultCode == RESULT_OK)
             {
-                songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
+                songs = data.getExtras().getParcelableArrayList(Constants.SONGS);
                 mAdapter.setSongs(songs);
                 SaveHandler.saveSongs(getApplicationContext(), songs);
             }
@@ -58,7 +65,7 @@ public class SongListActivity extends AppCompatActivity
     public void onBackPressed()
     {
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
         setResult(RESULT_OK, intent);
         finish();
     }

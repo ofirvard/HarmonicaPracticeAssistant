@@ -1,7 +1,8 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.utils;
 
 import android.content.Context;
 
+import com.example.harmonicapracticeassistant.Song;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -72,7 +73,7 @@ public class SaveHandler {
     }
 
     public static AppSettings loadSettings(Context context) {
-        AppSettings settings = new AppSettings(Keys.DEFAULT_TEXT_SIZE, true);
+        AppSettings settings = new AppSettings(Constants.DEFAULT_TEXT_SIZE, true);
 
         try {
             String data;

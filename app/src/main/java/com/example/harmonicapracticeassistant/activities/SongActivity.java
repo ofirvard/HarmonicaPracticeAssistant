@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -13,6 +13,12 @@ import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.Song;
+import com.example.harmonicapracticeassistant.SpecialKeysFABHandler;
+import com.example.harmonicapracticeassistant.Tab;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -45,8 +51,8 @@ public class SongActivity extends AppCompatActivity
 
         specialKeysFABHandler = new SpecialKeysFABHandler(this);
 
-        this.songs = getIntent().getExtras().getParcelableArrayList(Keys.SONGS);
-        this.settings = getIntent().getExtras().getParcelable(Keys.SETTINGS);
+        this.songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
+        this.settings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
 
         this.songName = findViewById(R.id.song_title);
         this.songTabs = findViewById(R.id.song_text);
@@ -76,10 +82,10 @@ public class SongActivity extends AppCompatActivity
             return false;
         });
 
-        isNewSong = getIntent().getExtras().getBoolean(Keys.IS_NEW_SONG);
+        isNewSong = getIntent().getExtras().getBoolean(Constants.IS_NEW_SONG);
         if (!isNewSong)
         {
-            int songPosition = getIntent().getExtras().getInt(Keys.SONG_POSITION);
+            int songPosition = getIntent().getExtras().getInt(Constants.SONG_POSITION);
             song = songs.get(songPosition);
 
             songName.setText(song.getName());
@@ -131,7 +137,7 @@ public class SongActivity extends AppCompatActivity
     {
         basicClick();
 
-        if (textSize < Keys.MAX_TEXT_SIZE)
+        if (textSize < Constants.MAX_TEXT_SIZE)
         {
             textSize++;
             songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -142,7 +148,7 @@ public class SongActivity extends AppCompatActivity
     {
         basicClick();
 
-        if (textSize > Keys.MIN_TEXT_SIZE)
+        if (textSize > Constants.MIN_TEXT_SIZE)
         {
             textSize--;
             songTabs.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -178,7 +184,7 @@ public class SongActivity extends AppCompatActivity
 //
 //            songTabs.append(string);
 //
-            Tab tab = new Tab(1, false, Tab.Bend.NONE);
+            Tab tab = new Tab(1, false, Tab.BendOld.OLD);
             song.addNote(tab);
 //            String note = Song.noteTranslator(noteNumber);
 //            song.addNote(noteNumber);
@@ -197,7 +203,7 @@ public class SongActivity extends AppCompatActivity
             {
                 case R.id.space:
 //                    song.addNote(Keys.NOTE_SPACE);todo figure this out
-                    songTabs.append(Song.noteTranslator(Keys.NOTE_SPACE));
+                    songTabs.append(Song.noteTranslator(Constants.NOTE_SPACE));
                     break;
 
                 case R.id.enter:// TODO: 16/04/2021 this will create two line
@@ -280,7 +286,7 @@ public class SongActivity extends AppCompatActivity
 
 
                 Intent intent = new Intent();
-                intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+                intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
                 setResult(RESULT_OK, intent);
                 finish();
 
@@ -289,7 +295,7 @@ public class SongActivity extends AppCompatActivity
         else
         {
             Intent intent = new Intent();
-            intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
+            intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
             setResult(RESULT_OK, intent);
             finish();
         }

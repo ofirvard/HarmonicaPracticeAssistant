@@ -1,6 +1,6 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.utils;
 
-public class Keys
+public class Constants
 {
     public static final String IS_NEW_SONG = "IS_NEW_SONG";
     public static final String SONGS = "SONGS";

@@ -1,9 +1,15 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
+
+import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.Song;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
+import com.example.harmonicapracticeassistant.utils.SaveHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,26 +35,26 @@ public class MainActivity extends AppCompatActivity
     public void newSong(View view)
     {
         Intent intent = new Intent(this, SongActivity.class);
-        intent.putExtra(Keys.IS_NEW_SONG, true);
-        intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
-        intent.putExtra(Keys.SETTINGS, settings);
-        startActivityForResult(intent, Keys.SONG_LIST_UPDATE_CODE);
+        intent.putExtra(Constants.IS_NEW_SONG, true);
+        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
+        intent.putExtra(Constants.SETTINGS, settings);
+        startActivityForResult(intent, Constants.SONG_LIST_UPDATE_CODE);
     }
 
     public void loadSongs(View view)
     {
         Intent intent = new Intent(this, SongListActivity.class);
-        intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
-        intent.putExtra(Keys.SETTINGS, settings);
-        startActivityForResult(intent, Keys.SONG_LIST_UPDATE_CODE);
+        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
+        intent.putExtra(Constants.SETTINGS, settings);
+        startActivityForResult(intent, Constants.SONG_LIST_UPDATE_CODE);
     }
 
     public void settings(View view)
     {
         Intent intent = new Intent(this, SettingsActivity.class);
-        intent.putParcelableArrayListExtra(Keys.SONGS, (ArrayList<? extends Parcelable>) songs);
-        intent.putExtra(Keys.SETTINGS, settings);
-        startActivityForResult(intent, Keys.SETTINGS_REQUEST_CODE);
+        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
+        intent.putExtra(Constants.SETTINGS, settings);
+        startActivityForResult(intent, Constants.SETTINGS_REQUEST_CODE);
     }
 
     @Override
@@ -57,16 +63,16 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode)
         {
-            case Keys.SONG_LIST_UPDATE_CODE:
+            case Constants.SONG_LIST_UPDATE_CODE:
                 if (resultCode == RESULT_OK)
-                    songs = data.getExtras().getParcelableArrayList(Keys.SONGS);
+                    songs = data.getExtras().getParcelableArrayList(Constants.SONGS);
                 break;
 
-            case Keys.SETTINGS_REQUEST_CODE:
+            case Constants.SETTINGS_REQUEST_CODE:
                 if (resultCode == RESULT_OK)
                 {
-                    settings = data.getExtras().getParcelable(Keys.SETTINGS);
-                    if (data.getExtras().getBoolean(Keys.NEW_SONGS_IMPORTED))
+                    settings = data.getExtras().getParcelable(Constants.SETTINGS);
+                    if (data.getExtras().getBoolean(Constants.NEW_SONGS_IMPORTED))
                         songs = SaveHandler.loadSongs(getApplicationContext());
                 }
                 break;

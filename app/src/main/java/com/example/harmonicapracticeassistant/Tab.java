@@ -4,9 +4,9 @@ public class Tab
 {
     int hole;//hole 0 can be space
     Boolean draw;
-    Bend bend;
+    BendOld bend;
 
-    public Tab(int hole, Boolean draw, Bend bend)
+    public Tab(int hole, Boolean draw, BendOld bend)
     {
         this.hole = hole;
         this.draw = draw;
@@ -38,8 +38,8 @@ public class Tab
         return note;
     }
 
-    enum Bend
+    public enum BendOld
     {
-        NONE, HALF_STEP_BEND, WHOLE_STEP_BEND, STEP_AND_A_HALF_BEND
+        OLD, HALF_STEP_BEND, WHOLE_STEP_BEND, STEP_AND_A_HALF_BEND
     }
 }

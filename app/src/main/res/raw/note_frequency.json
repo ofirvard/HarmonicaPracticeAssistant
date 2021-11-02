@@ -1,0 +1,650 @@
+[
+  {
+    "note": "C",
+    "octave": 0,
+    "frequency": 16,
+    "id": 0
+  },
+  {
+    "note": "C#/Db",
+    "octave": 0,
+    "frequency": 17,
+    "id": 1
+  },
+  {
+    "note": "D",
+    "octave": 0,
+    "frequency": 18,
+    "id": 2
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 0,
+    "frequency": 19,
+    "id": 3
+  },
+  {
+    "note": "E",
+    "octave": 0,
+    "frequency": 20,
+    "id": 4
+  },
+  {
+    "note": "F",
+    "octave": 0,
+    "frequency": 21,
+    "id": 5
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 0,
+    "frequency": 23,
+    "id": 6
+  },
+  {
+    "note": "G",
+    "octave": 0,
+    "frequency": 24,
+    "id": 7
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 0,
+    "frequency": 25,
+    "id": 8
+  },
+  {
+    "note": "A",
+    "octave": 0,
+    "frequency": 27,
+    "id": 9
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 0,
+    "frequency": 29,
+    "id": 10
+  },
+  {
+    "note": "B",
+    "octave": 0,
+    "frequency": 30,
+    "id": 11
+  },
+  {
+    "note": "C",
+    "octave": 1,
+    "frequency": 32,
+    "id": 12
+  },
+  {
+    "note": "G#/Db",
+    "octave": 1,
+    "frequency": 34,
+    "id": 13
+  },
+  {
+    "note": "D",
+    "octave": 1,
+    "frequency": 36,
+    "id": 14
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 1,
+    "frequency": 38,
+    "id": 15
+  },
+  {
+    "note": "E",
+    "octave": 1,
+    "frequency": 41,
+    "id": 16
+  },
+  {
+    "note": "F",
+    "octave": 1,
+    "frequency": 43,
+    "id": 17
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 1,
+    "frequency": 46,
+    "id": 18
+  },
+  {
+    "note": "G",
+    "octave": 1,
+    "frequency": 49,
+    "id": 19
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 1,
+    "frequency": 51,
+    "id": 20
+  },
+  {
+    "note": "A",
+    "octave": 1,
+    "frequency": 55,
+    "id": 21
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 1,
+    "frequency": 58,
+    "id": 22
+  },
+  {
+    "note": "B",
+    "octave": 1,
+    "frequency": 61,
+    "id": 23
+  },
+  {
+    "note": "C",
+    "octave": 2,
+    "frequency": 65,
+    "id": 24
+  },
+  {
+    "note": "G#/Db",
+    "octave": 2,
+    "frequency": 69,
+    "id": 25
+  },
+  {
+    "note": "D",
+    "octave": 2,
+    "frequency": 73,
+    "id": 26
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 2,
+    "frequency": 77,
+    "id": 27
+  },
+  {
+    "note": "E",
+    "octave": 2,
+    "frequency": 82,
+    "id": 28
+  },
+  {
+    "note": "F",
+    "octave": 2,
+    "frequency": 87,
+    "id": 29
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 2,
+    "frequency": 92,
+    "id": 30
+  },
+  {
+    "note": "G",
+    "octave": 2,
+    "frequency": 98,
+    "id": 31
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 2,
+    "frequency": 103,
+    "id": 32
+  },
+  {
+    "note": "A",
+    "octave": 2,
+    "frequency": 110,
+    "id": 33
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 2,
+    "frequency": 116,
+    "id": 34
+  },
+  {
+    "note": "B",
+    "octave": 2,
+    "frequency": 123,
+    "id": 35
+  },
+  {
+    "note": "C",
+    "octave": 3,
+    "frequency": 130,
+    "id": 36
+  },
+  {
+    "note": "G#/Db",
+    "octave": 3,
+    "frequency": 138,
+    "id": 37
+  },
+  {
+    "note": "D",
+    "octave": 3,
+    "frequency": 146,
+    "id": 38
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 3,
+    "frequency": 155,
+    "id": 39
+  },
+  {
+    "note": "E",
+    "octave": 3,
+    "frequency": 164,
+    "id": 40
+  },
+  {
+    "note": "F",
+    "octave": 3,
+    "frequency": 174,
+    "id": 41
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 3,
+    "frequency": 185,
+    "id": 42
+  },
+  {
+    "note": "G",
+    "octave": 3,
+    "frequency": 196,
+    "id": 43
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 3,
+    "frequency": 207,
+    "id": 44
+  },
+  {
+    "note": "A",
+    "octave": 3,
+    "frequency": 220,
+    "id": 45
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 3,
+    "frequency": 233,
+    "id": 46
+  },
+  {
+    "note": "B",
+    "octave": 3,
+    "frequency": 246,
+    "id": 47
+  },
+  {
+    "note": "C",
+    "octave": 4,
+    "frequency": 261,
+    "id": 48
+  },
+  {
+    "note": "G#/Db",
+    "octave": 4,
+    "frequency": 277,
+    "id": 49
+  },
+  {
+    "note": "D",
+    "octave": 4,
+    "frequency": 293,
+    "id": 50
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 4,
+    "frequency": 311,
+    "id": 51
+  },
+  {
+    "note": "E",
+    "octave": 4,
+    "frequency": 329,
+    "id": 52
+  },
+  {
+    "note": "F",
+    "octave": 4,
+    "frequency": 349,
+    "id": 53
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 4,
+    "frequency": 369,
+    "id": 54
+  },
+  {
+    "note": "G",
+    "octave": 4,
+    "frequency": 392,
+    "id": 55
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 4,
+    "frequency": 415,
+    "id": 56
+  },
+  {
+    "note": "A",
+    "octave": 4,
+    "frequency": 440,
+    "id": 57
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 4,
+    "frequency": 466,
+    "id": 58
+  },
+  {
+    "note": "B",
+    "octave": 4,
+    "frequency": 493,
+    "id": 59
+  },
+  {
+    "note": "C",
+    "octave": 5,
+    "frequency": 523,
+    "id": 60
+  },
+  {
+    "note": "G#/Db",
+    "octave": 5,
+    "frequency": 554,
+    "id": 61
+  },
+  {
+    "note": "D",
+    "octave": 5,
+    "frequency": 587,
+    "id": 62
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 5,
+    "frequency": 622,
+    "id": 63
+  },
+  {
+    "note": "E",
+    "octave": 5,
+    "frequency": 659,
+    "id": 64
+  },
+  {
+    "note": "F",
+    "octave": 5,
+    "frequency": 698,
+    "id": 65
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 5,
+    "frequency": 739,
+    "id": 66
+  },
+  {
+    "note": "G",
+    "octave": 5,
+    "frequency": 783,
+    "id": 67
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 5,
+    "frequency": 830,
+    "id": 68
+  },
+  {
+    "note": "A",
+    "octave": 5,
+    "frequency": 880,
+    "id": 69
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 5,
+    "frequency": 932,
+    "id": 70
+  },
+  {
+    "note": "B",
+    "octave": 5,
+    "frequency": 987,
+    "id": 71
+  },
+  {
+    "note": "C",
+    "octave": 6,
+    "frequency": 1046,
+    "id": 72
+  },
+  {
+    "note": "G#/Db",
+    "octave": 6,
+    "frequency": 1108,
+    "id": 73
+  },
+  {
+    "note": "D",
+    "octave": 6,
+    "frequency": 1174,
+    "id": 74
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 6,
+    "frequency": 1244,
+    "id": 75
+  },
+  {
+    "note": "E",
+    "octave": 6,
+    "frequency": 1318,
+    "id": 76
+  },
+  {
+    "note": "F",
+    "octave": 6,
+    "frequency": 1396,
+    "id": 77
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 6,
+    "frequency": 1479,
+    "id": 78
+  },
+  {
+    "note": "G",
+    "octave": 6,
+    "frequency": 1567,
+    "id": 79
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 6,
+    "frequency": 1661,
+    "id": 80
+  },
+  {
+    "note": "A",
+    "octave": 6,
+    "frequency": 1760,
+    "id": 81
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 6,
+    "frequency": 1864,
+    "id": 82
+  },
+  {
+    "note": "B",
+    "octave": 6,
+    "frequency": 1975,
+    "id": 83
+  },
+  {
+    "note": "C",
+    "octave": 7,
+    "frequency": 2093,
+    "id": 84
+  },
+  {
+    "note": "G#/Db",
+    "octave": 7,
+    "frequency": 2217,
+    "id": 85
+  },
+  {
+    "note": "D",
+    "octave": 7,
+    "frequency": 2349,
+    "id": 86
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 7,
+    "frequency": 2489,
+    "id": 87
+  },
+  {
+    "note": "E",
+    "octave": 7,
+    "frequency": 2637,
+    "id": 88
+  },
+  {
+    "note": "F",
+    "octave": 7,
+    "frequency": 2793,
+    "id": 89
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 7,
+    "frequency": 2959,
+    "id": 90
+  },
+  {
+    "note": "G",
+    "octave": 7,
+    "frequency": 3135,
+    "id": 91
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 7,
+    "frequency": 3322,
+    "id": 92
+  },
+  {
+    "note": "A",
+    "octave": 7,
+    "frequency": 3520,
+    "id": 93
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 7,
+    "frequency": 3729,
+    "id": 94
+  },
+  {
+    "note": "B",
+    "octave": 7,
+    "frequency": 3951,
+    "id": 95
+  },
+  {
+    "note": "C",
+    "octave": 8,
+    "frequency": 4186,
+    "id": 96
+  },
+  {
+    "note": "G#/Db",
+    "octave": 8,
+    "frequency": 4434,
+    "id": 97
+  },
+  {
+    "note": "D",
+    "octave": 8,
+    "frequency": 4698,
+    "id": 98
+  },
+  {
+    "note": "D#/Eb",
+    "octave": 8,
+    "frequency": 4978,
+    "id": 99
+  },
+  {
+    "note": "E",
+    "octave": 8,
+    "frequency": 5274,
+    "id": 100
+  },
+  {
+    "note": "F",
+    "octave": 8,
+    "frequency": 5587,
+    "id": 101
+  },
+  {
+    "note": "F#/Gb",
+    "octave": 8,
+    "frequency": 5919,
+    "id": 102
+  },
+  {
+    "note": "G",
+    "octave": 8,
+    "frequency": 6271,
+    "id": 103
+  },
+  {
+    "note": "G#/Ab",
+    "octave": 8,
+    "frequency": 6644,
+    "id": 104
+  },
+  {
+    "note": "A",
+    "octave": 8,
+    "frequency": 7040,
+    "id": 105
+  },
+  {
+    "note": "A#/Bb",
+    "octave": 8,
+    "frequency": 7458,
+    "id": 106
+  },
+  {
+    "note": "B",
+    "octave": 8,
+    "frequency": 7902,
+    "id": 107
+  }
+]
