@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.enums;
 
 public enum SpecialKeys
 {
