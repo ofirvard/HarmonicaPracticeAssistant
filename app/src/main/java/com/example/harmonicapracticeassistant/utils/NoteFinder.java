@@ -2,7 +2,7 @@ package com.example.harmonicapracticeassistant.utils;
 
 import android.content.Context;
 
-import com.example.harmonicapracticeassistant.loaded.Note;
+import com.example.harmonicapracticeassistant.Note;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 
 public class NoteFinder
 {
+    public static final int NA_NOTE_ID = -1;
     public static List<Note> notes = null;
 
     public static void setUp(Context context)

@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PitchDetector">
+    android:background="@drawable/grid"
+    tools:context=".pitchdetector.PitchDetector">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_horizontal2"
@@ -16,21 +17,61 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <TextView
-        android:id="@+id/note"
+        android:id="@+id/middle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/not_applicable"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal2"
+        app:layout_constraintBottom_toTopOf="@id/note"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/note"
+        android:text="@string/not_applicable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/hertz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:text="@string/not_applicable"
         android:id="@+id/hertz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_horizontal2" />
+        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal2" />
 
+    <ImageButton
+        android:id="@+id/record_pitch_detector"
+        android:layout_width="120sp"
+        android:layout_height="60sp"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/round_button"
+        android:onClick="record"
+        android:padding="5sp"
+        android:scaleType="centerInside"
+        android:src="@drawable/microphone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notes_list_pitch_detector"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bottom_line"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:paddingStart="200sp"
+        android:paddingEnd="200sp"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/record_pitch_detector" />
 </androidx.constraintlayout.widget.ConstraintLayout>
