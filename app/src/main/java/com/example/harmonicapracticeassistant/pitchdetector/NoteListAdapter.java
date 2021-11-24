@@ -43,7 +43,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
     {
 
         String note = notes.get(position).getNoteWithOctave();
-        holder.noteText.setText(note);
+//        holder.noteText.setText(note);
+        holder.noteText.setText(position + "");
 // TODO: 21/11/2021 play with colors
         if (position == centerNote)
         {

@@ -46,6 +46,7 @@ public class PitchDetector extends AppCompatActivity
     private LinearSnapHelper snapHelper;
     private LinearLayoutManager layoutManager;
     private Thread audioThread;
+    private TextView middleTextView;
 
     // TODO: 10/11/2021 add save song button, add dropdown list to select key, with none option
     @Override
@@ -56,6 +57,7 @@ public class PitchDetector extends AppCompatActivity
 
         hertzTextView = findViewById(R.id.hertz);
         noteTextView = findViewById(R.id.note);
+        middleTextView = findViewById(R.id.middle);
 
         NoteFinder.setUp(getApplicationContext());
         setupNoteListAdapter();
@@ -140,6 +142,7 @@ public class PitchDetector extends AppCompatActivity
                 noteTextView.setText(String.format("%s", note.getNote()));
                 previousNoteId = note.getId();
                 notes.add(note);
+                // TODO: 24/11/2021 see why it goes to one before
                 noteListRecyclerView.scrollToPosition(notes.size() - 1);
                 // TODO: 23/11/2021 set middle? 
                 noteListAdapter.notifyDataSetChanged();
@@ -162,7 +165,7 @@ public class PitchDetector extends AppCompatActivity
             isRecording = true;
             notes.clear();
             noteListAdapter.notifyDataSetChanged();
-            ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.record));
+            ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.recording_button));
             startDetector();
         }
     }
@@ -180,18 +183,19 @@ public class PitchDetector extends AppCompatActivity
         snapHelper.attachToRecyclerView(noteListRecyclerView);
         noteListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState)
-            {
-                super.onScrollStateChanged(recyclerView, newState);
-                setMiddle();
-            }
+            int snapPosition = RecyclerView.NO_POSITION;
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
-//                setMiddle();
+                int newSnapPosition = recyclerView.getChildAdapterPosition(snapHelper.findSnapView(layoutManager));
+                if (newSnapPosition != RecyclerView.NO_POSITION && newSnapPosition != snapPosition)
+                {
+                    snapPosition = newSnapPosition;
+                    middleTextView.setText("" + newSnapPosition);
+                    noteListAdapter.setCenterNote(newSnapPosition);
+                }
             }
         });
 
@@ -199,22 +203,8 @@ public class PitchDetector extends AppCompatActivity
         noteListRecyclerView.setAdapter(noteListAdapter);
     }
 
-    private int getMiddle()
-    {
-        return noteListRecyclerView.getChildAdapterPosition(snapHelper.findSnapView(layoutManager));
-    }
-
-    private void setMiddle()
-    {
-        TextView middleTextView = findViewById(R.id.middle);
-        middleTextView.setText("" + getMiddle());
-        noteListAdapter.setCenterNote(getMiddle());
-    }
-
     private void startDetector()
     {
-
-
         PitchDetectionHandler pdh = (res, e) -> {
             final float pitchInHz = res.getPitch();
             runOnUiThread(() -> processPitch(pitchInHz));
@@ -229,8 +219,10 @@ public class PitchDetector extends AppCompatActivity
 
     private void stopDetector()
     {
-        dispatcher.stop();
-        audioThread.interrupt();
+        if (dispatcher != null)
+            dispatcher.stop();
+        if (audioThread != null)
+            audioThread.interrupt();
     }
 
     @Override
@@ -244,6 +236,7 @@ public class PitchDetector extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        startDetector();
+        if (isRecording)
+            startDetector();
     }
 }
