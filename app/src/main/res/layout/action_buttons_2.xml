@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     app:layout_constraintBottom_toTopOf="@+id/keyboard"
-    tools:context=".SongBuilder2"
+    tools:context=".editor.SongBuilder2"
     app:layout_constraintEnd_toEndOf="parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

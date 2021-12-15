@@ -2,7 +2,7 @@ package com.example.harmonicapracticeassistant.utils;
 
 import android.content.Context;
 
-import com.example.harmonicapracticeassistant.Song;
+import com.example.harmonicapracticeassistant.editor.Song;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SongBuilder2" />
+        <activity android:name=".editor.SongBuilder2" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.SongActivity" />
         <activity android:name=".activities.SongListActivity" />

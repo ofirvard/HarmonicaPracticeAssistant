@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.Song;
-import com.example.harmonicapracticeassistant.SongListAdapter;
+import com.example.harmonicapracticeassistant.editor.Song;
+import com.example.harmonicapracticeassistant.editor.SongListAdapter;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.SaveHandler;

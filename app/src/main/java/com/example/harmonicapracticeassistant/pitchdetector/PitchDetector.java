@@ -8,8 +8,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.harmonicapracticeassistant.Note;
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.harmonica.Note;
+import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
 import java.util.ArrayList;
@@ -30,10 +31,11 @@ import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
+import static com.example.harmonicapracticeassistant.utils.Constants.MINIMUM_HERTZ_THRESHOLD;
+import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FREQUENCY;
+
 public class PitchDetector extends AppCompatActivity
 {
-    private final int MINIMUM_HERTZ_THRESHOLD = 10;
-
     private AudioDispatcher dispatcher;
     private TextView noteTextView;
     private TextView hertzTextView;
@@ -41,7 +43,7 @@ public class PitchDetector extends AppCompatActivity
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private NoteListAdapter noteListAdapter;
     private RecyclerView noteListRecyclerView;
-    private int previousNoteId = NoteFinder.NA_NOTE_ID;
+    private float previousNoteFrequency = NA_NOTE_FREQUENCY;
     private boolean isRecording = false;
     private LinearSnapHelper snapHelper;
     private LinearLayoutManager layoutManager;
@@ -59,7 +61,7 @@ public class PitchDetector extends AppCompatActivity
         noteTextView = findViewById(R.id.note);
         middleTextView = findViewById(R.id.middle);
 
-        NoteFinder.setUp(getApplicationContext());
+        HarmonicaUtils.setUp(getApplicationContext());
         setupNoteListAdapter();
 
         requestPermissionLauncher =
@@ -131,13 +133,13 @@ public class PitchDetector extends AppCompatActivity
         {
             hertzTextView.setText("" + pitchInHz);
             noteTextView.setText(R.string.not_applicable);
-            previousNoteId = NoteFinder.NA_NOTE_ID;
+            previousNoteFrequency = NA_NOTE_FREQUENCY;
         }
         else
         {
             hertzTextView.setText("" + pitchInHz);
-            Note note = NoteFinder.getNoteByFrequency((int) pitchInHz);
-            if (previousNoteId != note.getId())
+            Note note = NoteFinder.getNoteByFrequency(pitchInHz);
+            if (previousNoteFrequency != note.getId())
             {
                 noteTextView.setText(String.format("%s", note.getNote()));
                 previousNoteId = note.getId();
@@ -181,6 +183,7 @@ public class PitchDetector extends AppCompatActivity
 
         snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(noteListRecyclerView);
+        // TODO: 28/11/2021 move this into adapter LinearSnapHelper
         noteListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
             int snapPosition = RecyclerView.NO_POSITION;

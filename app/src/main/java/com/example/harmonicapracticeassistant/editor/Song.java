@@ -1,8 +1,9 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.editor;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.activities.App;
 import com.example.harmonicapracticeassistant.utils.Constants;
 

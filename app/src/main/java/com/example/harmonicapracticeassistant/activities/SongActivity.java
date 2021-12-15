@@ -14,9 +14,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.Song;
-import com.example.harmonicapracticeassistant.SpecialKeysFABHandler;
-import com.example.harmonicapracticeassistant.Tab;
+import com.example.harmonicapracticeassistant.editor.Song;
+import com.example.harmonicapracticeassistant.editor.SpecialKeysFABHandler;
+import com.example.harmonicapracticeassistant.editor.Tab;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

@@ -13,9 +13,19 @@ public class RawReader
 {
     public static String getNoteFrequency(Context context)
     {
+        return read(context, R.raw.note_frequency);
+    }
+
+    public static String getKeys(Context context)
+    {
+        return read(context, R.raw.harmonica_keys);
+    }
+
+    private static String read(Context context, int id)
+    {
         try
         {
-            InputStream inputStream = context.getResources().openRawResource(R.raw.note_frequency);
+            InputStream inputStream = context.getResources().openRawResource(id);
             StringBuilder file = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = reader.readLine();

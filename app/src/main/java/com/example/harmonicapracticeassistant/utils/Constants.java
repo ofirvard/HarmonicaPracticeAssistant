@@ -9,6 +9,11 @@ public class Constants
     public static final String NEW_SONGS_IMPORTED = "NEW_SONGS_IMPORTED";
     public static final String JSON_END = ".json";
 
+    public static final double DEVIATION_PERCENT = 0.01;
+
+    public static final float NA_NOTE_FREQUENCY = -1;
+
+    public static final int MINIMUM_HERTZ_THRESHOLD = 10;
     public static final int DEFAULT_TEXT_SIZE = 15;
     public static final int MAX_TEXT_SIZE = 30;
     public static final int MIN_TEXT_SIZE = 10;

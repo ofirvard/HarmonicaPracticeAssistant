@@ -1,49 +1,43 @@
 package com.example.harmonicapracticeassistant.utils;
 
-import android.content.Context;
+import com.example.harmonicapracticeassistant.harmonica.Note;
 
-import com.example.harmonicapracticeassistant.Note;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.NoSuchElementException;
+
+import static com.example.harmonicapracticeassistant.utils.Constants.DEVIATION_PERCENT;
+import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FREQUENCY;
 
 public class NoteFinder
 {
-    public static final int NA_NOTE_ID = -1;
-    public static List<Note> notes = null;
+    public static final Note nullNote = new Note(NA_NOTE_FREQUENCY);
 
-    public static void setUp(Context context)
+    public static Note getNoteByFrequency(float frequency)
     {
-        if (notes == null)
-        {
-            Gson gson = new Gson();
-            Type listOfNotes = new TypeToken<ArrayList<Note>>()
-            {
-            }.getType();
-            notes = gson.fromJson(RawReader.getNoteFrequency(context), listOfNotes);
-            notes.sort((o1, o2) -> o1.getFrequency() - o2.getFrequency());
-        }
-    }
+        if (frequency == NA_NOTE_FREQUENCY)
+            return nullNote;
 
-    public static Note getNoteById(int id)
-    {
-        return notes.stream().filter(note -> note.getId() == id).findFirst().get();
-    }
-
-    public static Note getNoteByFrequency(int frequency)
-    {
         try
         {
-            return notes.stream().min(Comparator.comparingInt(note -> Math.abs(note.getFrequency() - frequency))).orElseThrow(NoSuchElementException::new);
+            Note closestNote = HarmonicaUtils.notes.stream().min(Comparator.comparingDouble(note -> Math.abs(note.getFrequency() - frequency))).orElseThrow(NoSuchElementException::new);
+
+            if (!isOffFrequency(closestNote, frequency))
+            {
+                return closestNote;
+            }
+            else
+                return nullNote;
         } catch (NoSuchElementException e)
         {
             e.printStackTrace();
         }
-        return null;
+        return nullNote;
+    }
+
+    private static boolean isOffFrequency(Note closestNote, float frequency)
+    {
+        double deviationFloor = frequency - frequency * DEVIATION_PERCENT;
+        double deviationCeiling = frequency + frequency * DEVIATION_PERCENT;
+        return closestNote.getFrequency() < deviationCeiling && closestNote.getFrequency() > deviationFloor;
     }
 }

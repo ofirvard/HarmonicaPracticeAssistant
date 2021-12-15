@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.editor;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import com.example.harmonicapracticeassistant.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SpecialKeysFABHandler

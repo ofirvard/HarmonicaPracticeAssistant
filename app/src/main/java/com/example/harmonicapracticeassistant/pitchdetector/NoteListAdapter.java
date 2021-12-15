@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.harmonicapracticeassistant.Note;
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.List;
 
@@ -45,19 +45,19 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
         String note = notes.get(position).getNoteWithOctave();
 //        holder.noteText.setText(note);
         holder.noteText.setText(position + "");
-// TODO: 21/11/2021 play with colors
-        if (position == centerNote)
-        {
-            holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
-            holder.noteText.setTextSize(LARGE_TEXT_SIZE);
-            holder.coloredBar.setBackgroundResource(R.color.colorAccent);
-        }
-        else
-        {
-            holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-            holder.noteText.setTextSize(NORMAL_TEXT_SIZE);
-            holder.coloredBar.setBackgroundResource(R.color.colorPrimaryDark);
-        }
+// TODO: 21/11/2021 play with colors and figure out why it causes problems back and forth
+//        if (position == centerNote)
+//        {
+//            holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+//            holder.noteText.setTextSize(LARGE_TEXT_SIZE);
+//            holder.coloredBar.setBackgroundResource(R.color.colorAccent);
+//        }
+//        else
+//        {
+        holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        holder.noteText.setTextSize(NORMAL_TEXT_SIZE);
+        holder.coloredBar.setBackgroundResource(R.color.colorPrimaryDark);
+//        }
     }
 
     public void setCenterNote(int centerNote)

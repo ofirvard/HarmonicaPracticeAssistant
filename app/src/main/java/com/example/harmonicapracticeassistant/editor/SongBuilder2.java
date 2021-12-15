@@ -1,10 +1,11 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.editor;
 
 import android.animation.Animator;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.harmonicapracticeassistant.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;

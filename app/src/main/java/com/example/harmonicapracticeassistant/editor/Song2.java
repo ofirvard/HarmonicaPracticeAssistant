@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.editor;
 
 import android.os.Parcel;
 import android.os.Parcelable;
