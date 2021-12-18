@@ -20,9 +20,10 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
     private final int LARGE_TEXT_SIZE = 35;
     private final int NORMAL_TEXT_SIZE = 30;
     private final List<Note> notes;
-
     private final Context context;
+
     private int centerNote = -1;
+    private boolean isVisualInNotes = true;
 
     public NoteListAdapter(List<Note> notes, Context context)
     {
@@ -42,9 +43,15 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
     public void onBindViewHolder(@NonNull NoteItemViewHolder holder, int position)
     {
 
-        String note = notes.get(position).getNoteWithOctave();
+        Note note = notes.get(position);
 //        holder.noteText.setText(note);
-        holder.noteText.setText(position + "");
+
+        if (isVisualInNotes)
+            holder.noteText.setText(note.getNoteWithOctave());
+        else
+            holder.noteText.setText(String.format("%s", note.getFrequency()));
+
+
 // TODO: 21/11/2021 play with colors and figure out why it causes problems back and forth
 //        if (position == centerNote)
 //        {
@@ -60,10 +67,18 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
 //        }
     }
 
+    // TODO: 12/16/2021 is this needed 
     public void setCenterNote(int centerNote)
     {
         this.centerNote = centerNote;
         notifyDataSetChanged();
+    }
+
+    public boolean switchVisual()
+    {
+        isVisualInNotes = !isVisualInNotes;
+
+        return isVisualInNotes;
     }
 
     @Override

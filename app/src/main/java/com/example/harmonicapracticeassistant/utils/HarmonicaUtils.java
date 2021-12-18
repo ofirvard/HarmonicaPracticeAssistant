@@ -13,13 +13,23 @@ import java.util.List;
 
 public class HarmonicaUtils
 {
-    public static List<Note> notes = null;
-    public static List<Key> keys = null;
+    private static List<Note> notes = null;
+    private static List<Key> keys = null;
 
     public static void setUp(Context context)
     {
         setupAllNotes(context);
         setupAllKeys(context);
+    }
+
+    public static List<Note> getNotes()
+    {
+        return notes;
+    }
+
+    public static List<Key> getKeys()
+    {
+        return keys;
     }
 
     private static void setupAllKeys(Context context)

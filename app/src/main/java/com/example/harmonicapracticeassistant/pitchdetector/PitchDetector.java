@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.NoteFinder;
@@ -43,12 +45,12 @@ public class PitchDetector extends AppCompatActivity
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private NoteListAdapter noteListAdapter;
     private RecyclerView noteListRecyclerView;
-    private float previousNoteFrequency = NA_NOTE_FREQUENCY;
     private boolean isRecording = false;
     private LinearSnapHelper snapHelper;
     private LinearLayoutManager layoutManager;
     private Thread audioThread;
     private TextView middleTextView;
+    private Note previousNote = new Note(NA_NOTE_FREQUENCY);
 
     // TODO: 10/11/2021 add save song button, add dropdown list to select key, with none option
     @Override
@@ -68,7 +70,6 @@ public class PitchDetector extends AppCompatActivity
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted)
                     {
-
 //                        setUpDetector();
                     }
                     else
@@ -81,30 +82,18 @@ public class PitchDetector extends AppCompatActivity
 
     public void test()
     {
-//        notes.add(new Note(PADDING_NOTE_ID));
-        notes.add(new Note(0));
-        notes.add(new Note(1));
-        notes.add(new Note(2));
-        notes.add(new Note(3));
-        notes.add(new Note(4));
-        notes.add(new Note(5));
-        notes.add(new Note(6));
-        notes.add(new Note(7));
-        notes.add(new Note(8));
-        notes.add(new Note(9));
-        notes.add(new Note(10));
-        notes.add(new Note(11));
-        notes.add(new Note(12));
-        notes.add(new Note(13));
-        notes.add(new Note(14));
-        notes.add(new Note(15));
-        notes.add(new Note(16));
-        notes.add(new Note(17));
-        notes.add(new Note(18));
-        notes.add(new Note(19));
-        notes.add(new Note(20));
-        notes.add(new Note(21));
-        notes.add(new Note(22));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.C, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Db, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.D, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Eb, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.E, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.F, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Gb, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.G, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Ab, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.A, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Bb, 0)));
+        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.B, 0)));
 //        noteListRecyclerView.scrollToPosition(1);
         noteListAdapter.notifyDataSetChanged();
         noteListRecyclerView.scrollToPosition(1);
@@ -122,31 +111,29 @@ public class PitchDetector extends AppCompatActivity
             requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
         }
         else
-        {
             requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
-        }
     }
 
-    public void processPitch(float pitchInHz)
+    public void processPitch(float frequency)
     {
-        if (pitchInHz <= MINIMUM_HERTZ_THRESHOLD)
+        if (frequency <= MINIMUM_HERTZ_THRESHOLD)
         {
-            hertzTextView.setText("" + pitchInHz);
+            hertzTextView.setText("" + frequency);
             noteTextView.setText(R.string.not_applicable);
-            previousNoteFrequency = NA_NOTE_FREQUENCY;
+            previousNote = new Note(NA_NOTE_FREQUENCY);
         }
         else
         {
-            hertzTextView.setText("" + pitchInHz);
-            Note note = NoteFinder.getNoteByFrequency(pitchInHz);
-            if (previousNoteFrequency != note.getId())
+            hertzTextView.setText("" + frequency);
+            Note note = NoteFinder.getNoteByFrequency(frequency);
+            if (!previousNote.isSameNote(note))
             {
-                noteTextView.setText(String.format("%s", note.getNote()));
-                previousNoteId = note.getId();
+                noteTextView.setText(String.format("%s", note.getMusicalNote()));
+                previousNote = note;
                 notes.add(note);
                 // TODO: 24/11/2021 see why it goes to one before
                 noteListRecyclerView.scrollToPosition(notes.size() - 1);
-                // TODO: 23/11/2021 set middle? 
+                // TODO: 23/11/2021 set middle?
                 noteListAdapter.notifyDataSetChanged();
             }
         }
@@ -226,6 +213,16 @@ public class PitchDetector extends AppCompatActivity
             dispatcher.stop();
         if (audioThread != null)
             audioThread.interrupt();
+    }
+
+    public void switchVisual(View view)
+    {
+        if (noteListAdapter.switchVisual())
+            ((Button) view).setText(R.string.notes);
+        else
+            ((Button) view).setText(R.string.frequency);
+
+        noteListAdapter.notifyDataSetChanged();
     }
 
     @Override

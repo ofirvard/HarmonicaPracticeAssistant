@@ -9,7 +9,7 @@ import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FRE
 
 public class Note
 {
-    private MusicalNote note;
+    private MusicalNote musicalNote;
     private int octave;
     private final float frequency;
 
@@ -20,7 +20,7 @@ public class Note
         {
             Note note = NoteFinder.getNoteByFrequency(frequency);
 
-            this.note = note.getNote();
+            this.musicalNote = note.getMusicalNote();
             this.octave = note.getOctave();
             this.frequency = note.getFrequency();
         }
@@ -28,9 +28,16 @@ public class Note
             this.frequency = frequency;
     }
 
-    public String getNote()
+    public Note(Note note)
     {
-        return note;
+        this.musicalNote = note.getMusicalNote();
+        this.octave = note.getOctave();
+        this.frequency = note.getFrequency();
+    }
+
+    public MusicalNote getMusicalNote()
+    {
+        return musicalNote;
     }
 
     public int getOctave()
@@ -45,17 +52,25 @@ public class Note
 
     public String getNoteWithOctave()
     {
-        return note + octave;
+        return getNoteString() + octave;
     }
 
     public boolean isSameNote(MusicalNote note, int octave)
     {
-        return this.octave == octave && this.note == note;
+        return this.octave == octave && this.musicalNote == note;
+    }
+
+    public boolean isSameNote(Note note)
+    {
+        return isSameNote(note.getMusicalNote(), note.getOctave());
     }
 
     public String getNoteString()
     {
-        switch (note)
+        if (musicalNote == null)
+            return "";
+
+        switch (musicalNote)
         {
             case C:
                 return "C";
@@ -99,7 +114,7 @@ public class Note
 
     public String getNoteString(boolean isSHarp)
     {
-        switch (note)
+        switch (musicalNote)
         {
             case C:
                 return "C";

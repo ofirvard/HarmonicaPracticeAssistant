@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/grid"
     tools:context=".pitchdetector.PitchDetector">
 
     <androidx.constraintlayout.widget.Guideline
@@ -28,23 +26,23 @@
 
     <TextView
         android:id="@+id/note"
-        android:text="@string/not_applicable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/not_applicable"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/hertz"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:text="@string/not_applicable"
         android:id="@+id/hertz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/not_applicable"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/record_pitch_detector"
@@ -74,4 +72,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/record_pitch_detector" />
+
+    <Button
+        android:id="@+id/visual_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="30dp"
+        android:onClick="switchVisual"
+        android:text="@string/frequency"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,11 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
+import com.example.harmonicapracticeassistant.enums.MusicalNote;
+
 public class Hole
 {
-    int hole;
-    int bend;
-    String note;
-    int octave;
+    private MusicalNote note;
+    private int hole;
+    private int bend;
+    private int octave;
 }
