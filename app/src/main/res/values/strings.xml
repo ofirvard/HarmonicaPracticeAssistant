@@ -23,12 +23,13 @@
     <string name="ok">OK</string>
     <string name="bad_file">The file is wrong</string>
     <string name="keyboard">Slim Keyboard</string>
+    <string name="key">Keys</string>
     <string name="bracket_open">[</string>
     <string name="bracket_close">]</string>
     <string name="hello_world">Hello Square World!</string>
-    <string name="whole_half_bend">\"\'</string>
-    <string name="whole_bend">\"</string>
-    <string name="half_bend">\'</string>
+    <string name="step_and_a_half_bend">\"\'</string>
+    <string name="whole_step_bend">\"</string>
+    <string name="half_step_bend">\'</string>
     <string name="wave">~</string>
     <string name="over">o</string>
     <string name="song_text">Song Text</string>
@@ -36,4 +37,5 @@
     <string name="recording_permission_denied">Recording permission was denied</string>
     <string name="not_applicable">N/A</string>
     <string name="frequency">Frequency</string>
+    <string name="holes">Holes</string>
 </resources>

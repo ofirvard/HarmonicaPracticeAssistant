@@ -8,6 +8,7 @@ public class Constants
     public static final String SETTINGS = "SETTINGS";
     public static final String NEW_SONGS_IMPORTED = "NEW_SONGS_IMPORTED";
     public static final String JSON_END = ".json";
+    public static final String NO_KEY= "None";
 
     public static final double DEVIATION_PERCENT = 0.01;
 

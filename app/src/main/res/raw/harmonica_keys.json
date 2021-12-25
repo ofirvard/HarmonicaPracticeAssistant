@@ -5,237 +5,315 @@
     "holes": [
       {
         "hole": 1,
-        "bend": 0,
-        "note": "C",
-        "octave": 4
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "C",
+          "octave": 4
+        }
       },
       {
         "hole": 1,
-        "bend": 4,
-        "note": "Eb",
-        "octave": 4
+        "bend": "OVER",
+        "note": {
+          "musicalNote": "Eb",
+          "octave": 4
+        }
       },
       {
         "hole": -1,
-        "bend": 0,
-        "note": "D",
-        "octave": 4
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "D",
+          "octave": 4
+        }
       },
       {
         "hole": -1,
-        "bend": 1,
-        "note": "Db",
-        "octave": 4
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "Db",
+          "octave": 4
+        }
       },
       {
         "hole": 2,
-        "bend": 0,
-        "note": "E",
-        "octave": 4
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "E",
+          "octave": 4
+        }
       },
       {
         "hole": -2,
-        "bend": 0,
-        "note": "G",
-        "octave": 4
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "G",
+          "octave": 4
+        }
       },
       {
         "hole": -2,
-        "bend": 1,
-        "note": "Gb",
-        "octave": 4
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "Gb",
+          "octave": 4
+        }
       },
       {
         "hole": -2,
-        "bend": 2,
-        "note": "F",
-        "octave": 4
+        "bend": "WHOLE_STEP",
+        "note": {
+          "musicalNote": "F",
+          "octave": 4
+        }
       },
       {
         "hole": 3,
-        "bend": 0,
-        "note": "G",
-        "octave": 4
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "G",
+          "octave": 4
+        }
       },
       {
         "hole": -3,
-        "bend": 0,
-        "note": "B",
-        "octave": 4
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "B",
+          "octave": 4
+        }
       },
       {
         "hole": -3,
-        "bend": 1,
-        "note": "Bb",
-        "octave": 4
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "Bb",
+          "octave": 4
+        }
       },
       {
         "hole": -3,
-        "bend": 2,
-        "note": "A",
-        "octave": 4
+        "bend": "WHOLE_STEP",
+        "note": {
+          "musicalNote": "A",
+          "octave": 4
+        }
       },
       {
         "hole": -3,
-        "bend": 3,
-        "note": "Ab",
-        "octave": 4
+        "bend": "STEP_AND_A_HALF",
+        "note": {
+          "musicalNote": "Ab",
+          "octave": 4
+        }
       },
       {
         "hole": 4,
-        "bend": 0,
-        "note": "C",
-        "octave": 5
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "C",
+          "octave": 5
+        }
       },
       {
         "hole": 4,
-        "bend": 4,
-        "note": "Eb",
-        "octave": 5
+        "bend": "OVER",
+        "note": {
+          "musicalNote": "Eb",
+          "octave": 5
+        }
       },
       {
         "hole": -4,
-        "bend": 0,
-        "note": "D",
-        "octave": 5
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "D",
+          "octave": 5
+        }
       },
       {
         "hole": -4,
-        "bend": 1,
-        "note": "Db",
-        "octave": 5
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "Db",
+          "octave": 5
+        }
       },
       {
         "hole": 5,
-        "bend": 0,
-        "note": "E",
-        "octave": 5
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "E",
+          "octave": 5
+        }
       },
       {
         "hole": 5,
-        "bend": 4,
-        "note": "Gb",
-        "octave": 5
+        "bend": "OVER",
+        "note": {
+          "musicalNote": "Gb",
+          "octave": 5
+        }
       },
       {
         "hole": -5,
-        "bend": 0,
-        "note": "F",
-        "octave": 5
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "F",
+          "octave": 5
+        }
       },
       {
         "hole": 6,
-        "bend": 0,
-        "note": "G",
-        "octave": 5
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "G",
+          "octave": 5
+        }
       },
       {
         "hole": 6,
-        "bend": 6,
-        "note": "Bb",
-        "octave": 5
+        "bend": "OVER",
+        "note": {
+          "musicalNote": "Bb",
+          "octave": 5
+        }
       },
       {
         "hole": -6,
-        "bend": 0,
-        "note": "A",
-        "octave": 5
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "A",
+          "octave": 5
+        }
       },
       {
         "hole": -6,
-        "bend": 1,
-        "note": "Ab",
-        "octave": 5
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "Ab",
+          "octave": 5
+        }
       },
       {
         "hole": 7,
-        "bend": 0,
-        "note": "C",
-        "octave": 6
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "C",
+          "octave": 6
+        }
       },
       {
         "hole": -7,
-        "bend": 0,
-        "note": "B",
-        "octave": 6
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "B",
+          "octave": 6
+        }
       },
       {
         "hole": -7,
-        "bend": 4,
-        "note": "Db",
-        "octave": 6
+        "bend": "OVER",
+        "note": {
+          "musicalNote": "Db",
+          "octave": 6
+        }
       },
       {
         "hole": 8,
-        "bend": 0,
-        "note": "E",
-        "octave": 6
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "E",
+          "octave": 6
+        }
       },
       {
         "hole": 8,
-        "bend": 1,
-        "note": "Eb",
-        "octave": 6
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "Eb",
+          "octave": 6
+        }
       },
       {
         "hole": -8,
-        "bend": 0,
-        "note": "D",
-        "octave": 6
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "D",
+          "octave": 6
+        }
       },
       {
         "hole": 9,
-        "bend": 0,
-        "note": "G",
-        "octave": 6
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "G",
+          "octave": 6
+        }
       },
       {
         "hole": 9,
-        "bend": 1,
-        "note": "Gb",
-        "octave": 6
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "Gb",
+          "octave": 6
+        }
       },
       {
         "hole": -9,
-        "bend": 0,
-        "note": "F",
-        "octave": 6
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "F",
+          "octave": 6
+        }
       },
       {
         "hole": -9,
-        "bend": 4,
-        "note": "Ab",
-        "octave": 6
+        "bend": "OVER",
+        "note": {
+          "musicalNote": "Ab",
+          "octave": 6
+        }
       },
       {
         "hole": 10,
-        "bend": 0,
-        "note": "C",
-        "octave": 7
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "C",
+          "octave": 7
+        }
       },
       {
         "hole": 10,
-        "bend": 1,
-        "note": "B",
-        "octave": 6
+        "bend": "HALF_STEP",
+        "note": {
+          "musicalNote": "B",
+          "octave": 6
+        }
       },
       {
         "hole": 10,
-        "bend": 2,
-        "note": "Bb",
-        "octave": 6
+        "bend": "WHOLE_STEP",
+        "note": {
+          "musicalNote": "Bb",
+          "octave": 6
+        }
       },
       {
         "hole": -10,
-        "bend": 0,
-        "note": "A",
-        "octave": 6
+        "bend": "NONE",
+        "note": {
+          "musicalNote": "A",
+          "octave": 6
+        }
       },
       {
         "hole": -10,
-        "bend": 4,
-        "note": "Db",
-        "octave": 7
+        "bend": "OVER",
+        "note": {
+          "musicalNote": "Db",
+          "octave": 7
+        }
       }
     ]
   }

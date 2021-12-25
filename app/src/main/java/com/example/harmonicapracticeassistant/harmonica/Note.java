@@ -11,7 +11,7 @@ public class Note
 {
     private MusicalNote musicalNote;
     private int octave;
-    private final float frequency;
+    private float frequency;
 
     public Note(float frequency)
     {
@@ -33,6 +33,11 @@ public class Note
         this.musicalNote = note.getMusicalNote();
         this.octave = note.getOctave();
         this.frequency = note.getFrequency();
+    }
+
+    public void setFrequency(float frequency)
+    {
+        this.frequency = frequency;
     }
 
     public MusicalNote getMusicalNote()
@@ -112,7 +117,7 @@ public class Note
         return "";
     }
 
-    public String getNoteString(boolean isSHarp)
+    public String getNoteString(boolean isSharp)
     {
         switch (musicalNote)
         {
@@ -120,7 +125,7 @@ public class Note
                 return "C";
 
             case Db:
-                if (isSHarp)
+                if (isSharp)
                     return "C#";
                 return "Db";
 
@@ -128,7 +133,7 @@ public class Note
                 return "D";
 
             case Eb:
-                if (isSHarp)
+                if (isSharp)
                     return "D#";
                 return "Eb";
 
@@ -139,7 +144,7 @@ public class Note
                 return "F";
 
             case Gb:
-                if (isSHarp)
+                if (isSharp)
                     return "F#";
                 return "Gb";
 
@@ -147,7 +152,7 @@ public class Note
                 return "G";
 
             case Ab:
-                if (isSHarp)
+                if (isSharp)
                     return "G#";
                 return "Ab";
 
@@ -155,7 +160,7 @@ public class Note
                 return "A";
 
             case Bb:
-                if (isSHarp)
+                if (isSharp)
                     return "A#";
                 return "Bb";
 

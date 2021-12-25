@@ -1,6 +1,8 @@
 package com.example.harmonicapracticeassistant.utils;
 
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
+import com.example.harmonicapracticeassistant.harmonica.Hole;
+import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.Comparator;
@@ -43,6 +45,17 @@ public class NoteFinder
         {
             e.printStackTrace();
         }
+        return nullNote;
+    }
+
+    public static Note getNoteByFrequencyAndKey(float frequency, Key key)
+    {
+        Note note = getNoteByFrequency(frequency);
+
+        // TODO: 12/23/2021 check that note is in key
+        Hole hole = key.getHole(note.getMusicalNote(), note.getOctave());
+
+
         return nullNote;
     }
 

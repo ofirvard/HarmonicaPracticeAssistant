@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:elevation="16dp"
-            android:text="@string/whole_half_bend"
+            android:text="@string/step_and_a_half_bend"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black" />
     </FrameLayout>
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:elevation="16dp"
-            android:text="@string/whole_bend"
+            android:text="@string/whole_step_bend"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black" />
     </FrameLayout>
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:elevation="16dp"
-            android:text="@string/half_bend"
+            android:text="@string/half_step_bend"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black" />
     </FrameLayout>

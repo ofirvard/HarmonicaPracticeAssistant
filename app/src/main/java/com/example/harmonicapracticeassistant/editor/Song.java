@@ -101,13 +101,13 @@ public class Song implements Parcelable
                 return App.getContext().getResources().getString(R.string.bracket_close) + " ";
 
             case Constants.HALF_BEND:
-                return App.getContext().getResources().getString(R.string.half_bend) + " ";
+                return App.getContext().getResources().getString(R.string.half_step_bend) + " ";
 
             case Constants.WHOLE_BEND:
-                return App.getContext().getResources().getString(R.string.whole_bend) + " ";
+                return App.getContext().getResources().getString(R.string.whole_step_bend) + " ";
 
             case Constants.WHOLE_HALF_BEND:
-                return App.getContext().getResources().getString(R.string.whole_half_bend) + " ";
+                return App.getContext().getResources().getString(R.string.step_and_a_half_bend) + " ";
 
             case Constants.OVER:
                 return App.getContext().getResources().getString(R.string.over);

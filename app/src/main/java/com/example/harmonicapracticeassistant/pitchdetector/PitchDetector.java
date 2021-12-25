@@ -4,13 +4,18 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
+import com.example.harmonicapracticeassistant.harmonica.Hole;
+import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.NoteFinder;
@@ -35,13 +40,14 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.MINIMUM_HERTZ_THRESHOLD;
 import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FREQUENCY;
+import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
 
 public class PitchDetector extends AppCompatActivity
 {
     private AudioDispatcher dispatcher;
     private TextView noteTextView;
     private TextView hertzTextView;
-    private List<Note> notes;
+    private List<Hole> notes;
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private NoteListAdapter noteListAdapter;
     private RecyclerView noteListRecyclerView;
@@ -51,8 +57,10 @@ public class PitchDetector extends AppCompatActivity
     private Thread audioThread;
     private TextView middleTextView;
     private Note previousNote = new Note(NA_NOTE_FREQUENCY);
+    private Spinner keySpinner;
 
-    // TODO: 10/11/2021 add save song button, add dropdown list to select key, with none option
+    // TODO: 10/11/2021 add save/record song button
+    // TODO: 12/22/2021 add in settings default key
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -62,84 +70,150 @@ public class PitchDetector extends AppCompatActivity
         hertzTextView = findViewById(R.id.hertz);
         noteTextView = findViewById(R.id.note);
         middleTextView = findViewById(R.id.middle);
+        keySpinner = findViewById(R.id.key_spinner);
 
         HarmonicaUtils.setUp(getApplicationContext());
         setupNoteListAdapter();
+        setupKeySpinner();
 
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                    if (isGranted)
-                    {
-//                        setUpDetector();
-                    }
-                    else
+                    if (!isGranted)
                         Toast.makeText(this, R.string.recording_permission_denied, Toast.LENGTH_SHORT).show();
                 });
 
         checkPermission();
-        test();
     }
 
-    public void test()
+    private void setupKeySpinner()
     {
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.C, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Db, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.D, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Eb, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.E, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.F, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Gb, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.G, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Ab, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.A, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.Bb, 0)));
-        notes.add(new Note(NoteFinder.getNoteById(MusicalNote.B, 0)));
-//        noteListRecyclerView.scrollToPosition(1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,
+                HarmonicaUtils.getKeysName());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        keySpinner.setAdapter(adapter);
+        keySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                noteListAdapter.setCurrentKey(HarmonicaUtils.getKeys().get(i));
+
+                if (noteListAdapter.isCurrentKeyNone())
+                {
+                    switchVisual(findViewById(R.id.visual_change));
+                    testAll();
+                }
+                else
+                    testKey();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+            }
+        });
+    }
+
+    public void testAll()
+    {
+        notes.clear();
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.C, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Db, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.D, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Eb, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.E, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.F, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Gb, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.G, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Ab, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.A, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Bb, 0)));
+        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.B, 0)));
+        noteListAdapter.notifyDataSetChanged();
+        noteListRecyclerView.scrollToPosition(1);
+    }
+
+    public void testKey()
+    {
+        notes.clear();
+        notes.add(noteListAdapter.getCurrentKey().getHole(10));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-10));
+        notes.add(noteListAdapter.getCurrentKey().getHole(9));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-9));
+        notes.add(noteListAdapter.getCurrentKey().getHole(8));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-8));
+        notes.add(noteListAdapter.getCurrentKey().getHole(7));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-7));
+        notes.add(noteListAdapter.getCurrentKey().getHole(6));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-6));
+        notes.add(noteListAdapter.getCurrentKey().getHole(5));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-5));
+        notes.add(noteListAdapter.getCurrentKey().getHole(4));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-4));
+        notes.add(noteListAdapter.getCurrentKey().getHole(3));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-3));
+        notes.add(noteListAdapter.getCurrentKey().getHole(2));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-2));
+        notes.add(noteListAdapter.getCurrentKey().getHole(1));
+        notes.add(noteListAdapter.getCurrentKey().getHole(-1));
+
         noteListAdapter.notifyDataSetChanged();
         noteListRecyclerView.scrollToPosition(1);
     }
 
     public void checkPermission()
     {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+        switch (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO))
         {
-//            setUpDetector();
+            case PackageManager.PERMISSION_GRANTED:
+                break;
+            case PackageManager.PERMISSION_DENIED:
+                Toast.makeText(this, R.string.recording_permission_denied, Toast.LENGTH_SHORT).show();
+                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
+                break;
+            default:
+                requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
+                break;
         }
-        else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED)
-        {
-            Toast.makeText(this, R.string.recording_permission_denied, Toast.LENGTH_SHORT).show();
-            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
-        }
-        else
-            requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
     }
 
     public void processPitch(float frequency)
     {
         if (frequency <= MINIMUM_HERTZ_THRESHOLD)
         {
-            hertzTextView.setText("" + frequency);
+            hertzTextView.setText(String.format("%s", frequency));
             noteTextView.setText(R.string.not_applicable);
             previousNote = new Note(NA_NOTE_FREQUENCY);
         }
         else
         {
-            hertzTextView.setText("" + frequency);
-            Note note = NoteFinder.getNoteByFrequency(frequency);
-            if (!previousNote.isSameNote(note))
+            if (noteListAdapter.isCurrentKeyNone())
             {
-                noteTextView.setText(String.format("%s", note.getMusicalNote()));
-                previousNote = note;
-                notes.add(note);
-                // TODO: 24/11/2021 see why it goes to one before
-                noteListRecyclerView.scrollToPosition(notes.size() - 1);
-                // TODO: 23/11/2021 set middle?
-                noteListAdapter.notifyDataSetChanged();
+                hertzTextView.setText(String.format("%s", frequency));
+                Note note = NoteFinder.getNoteByFrequency(frequency);
+                if (!previousNote.isSameNote(note))
+                {
+                    noteTextView.setText(String.format("%s", note.getMusicalNote()));
+                    previousNote = note;
+//                    notes.add(note);todo get hole, create detector handler to hold all this data
+                    // TODO: 24/11/2021 see why it goes to one before
+                    noteListRecyclerView.scrollToPosition(notes.size() - 1);
+                    // TODO: 23/11/2021 set middle?
+                    noteListAdapter.notifyDataSetChanged();
+                }
+            }
+            else
+            {
+                // TODO: 12/23/2021 check that note is in key
+
+//                NoteFinder.getNoteByFrequency()
+                noteListAdapter.getCurrentKey();
             }
         }
     }
 
-    public void record(View view)
+    public void recordNotes(View view)
     {
         if (isRecording)
         {
@@ -217,11 +291,7 @@ public class PitchDetector extends AppCompatActivity
 
     public void switchVisual(View view)
     {
-        if (noteListAdapter.switchVisual())
-            ((Button) view).setText(R.string.notes);
-        else
-            ((Button) view).setText(R.string.frequency);
-
+        ((Button) view).setText(noteListAdapter.switchVisual());
         noteListAdapter.notifyDataSetChanged();
     }
 

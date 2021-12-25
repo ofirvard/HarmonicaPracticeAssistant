@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.enums.NoteVisual;
+import com.example.harmonicapracticeassistant.harmonica.Hole;
+import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.List;
@@ -15,17 +18,21 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
+
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteItemViewHolder>
 {
     private final int LARGE_TEXT_SIZE = 35;
     private final int NORMAL_TEXT_SIZE = 30;
-    private final List<Note> notes;
+    private final List<Hole> notes;
     private final Context context;
 
+    private NoteVisual noteVisual = NoteVisual.NOTE_WITH_OCTAVE;
     private int centerNote = -1;
     private boolean isVisualInNotes = true;
+    private Key currentKey;
 
-    public NoteListAdapter(List<Note> notes, Context context)
+    public NoteListAdapter(List<Hole> notes, Context context)
     {
         this.notes = notes;
         this.context = context;
@@ -43,15 +50,23 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
     public void onBindViewHolder(@NonNull NoteItemViewHolder holder, int position)
     {
 
-        Note note = notes.get(position);
-//        holder.noteText.setText(note);
+        // TODO: 12/23/2021 depending on visual chooses what to show
+        Hole note = notes.get(position);
 
-        if (isVisualInNotes)
-            holder.noteText.setText(note.getNoteWithOctave());
-        else
-            holder.noteText.setText(String.format("%s", note.getFrequency()));
+        switch (noteVisual)
+        {
+            case NOTE_WITH_OCTAVE:
+                holder.noteText.setText(note.getNoteWithOctave());
+                break;
 
+            case FREQUENCY:
+                holder.noteText.setText(String.format("%s", note.getFrequency()));
+                break;
 
+            case HOLES:
+                holder.noteText.setText(String.format("%s", note.getHoleWithBend(context)));
+                break;
+        }
 // TODO: 21/11/2021 play with colors and figure out why it causes problems back and forth
 //        if (position == centerNote)
 //        {
@@ -61,9 +76,9 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
 //        }
 //        else
 //        {
-        holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        holder.noteText.setTextSize(NORMAL_TEXT_SIZE);
-        holder.coloredBar.setBackgroundResource(R.color.colorPrimaryDark);
+//        holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+//        holder.noteText.setTextSize(NORMAL_TEXT_SIZE);
+//        holder.coloredBar.setBackgroundResource(R.color.colorPrimaryDark);
 //        }
     }
 
@@ -74,11 +89,47 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
         notifyDataSetChanged();
     }
 
-    public boolean switchVisual()
+    public boolean isCurrentKeyNone()
     {
-        isVisualInNotes = !isVisualInNotes;
+        return currentKey.getKey().equals(NO_KEY);
+    }
 
-        return isVisualInNotes;
+    public Key getCurrentKey()
+    {
+        return currentKey;
+    }
+
+    public void setCurrentKey(Key currentKey)
+    {
+        this.currentKey = currentKey;
+        notes.clear();
+        notifyDataSetChanged();
+    }
+
+    public int switchVisual()
+    {
+        switch (noteVisual)
+        {
+            case NOTE_WITH_OCTAVE:
+                noteVisual = NoteVisual.FREQUENCY;
+                return R.string.frequency;
+
+            case FREQUENCY:
+                if (isCurrentKeyNone())
+                {
+                    noteVisual = NoteVisual.HOLES;
+                    return R.string.holes;
+                }
+                else
+                {
+                    noteVisual = NoteVisual.NOTE_WITH_OCTAVE;
+                    return R.string.notes;
+                }
+
+            default:
+                noteVisual = NoteVisual.NOTE_WITH_OCTAVE;
+                return R.string.notes;
+        }
     }
 
     @Override

@@ -14,7 +14,7 @@
         android:layout_margin="20sp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="record"
+        android:onClick="recordNotes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/microphone"
