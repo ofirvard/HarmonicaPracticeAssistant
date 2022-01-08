@@ -71,7 +71,7 @@ public class Note
     }
 
     public String getNoteString()
-    {
+    {// TODO: 03/01/2022 make this with string constutor
         if (musicalNote == null)
             return "";
 
@@ -118,7 +118,7 @@ public class Note
     }
 
     public String getNoteString(boolean isSharp)
-    {
+    {// TODO: 03/01/2022 make this with string constutor
         switch (musicalNote)
         {
             case C:
