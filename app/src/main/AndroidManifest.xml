@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/harmonica"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pitchdetector.PitchDetector">
+        <activity android:name=".pitchdetector.PitchDetectorActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

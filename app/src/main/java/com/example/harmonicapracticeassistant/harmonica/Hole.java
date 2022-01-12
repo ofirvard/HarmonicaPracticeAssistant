@@ -2,11 +2,11 @@ package com.example.harmonicapracticeassistant.harmonica;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+
+import androidx.annotation.NonNull;
 
 public class Hole
 {
@@ -26,9 +26,9 @@ public class Hole
         return this.note.isSameNote(musicalNote, octave);
     }
 
-    public String getNoteWithOctave()
+    public String getNoteWithOctave(boolean isSharp)
     {
-        return note.getNoteWithOctave();
+        return note.getNoteWithOctave(isSharp);
     }
 
     public String getHoleWithBend(Context context)

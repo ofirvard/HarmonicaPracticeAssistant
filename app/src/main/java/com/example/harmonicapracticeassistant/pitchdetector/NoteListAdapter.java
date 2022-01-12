@@ -10,12 +10,10 @@ import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.NoteVisual;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
-import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
@@ -55,8 +53,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
 
         switch (noteVisual)
         {
-            case NOTE_WITH_OCTAVE:
-                holder.noteText.setText(note.getNoteWithOctave());
+            case NOTE_WITH_OCTAVE:// TODO: 10/01/2022 add is sharp here 
+                holder.noteText.setText(note.getNoteWithOctave(false));
                 break;
 
             case FREQUENCY:

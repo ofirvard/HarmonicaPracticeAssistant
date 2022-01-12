@@ -13,9 +13,15 @@ public class Note
     private int octave;
     private float frequency;
 
+    public Note(MusicalNote musicalNote, int octave, float frequency)
+    {
+        this.musicalNote = musicalNote;
+        this.octave = octave;
+        this.frequency = frequency;
+    }
+
     public Note(float frequency)
     {
-
         if (frequency != NA_NOTE_FREQUENCY)
         {
             Note note = NoteFinder.getNoteByFrequency(frequency);
@@ -55,9 +61,9 @@ public class Note
         return frequency;
     }
 
-    public String getNoteWithOctave()
+    public String getNoteWithOctave(boolean isSharp)
     {
-        return getNoteString() + octave;
+        return getNoteString(isSharp) + octave;
     }
 
     public boolean isSameNote(MusicalNote note, int octave)
@@ -70,111 +76,15 @@ public class Note
         return isSameNote(note.getMusicalNote(), note.getOctave());
     }
 
-    public String getNoteString()
-    {// TODO: 03/01/2022 make this with string constutor
-        if (musicalNote == null)
-            return "";
-
-        switch (musicalNote)
-        {
-            case C:
-                return "C";
-
-            case Db:
-                return "C#/Db";
-
-            case D:
-                return "D";
-
-            case Eb:
-                return "D#/Eb";
-
-            case E:
-                return "E";
-
-            case F:
-                return "F";
-
-            case Gb:
-                return "F#/Gb";
-
-            case G:
-                return "G";
-
-            case Ab:
-                return "G#/Ab";
-
-            case A:
-                return "A";
-
-            case Bb:
-                return "A#/Bb";
-
-            case B:
-                return "B";
-        }
-
-        return "";
-    }
-
     public String getNoteString(boolean isSharp)
-    {// TODO: 03/01/2022 make this with string constutor
-        switch (musicalNote)
-        {
-            case C:
-                return "C";
-
-            case Db:
-                if (isSharp)
-                    return "C#";
-                return "Db";
-
-            case D:
-                return "D";
-
-            case Eb:
-                if (isSharp)
-                    return "D#";
-                return "Eb";
-
-            case E:
-                return "E";
-
-            case F:
-                return "F";
-
-            case Gb:
-                if (isSharp)
-                    return "F#";
-                return "Gb";
-
-            case G:
-                return "G";
-
-            case Ab:
-                if (isSharp)
-                    return "G#";
-                return "Ab";
-
-            case A:
-                return "A";
-
-            case Bb:
-                if (isSharp)
-                    return "A#";
-                return "Bb";
-
-            case B:
-                return "B";
-        }
-
-        return "";
+    {
+        return musicalNote.toString(isSharp);
     }
 
     @NonNull
     @Override
     public String toString()
     {
-        return getNoteWithOctave();
+        return getNoteWithOctave(false);
     }
 }

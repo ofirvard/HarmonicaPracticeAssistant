@@ -4,10 +4,13 @@ import android.content.Context;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
+import com.example.harmonicapracticeassistant.enums.MusicalNote;
+import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -21,7 +24,6 @@ public class HarmonicaUtils
 {
     private static List<Note> notes = null;
     private static List<Key> keys = null;
-    private static Context context;
 
     public static void setUp(Context context)
     {
@@ -61,10 +63,13 @@ public class HarmonicaUtils
     {
         if (keys == null)
         {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().
+                    registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
+                    create();
             Type listOfHoles = new TypeToken<ArrayList<Key>>()
             {
             }.getType();
+
             keys = gson.fromJson(RawReader.getKeys(context), listOfHoles);
             keys.sort((key1, key2) -> key1.getKey().compareTo(key2.getKey()));
 
@@ -89,12 +94,15 @@ public class HarmonicaUtils
     {
         if (notes == null)
         {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().
+                    registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
+                    create();
             Type listOfNotes = new TypeToken<ArrayList<Note>>()
             {
             }.getType();
+
             notes = gson.fromJson(RawReader.getNoteFrequency(context), listOfNotes);
-            notes.sort((o1, o2) -> (int) (o1.getFrequency() - o2.getFrequency()));
+            notes.sort((o1, o2) -> Float.compare(o1.getFrequency(), o2.getFrequency()));
         }
     }
 
