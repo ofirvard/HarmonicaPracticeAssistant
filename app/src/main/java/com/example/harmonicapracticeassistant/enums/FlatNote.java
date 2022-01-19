@@ -18,9 +18,9 @@ public enum FlatNote implements MusicalNote
     }
 
     @Override
-    public String toString(boolean isflat)
+    public String toString(boolean isSharp)
     {
-        return isflat ? flatName + "b" : sharpName + "#";
+        return isSharp ? sharpName + "#" : flatName + "b";
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.example.harmonicapracticeassistant.utils;
 
 import android.content.Context;
 
-import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
@@ -44,10 +43,7 @@ public class HarmonicaUtils
 
     public static List<String> getKeysName()
     {
-        List<String> list = keys.stream().map(Key::getKey).collect(Collectors.toList());
-        list.add(NO_KEY);
-
-        return list;
+        return keys.stream().map(Key::getKey).collect(Collectors.toList());
     }
 
     public static Key getKey(String keyString)
@@ -106,24 +102,8 @@ public class HarmonicaUtils
         }
     }
 
-    public static String getBendString(Context context, Bend bend)
-    {
-        switch (bend)
-        {
-            case HALF_STEP:
-                return context.getResources().getString(R.string.half_step_bend);
-
-            case WHOLE_STEP:
-                return context.getResources().getString(R.string.whole_step_bend);
-
-            case STEP_AND_A_HALF:
-                return context.getResources().getString(R.string.step_and_a_half_bend);
-
-            case OVER:
-                return context.getResources().getString(R.string.over);
-
-            default:
-                return "";
-        }
+    public static String getBendString(Bend bend)
+    {// TODO: 19/01/2022 make this use enum string
+        return bend.toString();
     }
 }

@@ -1,10 +1,23 @@
 package com.example.harmonicapracticeassistant.enums;
 
 public enum Bend
-{// TODO: 10/01/2022 give each a string
-    NONE,
-    HALF_STEP,
-    WHOLE_STEP,
-    STEP_AND_A_HALF,
-    OVER
+{
+    NONE(""),
+    HALF_STEP("'"),
+    WHOLE_STEP("\""),
+    STEP_AND_A_HALF("\"\'"),
+    OVER("o");
+
+    private final String name;
+
+    Bend(String name)
+    {
+        this.name = name;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

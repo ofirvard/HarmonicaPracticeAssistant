@@ -23,7 +23,11 @@ public class Key
 
     public Hole getHole(int i)
     {
-        return holes.get(i);
+        for (Hole hole : holes)
+            if (hole.getHole() == i)
+                return hole;
+
+        return null;
     }
 
     public void setHolesFrequencies()

@@ -1,7 +1,5 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
-import android.content.Context;
-
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
@@ -31,9 +29,9 @@ public class Hole
         return note.getNoteWithOctave(isSharp);
     }
 
-    public String getHoleWithBend(Context context)
+    public String getHoleWithBend()
     {
-        return hole + HarmonicaUtils.getBendString(context, bend);
+        return hole + HarmonicaUtils.getBendString(bend);
     }
 
     public MusicalNote getMusicalNote()
@@ -51,11 +49,16 @@ public class Hole
         return note.getFrequency();
     }
 
+    public int getHole()
+    {
+        return hole;
+    }
+
     @NonNull
     @Override
     public String toString()
     {
-        return String.format("%s, %d, %d", note, hole, bend);
+        return String.format("%s, %d, %s", note.toString(), hole, bend.toString());
     }
 
     public void setFrequency(float frequency)

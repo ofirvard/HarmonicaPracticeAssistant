@@ -13,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.enums.FlatNote;
-import com.example.harmonicapracticeassistant.enums.NaturalNote;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
@@ -32,16 +30,20 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import be.tarsos.dsp.AudioDispatcher;
+import be.tarsos.dsp.AudioProcessor;
+import be.tarsos.dsp.io.android.AudioDispatcherFactory;
+import be.tarsos.dsp.pitch.PitchDetectionHandler;
+import be.tarsos.dsp.pitch.PitchProcessor;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.MINIMUM_HERTZ_THRESHOLD;
 import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FREQUENCY;
 
 public class PitchDetectorActivity extends AppCompatActivity
 {
-    private PitchDetector pitchDetector = new PitchDetector();
     private TextView noteTextView;
     private TextView hertzTextView;
-    private List<Hole> notes;
+    private List<Hole> notes = new ArrayList<>();
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private NoteListAdapter noteListAdapter;
     private RecyclerView noteListRecyclerView;
@@ -51,9 +53,12 @@ public class PitchDetectorActivity extends AppCompatActivity
     private TextView middleTextView;
     private Note previousNote = new Note(NA_NOTE_FREQUENCY);
     private Spinner keySpinner;
+    private Thread audioThread;
+    private AudioDispatcher dispatcher;
 
     // TODO: 10/11/2021 add save/record song button
     // TODO: 12/22/2021 add in settings default key
+    // TODO: 19/01/2022 make recording happen in separate thread
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -93,12 +98,7 @@ public class PitchDetectorActivity extends AppCompatActivity
                 noteListAdapter.setCurrentKey(HarmonicaUtils.getKeys().get(i));
 
                 if (noteListAdapter.isCurrentKeyNone())
-                {
                     switchVisual(findViewById(R.id.visual_change));
-                    testAll();
-                }
-                else
-                    testKey();
             }
 
             @Override
@@ -106,53 +106,6 @@ public class PitchDetectorActivity extends AppCompatActivity
             {
             }
         });
-    }
-
-    public void testAll()
-    {
-        notes.clear();
-        notes.add(new Hole(NoteFinder.getNoteById(NaturalNote.C, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(FlatNote.Db, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(NaturalNote.D, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(FlatNote.Eb, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(NaturalNote.E, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(NaturalNote.F, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(FlatNote.Gb, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(NaturalNote.G, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(FlatNote.Ab, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(NaturalNote.A, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(FlatNote.Bb, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(NaturalNote.B, 0)));
-        noteListAdapter.notifyDataSetChanged();
-        noteListRecyclerView.scrollToPosition(1);
-    }
-
-    public void testKey()
-    {
-        notes.clear();
-        notes.add(noteListAdapter.getCurrentKey().getHole(10));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-10));
-        notes.add(noteListAdapter.getCurrentKey().getHole(9));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-9));
-        notes.add(noteListAdapter.getCurrentKey().getHole(8));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-8));
-        notes.add(noteListAdapter.getCurrentKey().getHole(7));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-7));
-        notes.add(noteListAdapter.getCurrentKey().getHole(6));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-6));
-        notes.add(noteListAdapter.getCurrentKey().getHole(5));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-5));
-        notes.add(noteListAdapter.getCurrentKey().getHole(4));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-4));
-        notes.add(noteListAdapter.getCurrentKey().getHole(3));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-3));
-        notes.add(noteListAdapter.getCurrentKey().getHole(2));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-2));
-        notes.add(noteListAdapter.getCurrentKey().getHole(1));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-1));
-
-        noteListAdapter.notifyDataSetChanged();
-        noteListRecyclerView.scrollToPosition(1);
     }
 
     public void checkPermission()
@@ -171,8 +124,10 @@ public class PitchDetectorActivity extends AppCompatActivity
         }
     }
 
+    // TODO: 19/01/2022 move functionality to other classes
     public void processPitch(float frequency)
-    {
+    {// TODO: 19/01/2022 all this needs a util class
+        System.out.println("hello world ====================================================================" + this);
         if (frequency <= MINIMUM_HERTZ_THRESHOLD)
         {
             hertzTextView.setText(String.format("%s", frequency));
@@ -214,7 +169,7 @@ public class PitchDetectorActivity extends AppCompatActivity
             ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.microphone));
             hertzTextView.setText(R.string.not_applicable);
             noteTextView.setText(R.string.not_applicable);
-            pitchDetector.stopDetector();
+            stopDetector();
         }
         else
         {
@@ -222,14 +177,37 @@ public class PitchDetectorActivity extends AppCompatActivity
             notes.clear();
             noteListAdapter.notifyDataSetChanged();
             ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.recording_button));
-            pitchDetector.startDetector(this);
+            startDetector();
         }
+    }
+
+    public void startDetector()
+    {// TODO: 19/01/2022 check if there is other way (or lib)
+        PitchDetectionHandler pdh = (res, e) -> {
+            final float pitchInHz = res.getPitch();
+            this.runOnUiThread(() -> processPitch(pitchInHz));
+        };
+
+        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+
+        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+        dispatcher.addAudioProcessor(pitchProcessor);
+
+        audioThread = new Thread(dispatcher, "Audio Thread");
+        audioThread.start();
+    }
+
+    public void stopDetector()
+    {
+        if (dispatcher != null)
+            dispatcher.stop();
+        if (audioThread != null)
+            audioThread.interrupt();
     }
 
     public void setupNoteListAdapter()
     {
         noteListRecyclerView = findViewById(R.id.notes_list_pitch_detector);
-        notes = new ArrayList<>();
 
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -237,7 +215,7 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(noteListRecyclerView);
-        // TODO: 28/11/2021 move this into adapter LinearSnapHelper
+
         noteListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
             int snapPosition = RecyclerView.NO_POSITION;
@@ -270,7 +248,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     protected void onPause()
     {
         super.onPause();
-        pitchDetector.stopDetector();
+        stopDetector();
     }
 
     @Override
@@ -278,6 +256,6 @@ public class PitchDetectorActivity extends AppCompatActivity
     {
         super.onResume();
         if (isRecording)
-            pitchDetector.startDetector(this);
+            startDetector();
     }
 }

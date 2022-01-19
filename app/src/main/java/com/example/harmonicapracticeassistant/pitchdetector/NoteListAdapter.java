@@ -47,7 +47,6 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
     @Override
     public void onBindViewHolder(@NonNull NoteItemViewHolder holder, int position)
     {
-
         // TODO: 12/23/2021 depending on visual chooses what to show
         Hole note = notes.get(position);
 
@@ -62,7 +61,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
                 break;
 
             case HOLES:
-                holder.noteText.setText(String.format("%s", note.getHoleWithBend(context)));
+                holder.noteText.setText(String.format("%s", note.getHoleWithBend()));
                 break;
         }
 // TODO: 21/11/2021 play with colors and figure out why it causes problems back and forth
@@ -106,6 +105,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
 
     public int switchVisual()
     {
+        // NOTE_WITH_OCTAVE -> FREQUENCY -> (HOLES only key) -> NOTE_WITH_OCTAVE
         switch (noteVisual)
         {
             case NOTE_WITH_OCTAVE:
@@ -113,7 +113,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
                 return R.string.frequency;
 
             case FREQUENCY:
-                if (isCurrentKeyNone())
+                if (!isCurrentKeyNone())
                 {
                     noteVisual = NoteVisual.HOLES;
                     return R.string.holes;
