@@ -8,7 +8,7 @@ import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
-public class Hole
+public class Hole //todo extends Note?
 {
     private Note note;
     private int hole;

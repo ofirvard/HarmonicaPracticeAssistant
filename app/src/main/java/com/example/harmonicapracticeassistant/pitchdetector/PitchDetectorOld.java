@@ -42,7 +42,7 @@ import static com.example.harmonicapracticeassistant.utils.Constants.MINIMUM_HER
 import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FREQUENCY;
 import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
 
-public class PitchDetector extends AppCompatActivity
+public class PitchDetectorOld extends AppCompatActivity
 {
     private AudioDispatcher dispatcher;
     private TextView noteTextView;
