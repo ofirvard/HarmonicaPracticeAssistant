@@ -20,5 +20,6 @@ public class PitchDetectorProcessor
     public String processNewPitch()
     {
         // TODO: 1/30/2022 give this the pitch and it will add it and check with key
+        return "";
     }
 }

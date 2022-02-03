@@ -2,13 +2,13 @@ package com.example.harmonicapracticeassistant.harmonica;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
-public class Hole //todo extends Note?
+import androidx.annotation.NonNull;
+
+public class Hole
 {
     private Note note;
     private int hole;
@@ -55,7 +55,7 @@ public class Hole //todo extends Note?
     @Override
     public String toString()
     {
-        return String.format("%s, %d, %d", note, hole, bend);
+        return note + "," + hole + "," + bend;
     }
 
     public void setFrequency(float frequency)

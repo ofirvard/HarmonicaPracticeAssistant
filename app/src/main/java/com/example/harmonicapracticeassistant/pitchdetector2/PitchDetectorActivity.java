@@ -67,7 +67,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         if (!pitchDetectorHandler.isRunning())
         {
             ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.microphone));
-            pitchDetectorHandler.start();
+            pitchDetectorHandler.start();// TODO: 02/02/2022 test this 
             runOnUiThread(() -> updateHertz());
         }
         else

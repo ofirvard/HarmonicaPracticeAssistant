@@ -21,12 +21,10 @@ public class HarmonicaUtils
 {
     private static List<Note> notes = null;
     private static List<Key> keys = null;
-    private static Context context;
 
     public static void setUp(Context context)
     {
         setupAllNotes(context);
-        // TODO: 12/23/2021 fill keys with frequencys
         setupAllKeys(context);
     }
 
