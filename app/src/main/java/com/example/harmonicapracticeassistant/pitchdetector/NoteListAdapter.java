@@ -88,7 +88,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
 
     public boolean isCurrentKeyNone()
     {
-        return currentKey.getKey().equals(NO_KEY);
+        return currentKey.getKeyName().equals(NO_KEY);
     }
 
     public Key getCurrentKey()

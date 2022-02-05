@@ -37,9 +37,8 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.MINIMUM_HERTZ_THRESHOLD;
-import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FREQUENCY;
 
-public class PitchDetectorActivity extends AppCompatActivity
+public class PitchDetectorOld extends AppCompatActivity
 {
     private TextView noteTextView;
     private TextView hertzTextView;
@@ -51,7 +50,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     private LinearSnapHelper snapHelper;
     private LinearLayoutManager layoutManager;
     private TextView middleTextView;
-    private Note previousNote = new Note(NA_NOTE_FREQUENCY);
+    private Note previousNote = null;
     private Spinner keySpinner;
     private Thread audioThread;
     private AudioDispatcher dispatcher;
@@ -132,7 +131,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         {
             hertzTextView.setText(String.format("%s", frequency));
             noteTextView.setText(R.string.not_applicable);
-            previousNote = new Note(NA_NOTE_FREQUENCY);
+            previousNote = null;
         }
         else
         {

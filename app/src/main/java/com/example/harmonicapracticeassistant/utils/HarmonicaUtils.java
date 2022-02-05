@@ -8,6 +8,7 @@ import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
+import com.example.harmonicapracticeassistant.raw.models.KewRaw;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +28,6 @@ public class HarmonicaUtils
     public static void setUp(Context context)
     {
         setupAllNotes(context);
-        // TODO: 12/23/2021 fill keys with frequencys
         setupAllKeys(context);
     }
 
@@ -43,13 +43,14 @@ public class HarmonicaUtils
 
     public static List<String> getKeysName()
     {
-        return keys.stream().map(Key::getKey).collect(Collectors.toList());
+
+        return keys.stream().map(Key::getKeyName).collect(Collectors.toList());
     }
 
     public static Key getKey(String keyString)
     {
         for (Key key : keys)
-            if (key.getKey().equals(keyString))
+            if (key.getKeyName().equals(keyString))
                 return key;
 
         return null;
@@ -59,20 +60,34 @@ public class HarmonicaUtils
     {
         if (keys == null)
         {
-            Gson gson = new GsonBuilder().
-                    registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
-                    create();
-            Type listOfHoles = new TypeToken<ArrayList<Key>>()
-            {
-            }.getType();
+            keys = new ArrayList<>();
+            List<KewRaw> rawKeys = readRawKeys(context);
 
-            keys = gson.fromJson(RawReader.getKeys(context), listOfHoles);
-            keys.sort((key1, key2) -> key1.getKey().compareTo(key2.getKey()));
+            convertRawKeysToKeys(rawKeys);
 
-            for (Key key : keys)
-                key.setHolesFrequencies();
-
+            keys.sort((key1, key2) -> key1.getKeyName().compareTo(key2.getKeyName()));
             keys.add(0, new Key(NO_KEY, createNoKeyList()));
+        }
+    }
+
+    private static List<KewRaw> readRawKeys(Context context)
+    {
+        Gson gson = new GsonBuilder().
+                registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
+                create();
+        Type rawKeyList = new TypeToken<ArrayList<KewRaw>>()
+        {
+        }.getType();
+
+        return gson.fromJson(RawReader.getKeys(context), rawKeyList);
+    }
+
+    private static void convertRawKeysToKeys(List<KewRaw> rawKeys)
+    {
+        for (KewRaw rawKey : rawKeys)
+        {
+            Key key = new Key(rawKey);
+            keys.add(key);
         }
     }
 

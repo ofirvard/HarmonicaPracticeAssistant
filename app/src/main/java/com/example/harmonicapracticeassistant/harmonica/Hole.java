@@ -2,21 +2,30 @@ package com.example.harmonicapracticeassistant.harmonica;
 
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
+import com.example.harmonicapracticeassistant.raw.models.HoleRaw;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
 import androidx.annotation.NonNull;
 
 public class Hole
 {
-    private Note note;
-    private int hole;
-    private Bend bend;
+    private final Note note;
+    private final int holeNumber;
+    private final Bend bend;
 
     public Hole(Note note)
     {
         this.note = note;
-        this.hole = 0;
+        this.holeNumber = 0;
         this.bend = Bend.NONE;
+    }
+
+    public Hole(HoleRaw raw)
+    {
+        holeNumber = raw.getHole();
+        bend = raw.getBend();
+        note = NoteFinder.getNoteById(raw.getMusicalNote(), raw.getOctave());
     }
 
     public boolean isSameNote(MusicalNote musicalNote, int octave)
@@ -29,19 +38,15 @@ public class Hole
         return note.getNoteWithOctave(isSharp);
     }
 
+
     public String getHoleWithBend()
     {
-        return hole + HarmonicaUtils.getBendString(bend);
+        return holeNumber + HarmonicaUtils.getBendString(bend);
     }
 
     public MusicalNote getMusicalNote()
     {
         return note.getMusicalNote();
-    }
-
-    public int getOctave()
-    {
-        return note.getOctave();
     }
 
     public float getFrequency()
@@ -51,18 +56,13 @@ public class Hole
 
     public int getHole()
     {
-        return hole;
+        return holeNumber;
     }
 
     @NonNull
     @Override
     public String toString()
     {
-        return String.format("%s, %d, %s", note.toString(), hole, bend.toString());
-    }
-
-    public void setFrequency(float frequency)
-    {
-        note.setFrequency(frequency);
+        return note + "," + holeNumber + "," + bend;
     }
 }

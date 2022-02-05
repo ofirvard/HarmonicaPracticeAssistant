@@ -14,13 +14,14 @@
         android:roundIcon="@drawable/harmonica"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pitchdetector.PitchDetectorActivity">
+        <activity android:name=".pitchdetector2.PitchDetectorActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".pitchdetector.PitchDetectorOld" />
         <activity android:name=".editor.SongBuilder2" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.SongActivity" />
