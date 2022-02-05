@@ -10,7 +10,6 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class PitchDetectorHandler
 {
-    // TODO: 1/29/2022 this will do the pitch detection
     private boolean isRunning;
     private float frequency;
     private AudioDispatcher dispatcher;

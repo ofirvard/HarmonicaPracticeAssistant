@@ -32,7 +32,8 @@ public class NoteFinder
         {
             Note closestNote = HarmonicaUtils.getNotes().stream().min(Comparator.comparingDouble(note -> Math.abs(note.getFrequency() - frequency))).orElseThrow(NoSuchElementException::new);
 
-            if (!isOffFrequency(closestNote, frequency))
+            // TODO: 05/02/2022 is this even good
+            if (isWithinFrequencyRange(closestNote, frequency))
             {
                 return closestNote;
             }
@@ -45,10 +46,10 @@ public class NoteFinder
         return null;
     }
 
-    private static boolean isOffFrequency(Note closestNote, float frequency)
+    public static boolean isWithinFrequencyRange(Note note, float frequency)
     {
         double deviationFloor = frequency - frequency * DEVIATION_PERCENT;
         double deviationCeiling = frequency + frequency * DEVIATION_PERCENT;
-        return closestNote.getFrequency() < deviationCeiling && closestNote.getFrequency() > deviationFloor;
+        return note.getFrequency() < deviationCeiling && note.getFrequency() > deviationFloor;
     }
 }

@@ -8,7 +8,7 @@
     tools:context=".pitchdetector.PitchDetectorOld">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_horizontal2"
+        android:id="@+id/guideline_horizontal_middle"
         android:layout_width="0sp"
         android:layout_height="0sp"
         android:clickable="false"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:text="@string/not_applicable"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal2"
+        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_middle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -57,7 +57,7 @@
         android:src="@drawable/microphone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal2" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_middle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notes_list_pitch_detector"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/record_pitch_detector" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_horizontal3"
+        android:id="@+id/guideline_horizontal_top"
         android:layout_width="0sp"
         android:layout_height="0sp"
         android:clickable="false"
@@ -90,7 +90,7 @@
         android:onClick="switchVisual"
         android:text="@string/frequency"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal3" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal_top" />
 
     <Spinner
         android:id="@+id/key_spinner"
@@ -99,6 +99,6 @@
         android:layout_marginStart="30dp"
         android:prompt="@string/key"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal3" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal_top" />
     <!--todo add save to song button-->
 </androidx.constraintlayout.widget.ConstraintLayout>

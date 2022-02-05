@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +28,6 @@ public class PitchDetectorActivity extends AppCompatActivity
     private PitchDetectorProcessor pitchDetectorProcessor;
     private TextView hertz;
 
-    // TODO: 1/29/2022 have here a run on ui loop to read the handler
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -114,8 +114,14 @@ public class PitchDetectorActivity extends AppCompatActivity
     @SuppressLint("DefaultLocale")
     private void updateHertz()
     {
-        hertz.setText(String.format("%f", pitchDetectorHandler.getFrequency()));
+        hertz.setText(pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency()));
         Log.d("Hertz Update", "updated ui");
+    }
+
+    public void switchVisual(View view)
+    {
+        // TODO: 05/02/2022 send notice to processor and list adapter
+        ((Button) view).setText(pitchDetectorProcessor.switchVisual());
     }
 
     @Override

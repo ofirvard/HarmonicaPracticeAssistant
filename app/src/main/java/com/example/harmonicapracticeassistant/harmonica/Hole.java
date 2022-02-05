@@ -33,11 +33,15 @@ public class Hole
         return this.note.isSameNote(musicalNote, octave);
     }
 
+    public boolean isWithinFrequencyRange(float testFrequency)
+    {
+        return NoteFinder.isWithinFrequencyRange(note, testFrequency);
+    }
+
     public String getNoteWithOctave(boolean isSharp)
     {
         return note.getNoteWithOctave(isSharp);
     }
-
 
     public String getHoleWithBend()
     {

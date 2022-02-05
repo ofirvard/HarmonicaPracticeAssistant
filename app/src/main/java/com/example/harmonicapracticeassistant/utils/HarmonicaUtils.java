@@ -66,7 +66,7 @@ public class HarmonicaUtils
             convertRawKeysToKeys(rawKeys);
 
             keys.sort((key1, key2) -> key1.getKeyName().compareTo(key2.getKeyName()));
-            keys.add(0, new Key(NO_KEY, createNoKeyList()));
+            keys.add(0, new Key(NO_KEY, false, createNoKeyList()));
         }
     }
 
