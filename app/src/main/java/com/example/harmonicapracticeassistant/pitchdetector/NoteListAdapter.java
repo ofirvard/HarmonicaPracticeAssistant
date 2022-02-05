@@ -10,12 +10,10 @@ import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.NoteVisual;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
-import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
@@ -91,7 +89,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteIt
 
     public boolean isCurrentKeyNone()
     {
-        return currentKey.getKey().equals(NO_KEY);
+        return currentKey.getKeyName().equals(NO_KEY);
     }
 
     public Key getCurrentKey()

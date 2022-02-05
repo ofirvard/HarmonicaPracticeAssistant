@@ -7,6 +7,7 @@ import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
+import com.example.harmonicapracticeassistant.raw.models.KewRaw;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,7 +41,7 @@ public class HarmonicaUtils
 
     public static List<String> getKeysName()
     {
-        List<String> list = keys.stream().map(Key::getKey).collect(Collectors.toList());
+        List<String> list = keys.stream().map(Key::getKeyName).collect(Collectors.toList());
         list.add(NO_KEY);
 
         return list;
@@ -49,7 +50,7 @@ public class HarmonicaUtils
     public static Key getKey(String keyString)
     {
         for (Key key : keys)
-            if (key.getKey().equals(keyString))
+            if (key.getKeyName().equals(keyString))
                 return key;
 
         return null;
@@ -60,16 +61,28 @@ public class HarmonicaUtils
         if (keys == null)
         {
             Gson gson = new Gson();
-            Type listOfHoles = new TypeToken<ArrayList<Key>>()
+            Type listOfHoles = new TypeToken<ArrayList<KewRaw>>()
             {
             }.getType();
-            keys = gson.fromJson(RawReader.getKeys(context), listOfHoles);
-            keys.sort((key1, key2) -> key1.getKey().compareTo(key2.getKey()));
+            List<KewRaw> rawKeys = gson.fromJson(RawReader.getKeys(context), listOfHoles);
+
+            convertRawKeysToKeys(rawKeys);
+
+            keys.sort((key1, key2) -> key1.getKeyName().compareTo(key2.getKeyName()));
 
             for (Key key : keys)
                 key.setHolesFrequencies();
 
             keys.add(0, new Key(NO_KEY, createNoKeyList()));
+        }
+    }
+
+    private static void convertRawKeysToKeys(List<KewRaw> rawKeys)
+    {
+        for (KewRaw rawKey : rawKeys)
+        {
+            Key key = new Key(rawKey);
+            keys.add(key);
         }
     }
 
