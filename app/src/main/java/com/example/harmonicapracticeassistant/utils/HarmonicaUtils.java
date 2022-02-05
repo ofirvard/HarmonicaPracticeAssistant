@@ -2,13 +2,15 @@ package com.example.harmonicapracticeassistant.utils;
 
 import android.content.Context;
 
-import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
+import com.example.harmonicapracticeassistant.enums.MusicalNote;
+import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.raw.models.KewRaw;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -41,10 +43,8 @@ public class HarmonicaUtils
 
     public static List<String> getKeysName()
     {
-        List<String> list = keys.stream().map(Key::getKeyName).collect(Collectors.toList());
-        list.add(NO_KEY);
 
-        return list;
+        return keys.stream().map(Key::getKeyName).collect(Collectors.toList());
     }
 
     public static Key getKey(String keyString)
@@ -60,21 +60,26 @@ public class HarmonicaUtils
     {
         if (keys == null)
         {
-            Gson gson = new Gson();
-            Type listOfHoles = new TypeToken<ArrayList<KewRaw>>()
-            {
-            }.getType();
-            List<KewRaw> rawKeys = gson.fromJson(RawReader.getKeys(context), listOfHoles);
+            keys = new ArrayList<>();
+            List<KewRaw> rawKeys = readRawKeys(context);
 
             convertRawKeysToKeys(rawKeys);
 
             keys.sort((key1, key2) -> key1.getKeyName().compareTo(key2.getKeyName()));
-
-            for (Key key : keys)
-                key.setHolesFrequencies();
-
             keys.add(0, new Key(NO_KEY, createNoKeyList()));
         }
+    }
+
+    private static List<KewRaw> readRawKeys(Context context)
+    {
+        Gson gson = new GsonBuilder().
+                registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
+                create();
+        Type rawKeyList = new TypeToken<ArrayList<KewRaw>>()
+        {
+        }.getType();
+
+        return gson.fromJson(RawReader.getKeys(context), rawKeyList);
     }
 
     private static void convertRawKeysToKeys(List<KewRaw> rawKeys)
@@ -100,33 +105,20 @@ public class HarmonicaUtils
     {
         if (notes == null)
         {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().
+                    registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
+                    create();
             Type listOfNotes = new TypeToken<ArrayList<Note>>()
             {
             }.getType();
+
             notes = gson.fromJson(RawReader.getNoteFrequency(context), listOfNotes);
-            notes.sort((o1, o2) -> (int) (o1.getFrequency() - o2.getFrequency()));
+            notes.sort((o1, o2) -> Float.compare(o1.getFrequency(), o2.getFrequency()));
         }
     }
 
-    public static String getBendString(Context context, Bend bend)
-    {
-        switch (bend)
-        {
-            case HALF_STEP:
-                return context.getResources().getString(R.string.half_step_bend);
-
-            case WHOLE_STEP:
-                return context.getResources().getString(R.string.whole_step_bend);
-
-            case STEP_AND_A_HALF:
-                return context.getResources().getString(R.string.step_and_a_half_bend);
-
-            case OVER:
-                return context.getResources().getString(R.string.over);
-
-            default:
-                return "";
-        }
+    public static String getBendString(Bend bend)
+    {// TODO: 19/01/2022 make this use enum string
+        return bend.toString();
     }
 }

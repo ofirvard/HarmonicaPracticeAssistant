@@ -13,9 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
-import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.NoteFinder;
@@ -39,28 +37,27 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.MINIMUM_HERTZ_THRESHOLD;
-import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FREQUENCY;
-import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
 
 public class PitchDetectorOld extends AppCompatActivity
 {
-    private AudioDispatcher dispatcher;
     private TextView noteTextView;
     private TextView hertzTextView;
-    private List<Hole> notes;
+    private List<Hole> notes = new ArrayList<>();
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private NoteListAdapter noteListAdapter;
     private RecyclerView noteListRecyclerView;
     private boolean isRecording = false;
     private LinearSnapHelper snapHelper;
     private LinearLayoutManager layoutManager;
-    private Thread audioThread;
     private TextView middleTextView;
-    private Note previousNote = new Note(NA_NOTE_FREQUENCY);
+    private Note previousNote = null;
     private Spinner keySpinner;
+    private Thread audioThread;
+    private AudioDispatcher dispatcher;
 
     // TODO: 10/11/2021 add save/record song button
     // TODO: 12/22/2021 add in settings default key
+    // TODO: 19/01/2022 make recording happen in separate thread
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -100,12 +97,7 @@ public class PitchDetectorOld extends AppCompatActivity
                 noteListAdapter.setCurrentKey(HarmonicaUtils.getKeys().get(i));
 
                 if (noteListAdapter.isCurrentKeyNone())
-                {
                     switchVisual(findViewById(R.id.visual_change));
-                    testAll();
-                }
-                else
-                    testKey();
             }
 
             @Override
@@ -113,53 +105,6 @@ public class PitchDetectorOld extends AppCompatActivity
             {
             }
         });
-    }
-
-    public void testAll()
-    {
-        notes.clear();
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.C, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Db, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.D, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Eb, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.E, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.F, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Gb, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.G, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Ab, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.A, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.Bb, 0)));
-        notes.add(new Hole(NoteFinder.getNoteById(MusicalNote.B, 0)));
-        noteListAdapter.notifyDataSetChanged();
-        noteListRecyclerView.scrollToPosition(1);
-    }
-
-    public void testKey()
-    {
-        notes.clear();
-        notes.add(noteListAdapter.getCurrentKey().getHole(10));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-10));
-        notes.add(noteListAdapter.getCurrentKey().getHole(9));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-9));
-        notes.add(noteListAdapter.getCurrentKey().getHole(8));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-8));
-        notes.add(noteListAdapter.getCurrentKey().getHole(7));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-7));
-        notes.add(noteListAdapter.getCurrentKey().getHole(6));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-6));
-        notes.add(noteListAdapter.getCurrentKey().getHole(5));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-5));
-        notes.add(noteListAdapter.getCurrentKey().getHole(4));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-4));
-        notes.add(noteListAdapter.getCurrentKey().getHole(3));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-3));
-        notes.add(noteListAdapter.getCurrentKey().getHole(2));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-2));
-        notes.add(noteListAdapter.getCurrentKey().getHole(1));
-        notes.add(noteListAdapter.getCurrentKey().getHole(-1));
-
-        noteListAdapter.notifyDataSetChanged();
-        noteListRecyclerView.scrollToPosition(1);
     }
 
     public void checkPermission()
@@ -178,13 +123,15 @@ public class PitchDetectorOld extends AppCompatActivity
         }
     }
 
+    // TODO: 19/01/2022 move functionality to other classes
     public void processPitch(float frequency)
-    {
+    {// TODO: 19/01/2022 all this needs a util class
+        System.out.println("hello world ====================================================================" + this);
         if (frequency <= MINIMUM_HERTZ_THRESHOLD)
         {
             hertzTextView.setText(String.format("%s", frequency));
             noteTextView.setText(R.string.not_applicable);
-            previousNote = new Note(NA_NOTE_FREQUENCY);
+            previousNote = null;
         }
         else
         {
@@ -233,10 +180,33 @@ public class PitchDetectorOld extends AppCompatActivity
         }
     }
 
+    public void startDetector()
+    {// TODO: 19/01/2022 check if there is other way (or lib)
+        PitchDetectionHandler pdh = (res, e) -> {
+            final float pitchInHz = res.getPitch();
+            this.runOnUiThread(() -> processPitch(pitchInHz));
+        };
+
+        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+
+        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+        dispatcher.addAudioProcessor(pitchProcessor);
+
+        audioThread = new Thread(dispatcher, "Audio Thread");
+        audioThread.start();
+    }
+
+    public void stopDetector()
+    {
+        if (dispatcher != null)
+            dispatcher.stop();
+        if (audioThread != null)
+            audioThread.interrupt();
+    }
+
     public void setupNoteListAdapter()
     {
         noteListRecyclerView = findViewById(R.id.notes_list_pitch_detector);
-        notes = new ArrayList<>();
 
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -244,7 +214,7 @@ public class PitchDetectorOld extends AppCompatActivity
 
         snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(noteListRecyclerView);
-        // TODO: 28/11/2021 move this into adapter LinearSnapHelper
+
         noteListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
             int snapPosition = RecyclerView.NO_POSITION;
@@ -265,28 +235,6 @@ public class PitchDetectorOld extends AppCompatActivity
 
         noteListAdapter = new NoteListAdapter(notes, getApplicationContext());
         noteListRecyclerView.setAdapter(noteListAdapter);
-    }
-
-    private void startDetector()
-    {
-        PitchDetectionHandler pdh = (res, e) -> {
-            final float pitchInHz = res.getPitch();
-            runOnUiThread(() -> processPitch(pitchInHz));
-        };
-        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
-        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-        dispatcher.addAudioProcessor(pitchProcessor);
-
-        audioThread = new Thread(dispatcher, "Audio Thread");
-        audioThread.start();
-    }
-
-    private void stopDetector()
-    {
-        if (dispatcher != null)
-            dispatcher.stop();
-        if (audioThread != null)
-            audioThread.interrupt();
     }
 
     public void switchVisual(View view)

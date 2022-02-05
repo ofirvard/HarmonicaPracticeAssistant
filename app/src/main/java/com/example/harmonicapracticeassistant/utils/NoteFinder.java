@@ -1,8 +1,6 @@
 package com.example.harmonicapracticeassistant.utils;
 
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
-import com.example.harmonicapracticeassistant.harmonica.Hole;
-import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.Comparator;
@@ -13,8 +11,6 @@ import static com.example.harmonicapracticeassistant.utils.Constants.NA_NOTE_FRE
 
 public class NoteFinder
 {
-    public static final Note nullNote = new Note(NA_NOTE_FREQUENCY);
-
     public static Note getNoteById(MusicalNote musicalNote, int octave)
     {
         for (Note note : HarmonicaUtils.getNotes())
@@ -23,13 +19,14 @@ public class NoteFinder
                 return note;
         }
 
-        return nullNote;
+        return null;
     }
 
+    // TODO: 05/02/2022 rewrite stuff here once old pitch detector is no longer user
     public static Note getNoteByFrequency(float frequency)
     {
         if (frequency == NA_NOTE_FREQUENCY)
-            return nullNote;
+            return null;
 
         try
         {
@@ -40,23 +37,12 @@ public class NoteFinder
                 return closestNote;
             }
             else
-                return nullNote;
+                return null;
         } catch (NoSuchElementException e)
         {
             e.printStackTrace();
         }
-        return nullNote;
-    }
-
-    public static Note getNoteByFrequencyAndKey(float frequency, Key key)
-    {
-        Note note = getNoteByFrequency(frequency);
-
-        // TODO: 12/23/2021 check that note is in key
-        Hole hole = key.getHole(note.getMusicalNote(), note.getOctave());
-
-
-        return nullNote;
+        return null;
     }
 
     private static boolean isOffFrequency(Note closestNote, float frequency)

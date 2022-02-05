@@ -1,7 +1,6 @@
 package com.example.harmonicapracticeassistant.pitchdetector2;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import android.util.Log;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioProcessor;
@@ -20,22 +19,20 @@ public class PitchDetectorHandler
     {
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
-        PitchDetectionHandler pdh = (res, e) -> {
-            frequency = res.getPitch();
-        };
+        PitchDetectionHandler pdh = (res, e) -> frequency = res.getPitch();
         AudioProcessor p = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
 
         dispatcher.addAudioProcessor(p);
         new Thread(dispatcher, "Audio Dispatcher").start();
-        System.out.println("dispatcher has started");
         isRunning = true;
+        Log.d("Hertz Update", "dispatcher started");
     }
 
     public void stop()
     {
         dispatcher.stop();
-        System.out.println("dispatcher has been shutdown");
         isRunning = false;
+        Log.d("Hertz Update", "dispatcher stopped");
     }
 
     public float getFrequency()
