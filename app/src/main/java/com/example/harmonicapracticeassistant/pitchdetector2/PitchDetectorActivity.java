@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     private PitchDetectorHandler pitchDetectorHandler;
     private PitchDetectorProcessor pitchDetectorProcessor;
     private TextView hertz;
+    private Spinner keySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +42,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         pitchDetectorHandler = new PitchDetectorHandler();
         pitchDetectorProcessor = new PitchDetectorProcessor();
         hertz = findViewById(R.id.hertz);
+        keySpinner = findViewById(R.id.key_spinner);
 
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -46,6 +51,7 @@ public class PitchDetectorActivity extends AppCompatActivity
                 });
 
         checkPermission();
+        setupKeySpinner();
     }
 
     public void checkPermission()
@@ -81,6 +87,26 @@ public class PitchDetectorActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("DefaultLocale")
+    private void updateHertz()
+    {
+        hertz.setText(pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency()));
+        Log.d("Hertz Update", "updated ui");
+    }
+
+    public void switchVisual(View view)
+    {
+        // TODO: 05/02/2022 send notice to processor and list adapter
+        ((Button) view).setText(pitchDetectorProcessor.switchVisual());
+    }
+
+    @Override
+    protected void onPause()
+    {// TODO: 05/02/2022 test this
+        pitchDetectorHandler.stop();
+        super.onPause();
+    }
+
     private void startUpdateUIThread()
     {
 
@@ -111,23 +137,28 @@ public class PitchDetectorActivity extends AppCompatActivity
         Log.d("Hertz Update", "started update ui thread");
     }
 
-    @SuppressLint("DefaultLocale")
-    private void updateHertz()
+    private void setupKeySpinner()
     {
-        hertz.setText(pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency()));
-        Log.d("Hertz Update", "updated ui");
-    }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,
+                HarmonicaUtils.getKeysName());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        keySpinner.setAdapter(adapter);
+        keySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                pitchDetectorProcessor.setCurrentKey(HarmonicaUtils.getKeys().get(i));
 
-    public void switchVisual(View view)
-    {
-        // TODO: 05/02/2022 send notice to processor and list adapter
-        ((Button) view).setText(pitchDetectorProcessor.switchVisual());
-    }
+                if (pitchDetectorProcessor.isCurrentKeyNone())
+                    switchVisual(findViewById(R.id.visual_change));
+            }
 
-    @Override
-    protected void onPause()
-    {// TODO: 05/02/2022 test this
-        pitchDetectorHandler.stop();
-        super.onPause();
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+            }
+        });
     }
 }

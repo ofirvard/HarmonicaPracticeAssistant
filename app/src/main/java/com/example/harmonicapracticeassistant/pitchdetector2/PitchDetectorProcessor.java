@@ -6,7 +6,6 @@ import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.DEFAULT_KEY;
@@ -17,7 +16,6 @@ public class PitchDetectorProcessor
 {
     // TODO: 1/30/2022 this will have a list of the notes and the active key, visual
     Key key;
-    DecimalFormat decimalFormat = new DecimalFormat("#.##");
     NoteVisual noteVisual = NoteVisual.HOLES;
     // TODO: 05/02/2022 add list that is grouping of holes
 
@@ -33,11 +31,6 @@ public class PitchDetectorProcessor
 
         List<Hole> holes = key.findHoles(frequency);
 
-
-        // TODO: 05/02/2022 here check what the visual is and procede acordingly
-
-
-        // TODO: 05/02/2022 temporarly only show freq but only if its in the key
         return holesToString(holes);
     }
 
@@ -98,5 +91,15 @@ public class PitchDetectorProcessor
                 noteVisual = NoteVisual.NOTE_WITH_OCTAVE;
                 return R.string.notes;
         }
+    }
+
+    public void setCurrentKey(Key key)
+    {
+        this.key = key;
+    }
+
+    public boolean isCurrentKeyNone()
+    {
+        return key.getKeyName().equals(NO_KEY);
     }
 }
