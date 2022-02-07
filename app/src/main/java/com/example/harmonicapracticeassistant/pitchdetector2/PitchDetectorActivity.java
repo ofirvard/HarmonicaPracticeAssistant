@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,13 +17,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.harmonica.Hole;
+import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+
+import java.util.List;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PitchDetectorActivity extends AppCompatActivity
 {
@@ -31,7 +38,10 @@ public class PitchDetectorActivity extends AppCompatActivity
     private PitchDetectorProcessor pitchDetectorProcessor;
     private TextView hertz;
     private Spinner keySpinner;
+    private PitchDetectorAdapter pitchDetectorAdapter;
 
+    // TODO: 10/11/2021 add save/record song button
+    // TODO: 12/22/2021 add in settings default key
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -41,6 +51,10 @@ public class PitchDetectorActivity extends AppCompatActivity
         HarmonicaUtils.setUp(getApplicationContext());
         pitchDetectorHandler = new PitchDetectorHandler();
         pitchDetectorProcessor = new PitchDetectorProcessor();
+        pitchDetectorAdapter = new PitchDetectorAdapter(pitchDetectorProcessor);
+
+
+        setupAdapter();
         hertz = findViewById(R.id.hertz);
         keySpinner = findViewById(R.id.key_spinner);
 
@@ -52,6 +66,17 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         checkPermission();
         setupKeySpinner();
+    }
+
+    private void setupAdapter()
+    {
+        // TODO: 07/02/2022 add snapping
+        RecyclerView recyclerView = findViewById(R.id.notes_list_pitch_detector);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(pitchDetectorAdapter);
     }
 
     public void checkPermission()
@@ -74,37 +99,64 @@ public class PitchDetectorActivity extends AppCompatActivity
     {
         if (!pitchDetectorHandler.isRunning())
         {
-            Log.d("Hertz Update", "starting recording");
-            ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.recording_button));
-            pitchDetectorHandler.start();
-            startUpdateUIThread();
+            startRecording();
         }
         else
         {
-            Log.d("Hertz Update", "stopping recording");
-            ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.microphone));
-            pitchDetectorHandler.stop();
+            stopRecording();
         }
     }
 
     @SuppressLint("DefaultLocale")
     private void updateHertz()
     {
-        hertz.setText(pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency()));
-        Log.d("Hertz Update", "updated ui");
+        Pair<Note, List<Hole>> noteWithHoles = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency());
+
+        if (noteWithHoles != null)
+        {
+            pitchDetectorAdapter.addNoteWithHoles(noteWithHoles);
+            pitchDetectorAdapter.notifyDataSetChanged();
+            hertz.setText(NoteTranslator.holesToString(pitchDetectorProcessor.getKey().isSharp(), noteWithHoles));
+            Log.d("Hertz Update", "updated ui: " + noteWithHoles.first);
+        }
+        else
+        {
+            hertz.setText(R.string.not_applicable);
+            Log.d("Hertz Update", "updated ui: na");
+        }
     }
 
     public void switchVisual(View view)
     {
-        // TODO: 05/02/2022 send notice to processor and list adapter
-        ((Button) view).setText(pitchDetectorProcessor.switchVisual());
+        ((Button) view).setText(NoteTranslator.switchVisual(pitchDetectorProcessor.getKey().getKeyName()));
+//        pitchDetectorAdapter.notifyDataSetChanged();// TODO: 07/02/2022 do i need this line
+    }
+
+    public void clear(View view)
+    {
+        pitchDetectorAdapter.clear();
     }
 
     @Override
     protected void onPause()
     {// TODO: 05/02/2022 test this
-        pitchDetectorHandler.stop();
+        stopRecording();
         super.onPause();
+    }
+
+    private void startRecording()
+    {
+        Log.d("Hertz Update", "starting recording");
+        ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.recording_button));
+        pitchDetectorHandler.start();
+        startUpdateUIThread();
+    }
+
+    private void stopRecording()
+    {
+        Log.d("Hertz Update", "stopping recording");
+        ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.microphone));
+        pitchDetectorHandler.stop();
     }
 
     private void startUpdateUIThread()

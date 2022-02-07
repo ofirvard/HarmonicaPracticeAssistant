@@ -55,9 +55,7 @@ public class PitchDetectorOld extends AppCompatActivity
     private Thread audioThread;
     private AudioDispatcher dispatcher;
 
-    // TODO: 10/11/2021 add save/record song button
-    // TODO: 12/22/2021 add in settings default key
-    // TODO: 19/01/2022 make recording happen in separate thread
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

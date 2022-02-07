@@ -53,6 +53,11 @@ public class Hole
         return note.getMusicalNote();
     }
 
+    public Note getNote()
+    {
+        return note;
+    }
+
     public float getFrequency()
     {
         return note.getFrequency();

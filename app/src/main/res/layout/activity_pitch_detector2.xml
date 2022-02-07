@@ -34,6 +34,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal_top" />
 
+    <Button
+        android:id="@+id/clear_pitch_detector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="clear"
+        android:text="@string/clear"
+        app:layout_constraintStart_toStartOf="@id/visual_change"
+        app:layout_constraintTop_toBottomOf="@id/visual_change" />
+
     <TextView
         android:id="@+id/hertz"
         android:layout_width="wrap_content"

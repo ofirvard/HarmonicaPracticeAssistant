@@ -38,5 +38,6 @@
     <string name="not_applicable">N/A</string>
     <string name="frequency">Frequency</string>
     <string name="holes">Holes</string>
+    <string name="clear">Clear</string>
     <string name="title_activity_pitch_detector2">PitchDetector2</string>
 </resources>
