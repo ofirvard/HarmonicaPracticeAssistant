@@ -48,6 +48,8 @@ public class NoteFinder
 
     public static boolean isWithinFrequencyRange(Note note, float frequency)
     {
+        if (note == null)
+            System.out.println("breakpoint");
         double deviationFloor = frequency - frequency * DEVIATION_PERCENT;
         double deviationCeiling = frequency + frequency * DEVIATION_PERCENT;
         return note.getFrequency() < deviationCeiling && note.getFrequency() > deviationFloor;

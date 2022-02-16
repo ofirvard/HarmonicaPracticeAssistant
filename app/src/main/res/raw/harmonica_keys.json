@@ -282,7 +282,7 @@
       {
         "hole": -2,
         "bend": "HALF_STEP",
-        "musicalNote": "C#",
+        "musicalNote": "Db",
         "octave": 4
       },
       {
@@ -300,7 +300,7 @@
       {
         "hole": -3,
         "bend": "NONE",
-        "musicalNote": "F#",
+        "musicalNote": "Gb",
         "octave": 4
       },
       {
@@ -354,7 +354,7 @@
       {
         "hole": 5,
         "bend": "OVER",
-        "musicalNote": "C#",
+        "musicalNote": "Db",
         "octave": 5
       },
       {
@@ -396,7 +396,7 @@
       {
         "hole": -7,
         "bend": "NONE",
-        "musicalNote": "F#",
+        "musicalNote": "Gb",
         "octave": 5
       },
       {
@@ -432,7 +432,7 @@
       {
         "hole": 9,
         "bend": "HALF_STEP",
-        "musicalNote": "C#",
+        "musicalNote": "Db",
         "octave": 6
       },
       {
@@ -456,7 +456,7 @@
       {
         "hole": 10,
         "bend": "HALF_STEP",
-        "musicalNote": "F#",
+        "musicalNote": "Gb",
         "octave": 6
       },
       {

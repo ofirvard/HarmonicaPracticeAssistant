@@ -10,7 +10,6 @@ import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -18,12 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdapter.NoteItemViewHolder>
 {
-    private final List<Pair<Note, List<Hole>>> notesWithHoles = new ArrayList<>();
+    private final List<Pair<Note, List<Hole>>> notesWithHoles;
     private final PitchDetectorProcessor pitchDetectorProcessor;
 
-    public PitchDetectorAdapter(PitchDetectorProcessor pitchDetectorProcessor)
+    public PitchDetectorAdapter(PitchDetectorProcessor pitchDetectorProcessor, NotePairListHandler notePairListHandler)
     {
         this.pitchDetectorProcessor = pitchDetectorProcessor;
+        this.notesWithHoles = notePairListHandler.getNotePairList();
     }
 
     @NonNull
@@ -62,20 +62,6 @@ public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdap
     public int getItemCount()
     {
         return notesWithHoles.size();
-    }
-
-    public void addNoteWithHoles(Pair<Note, List<Hole>> noteWithHoles)
-    {
-        notesWithHoles.add(noteWithHoles);
-        notifyDataSetChanged();
-
-        // TODO: 07/02/2022 push to last item 
-    }
-
-    public void clear()
-    {
-        notesWithHoles.clear();
-        notifyDataSetChanged();
     }
 
     protected static class NoteItemViewHolder extends RecyclerView.ViewHolder
