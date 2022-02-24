@@ -17,10 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.enums.NaturalNote;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -69,6 +72,8 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         checkPermission();
         setupKeySpinner();
+
+        test();// TODO: 21/02/2022 this is only for testing
     }
 
     private void setupAdapter()
@@ -108,6 +113,27 @@ public class PitchDetectorActivity extends AppCompatActivity
         {
             stopRecording();
         }
+    }
+
+    private void test()
+    {
+        Note c4 = NoteFinder.getNoteById(NaturalNote.C, 4);
+        Pair<Note, List<Hole>> pairc4 = new Pair<>(c4, new ArrayList<>());
+
+        Note d4 = NoteFinder.getNoteById(NaturalNote.D, 4);
+        Pair<Note, List<Hole>> paird4 = new Pair<>(d4, new ArrayList<>());
+
+
+        notePairListHandler.add(pairc4);
+        notePairListHandler.add(paird4);
+        notePairListHandler.add(pairc4);
+        notePairListHandler.add(paird4);
+        notePairListHandler.add(pairc4);
+        notePairListHandler.add(paird4);
+        notePairListHandler.add(pairc4);
+        notePairListHandler.add(paird4);
+
+        pitchDetectorAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("DefaultLocale")
@@ -166,7 +192,6 @@ public class PitchDetectorActivity extends AppCompatActivity
 
     private void startUpdateUIThread()
     {
-
         Handler handler = new Handler();
         Thread uiUpdaterThread = new Thread("UI updater")
         {
