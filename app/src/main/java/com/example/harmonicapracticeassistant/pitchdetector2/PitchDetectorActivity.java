@@ -24,6 +24,8 @@ import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -72,8 +74,6 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         checkPermission();
         setupKeySpinner();
-
-        test();// TODO: 21/02/2022 this is only for testing
     }
 
     private void setupAdapter()
@@ -105,23 +105,26 @@ public class PitchDetectorActivity extends AppCompatActivity
 
     public void recordNotes(View view)
     {
-        if (!pitchDetectorHandler.isRunning())
-        {
-            startRecording();
-        }
-        else
-        {
-            stopRecording();
-        }
+        test();// TODO: 21/02/2022 this is only for testing
+//        if (!pitchDetectorHandler.isRunning())
+//        {
+//            startRecording();
+//        }
+//        else
+//        {
+//            stopRecording();
+//        }
     }
 
     private void test()
     {
         Note c4 = NoteFinder.getNoteById(NaturalNote.C, 4);
-        Pair<Note, List<Hole>> pairc4 = new Pair<>(c4, new ArrayList<>());
+        Hole hole1 = new Hole(c4);
+        Pair<Note, List<Hole>> pairc4 = new Pair<>(c4, Collections.singletonList(hole1));
 
         Note d4 = NoteFinder.getNoteById(NaturalNote.D, 4);
-        Pair<Note, List<Hole>> paird4 = new Pair<>(d4, new ArrayList<>());
+        Hole hole2 = new Hole(d4);
+        Pair<Note, List<Hole>> paird4 = new Pair<>(d4, Collections.singletonList(hole2));
 
 
         notePairListHandler.add(pairc4);
