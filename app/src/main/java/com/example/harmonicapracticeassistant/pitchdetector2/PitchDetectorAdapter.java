@@ -48,6 +48,7 @@ public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdap
                 NoteTranslator.holesToString(
                         pitchDetectorProcessor.getKey().isSharp(),
                         notesWithHoles.get(position)));
+        setNormalDecor(holder.noteText, holder.coloredBar);
     }
 
     @Override
@@ -97,29 +98,29 @@ public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdap
         View view = layoutManager.findViewByPosition(position);
         if (view != null)
             if (isCenter)
-                setCenterDecor(view);
+                setCenterDecor(view.findViewById(R.id.notes_list_pitch_detector_text), view.findViewById(R.id.colored_bar));
             else
-                setNormalDecor(view);
+                setNormalDecor(view.findViewById(R.id.notes_list_pitch_detector_text), view.findViewById(R.id.colored_bar));
     }
 
-    private void setCenterDecor(View view)
+    private void setCenterDecor(TextView noteText, View coloredBar)
     {
-        TextView textView = (TextView) view.findViewById(R.id.notes_list_pitch_detector_text);
-
-        textView.setTextColor(context.getResources().getColor(R.color.colorAccent, null));
-
-        view.findViewById(R.id.colored_bar)
-                .setBackgroundColor(context.getResources().getColor(R.color.colorAccentDark, null));
+        setDecor(noteText, coloredBar,
+                context.getResources().getColor(R.color.colorAccent, null),
+                context.getResources().getColor(R.color.colorAccentDark, null));
     }
 
-    private void setNormalDecor(View view)
+    private void setNormalDecor(TextView noteText, View coloredBar)
     {
-        TextView textView = (TextView) view.findViewById(R.id.notes_list_pitch_detector_text);
+        setDecor(noteText, coloredBar,
+                context.getResources().getColor(R.color.grey, null),
+                context.getResources().getColor(R.color.colorPrimaryDark, null));
+    }
 
-        textView.setTextColor(context.getResources().getColor(R.color.grey, null));
-
-        view.findViewById(R.id.colored_bar)
-                .setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
+    private void setDecor(TextView noteText, View coloredBar, int textColor, int barColor)
+    {
+        noteText.setTextColor(textColor);
+        coloredBar.setBackgroundColor(barColor);
     }
 
     protected static class NoteItemViewHolder extends RecyclerView.ViewHolder

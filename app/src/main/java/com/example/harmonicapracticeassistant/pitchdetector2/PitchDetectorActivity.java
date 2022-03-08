@@ -17,13 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.enums.NaturalNote;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
-import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
-import java.util.Collections;
 import java.util.List;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -77,8 +74,6 @@ public class PitchDetectorActivity extends AppCompatActivity
 
     private void setupRecyclerView()
     {
-        // TODO: 07/02/2022 add snapping
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         SnapHelper snapHelper = new LinearSnapHelper();
         pitchDetectorAdapter = new PitchDetectorAdapter(this, pitchDetectorProcessor, notePairListHandler, snapHelper);
@@ -108,49 +103,10 @@ public class PitchDetectorActivity extends AppCompatActivity
 
     public void recordNotes(View view)
     {
-//        test();// TODO: 21/02/2022 this is only for testing
-//        notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(notePairListHandler.getLastPosition()));
-
         if (!pitchDetectorHandler.isRunning())
             startRecording();
         else
             stopRecording();
-    }
-
-    private void test()
-    {
-        Note n1 = NoteFinder.getNoteById(NaturalNote.C, 4);
-        Hole h1 = new Hole(n1);
-        Pair<Note, List<Hole>> p1 = new Pair<>(n1, Collections.singletonList(h1));
-
-        Note n2 = NoteFinder.getNoteById(NaturalNote.D, 4);
-        Hole h2 = new Hole(n2);
-        Pair<Note, List<Hole>> p2 = new Pair<>(n2, Collections.singletonList(h2));
-
-        Note n3 = NoteFinder.getNoteById(NaturalNote.E, 4);
-        Hole h3 = new Hole(n3);
-        Pair<Note, List<Hole>> p3 = new Pair<>(n3, Collections.singletonList(h3));
-
-        Note n4 = NoteFinder.getNoteById(NaturalNote.F, 4);
-        Hole h4 = new Hole(n4);
-        Pair<Note, List<Hole>> p4 = new Pair<>(n4, Collections.singletonList(h4));
-
-        Note n5 = NoteFinder.getNoteById(NaturalNote.G, 4);
-        Hole h5 = new Hole(n5);
-        Pair<Note, List<Hole>> p5 = new Pair<>(n5, Collections.singletonList(h5));
-
-        Note n6 = NoteFinder.getNoteById(NaturalNote.A, 4);
-        Hole h6 = new Hole(n6);
-        Pair<Note, List<Hole>> p6 = new Pair<>(n6, Collections.singletonList(h6));
-
-        notePairListHandler.add(p1);
-        notePairListHandler.add(p2);
-        notePairListHandler.add(p3);
-        notePairListHandler.add(p4);
-        notePairListHandler.add(p5);
-        notePairListHandler.add(p6);
-
-        pitchDetectorAdapter.notifyDataSetChanged();
     }
 
     @SuppressLint("DefaultLocale")
@@ -162,7 +118,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         if (noteWithHoles != null)
         {
             pitchDetectorAdapter.notifyDataSetChanged();
-            notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(notePairListHandler.getLastPosition()));
+            notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(notePairListHandler.getLastPosition()));// TODO: 08/03/2022 this feels a little weird
             hertz.setText(NoteTranslator.holesToString(pitchDetectorProcessor.getKey().isSharp(), noteWithHoles));
             Log.d("Hertz Update", "updated ui: " + noteWithHoles.first);
         }
