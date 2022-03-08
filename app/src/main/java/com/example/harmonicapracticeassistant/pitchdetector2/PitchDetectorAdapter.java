@@ -1,5 +1,6 @@
 package com.example.harmonicapracticeassistant.pitchdetector2;
 
+import android.content.Context;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +15,22 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdapter.NoteItemViewHolder>
 {
     private final List<Pair<Note, List<Hole>>> notesWithHoles;
     private final PitchDetectorProcessor pitchDetectorProcessor;
+    private final Context context;
+    private int centerPos = 0;
+    private final RecyclerView.OnScrollListener onScrollListener;
 
-    public PitchDetectorAdapter(PitchDetectorProcessor pitchDetectorProcessor, NotePairListHandler notePairListHandler)
+    public PitchDetectorAdapter(Context context, PitchDetectorProcessor pitchDetectorProcessor, NotePairListHandler notePairListHandler, SnapHelper snapHelper)
     {
+        this.context = context;
         this.pitchDetectorProcessor = pitchDetectorProcessor;
         this.notesWithHoles = notePairListHandler.getNotePairList();
+        this.onScrollListener = createOnScrollListener(snapHelper);
     }
 
     @NonNull
@@ -41,27 +48,78 @@ public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdap
                 NoteTranslator.holesToString(
                         pitchDetectorProcessor.getKey().isSharp(),
                         notesWithHoles.get(position)));
-
-        // TODO: 07/02/2022 add make color of bottom and size of middle change
-        // TODO: 21/11/2021 play with colors and figure out why it causes problems back and forth
-        //        if (position == centerNote)
-        //        {
-        //            holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
-        //            holder.noteText.setTextSize(LARGE_TEXT_SIZE);
-        //            holder.coloredBar.setBackgroundResource(R.color.colorAccent);
-        //        }
-        //        else
-        //        {
-        //        holder.noteText.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-        //        holder.noteText.setTextSize(NORMAL_TEXT_SIZE);
-        //        holder.coloredBar.setBackgroundResource(R.color.colorPrimaryDark);
-        //        }
     }
 
     @Override
     public int getItemCount()
     {
         return notesWithHoles.size();
+    }
+
+    public void setCenterNote(int newSnapPosition)
+    {
+        centerPos = newSnapPosition;
+    }
+
+    public RecyclerView.OnScrollListener getOnScrollListener()
+    {
+        return onScrollListener;
+    }
+
+    private RecyclerView.OnScrollListener createOnScrollListener(SnapHelper snapHelper)
+    {
+        return new RecyclerView.OnScrollListener()
+        {
+            int snapPosition = RecyclerView.NO_POSITION;
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
+            {
+                super.onScrolled(recyclerView, dx, dy);
+
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+
+                int newSnapPosition = recyclerView.getChildAdapterPosition(snapHelper.findSnapView(layoutManager));
+                if (newSnapPosition != RecyclerView.NO_POSITION && newSnapPosition != snapPosition)
+                {
+                    setViewDecor(layoutManager, snapPosition, false);
+                    setViewDecor(layoutManager, newSnapPosition, true);
+
+                    snapPosition = newSnapPosition;
+                    setCenterNote(newSnapPosition);
+                }
+            }
+        };
+    }
+
+    private void setViewDecor(RecyclerView.LayoutManager layoutManager, int position, boolean isCenter)
+    {
+        View view = layoutManager.findViewByPosition(position);
+        if (view != null)
+            if (isCenter)
+                setCenterDecor(view);
+            else
+                setNormalDecor(view);
+    }
+
+    private void setCenterDecor(View view)
+    {
+        TextView textView = (TextView) view.findViewById(R.id.notes_list_pitch_detector_text);
+
+        textView.setTextColor(context.getResources().getColor(R.color.colorAccent, null));
+
+        view.findViewById(R.id.colored_bar)
+                .setBackgroundColor(context.getResources().getColor(R.color.colorAccentDark, null));
+    }
+
+    private void setNormalDecor(View view)
+    {
+        TextView textView = (TextView) view.findViewById(R.id.notes_list_pitch_detector_text);
+
+        textView.setTextColor(context.getResources().getColor(R.color.grey, null));
+
+        view.findViewById(R.id.colored_bar)
+                .setBackgroundColor(context.getResources().getColor(R.color.colorPrimaryDark, null));
     }
 
     protected static class NoteItemViewHolder extends RecyclerView.ViewHolder

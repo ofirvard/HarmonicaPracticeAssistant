@@ -13,6 +13,7 @@
         android:layout_above="@id/colored_bar"
         android:layout_centerHorizontal="true"
         android:padding="15sp"
+        android:textColor="@color/grey"
         android:paddingStart="30sp"
         android:paddingEnd="30sp"
         android:text="@string/ok"

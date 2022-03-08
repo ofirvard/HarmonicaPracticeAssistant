@@ -28,8 +28,9 @@ public class PitchDetectorHandler
     }
 
     public void stop()
-    {
-        dispatcher.stop();
+    {// TODO: 08/03/2022 fix this 
+        if (dispatcher != null)
+            dispatcher.stop();
         isRunning = false;
         Log.d("Hertz Update", "dispatcher stopped");
     }
