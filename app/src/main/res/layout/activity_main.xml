@@ -9,16 +9,16 @@
 
     <Button
         android:id="@+id/load_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0sp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:onClick="loadSongs"
         android:padding="20sp"
         android:text="@string/load_song"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/new_button"
+        app:layout_constraintEnd_toEndOf="@+id/pitch_detection_button"
+        app:layout_constraintStart_toStartOf="@+id/pitch_detection_button" />
 
     <Button
         android:id="@+id/new_button"
@@ -28,10 +28,23 @@
         android:padding="20sp"
         android:text="@string/new_song"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/load_button"
+        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/pitch_detection_button"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/load_button"
-        app:layout_constraintTop_toBottomOf="@id/guideline_horizontal" />
+        app:layout_constraintStart_toStartOf="@+id/pitch_detection_button" />
+
+    <Button
+        android:id="@+id/pitch_detection_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="pitchDetector"
+        android:padding="20sp"
+        android:text="@string/pitch_detector"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/new_button" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_horizontal"

@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant.pitchdetector2;
+package com.example.harmonicapracticeassistant.pitchdetector;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

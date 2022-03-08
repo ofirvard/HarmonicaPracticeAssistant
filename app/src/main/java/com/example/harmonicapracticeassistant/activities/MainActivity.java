@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.Song;
+import com.example.harmonicapracticeassistant.pitchdetector.PitchDetectorActivity;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.SaveHandler;
@@ -55,6 +56,15 @@ public class MainActivity extends AppCompatActivity
         intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Constants.SETTINGS, settings);
         startActivityForResult(intent, Constants.SETTINGS_REQUEST_CODE);
+    }
+
+    public void pitchDetector(View view)
+    {
+        // TODO: 08/03/2022 start pitch detector
+        Intent intent = new Intent(this, PitchDetectorActivity.class);
+        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);// TODO: 08/03/2022 do i need this 
+        intent.putExtra(Constants.SETTINGS, settings);
+        startActivityForResult(intent, Constants.PITCH_DETECTOR_REQUEST_CODE);
     }
 
     @Override

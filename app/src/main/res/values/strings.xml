@@ -39,5 +39,5 @@
     <string name="frequency">Frequency</string>
     <string name="holes">Holes</string>
     <string name="clear">Clear</string>
-    <string name="title_activity_pitch_detector2">PitchDetector2</string>
+    <string name="pitch_detector">Pitch Detector</string>
 </resources>
