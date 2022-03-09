@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.SettingsListAdapter;
 import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
@@ -23,6 +24,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,8 +32,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity
+{
     private AppSettings settings;
     private EditText textSizePreview;
     private boolean newSongsImported = false;
@@ -43,14 +48,17 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // TODO: 08/03/2022 make settings a list of views, each a section of settings
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         settings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
         songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
 
+        setupRecyclerView();
+
         textSizePreview = findViewById(R.id.text_size_preview);
-        setPreviewText();
+        setPreviewText();// TODO: 08/03/2022 fix this
 
         slim = findViewById(R.id.slim);
         slim.setChecked(settings.isKeyboardSlim());
@@ -65,11 +73,28 @@ public class SettingsActivity extends AppCompatActivity {
 //                        Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
 
+    private void setupRecyclerView()
+    {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        SettingsListAdapter settingsListAdapter = new SettingsListAdapter(getSettingsList(), this);
+        RecyclerView settingsRecyclerView = findViewById(R.id.settings_list);
+
+        settingsRecyclerView.setAdapter(settingsListAdapter);
+        settingsRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    private List<Integer> getSettingsList()
+    {
+        return Arrays.asList(R.layout.settings_import_export_songs,
+                R.layout.settings_keyboard_type,
+                R.layout.settings_text_size);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.FILE_PICKER_REQUEST_CODE)
             if (resultCode == RESULT_OK)
@@ -178,15 +203,19 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         save(null);
         super.onBackPressed();
     }
 
-    private void setNewSongsImported(List<Song> songsImported) {
+    private void setNewSongsImported(List<Song> songsImported)
+    {
         newSongsImported = true;
-        for (Song song : songsImported) {
-            if (isNameTaken(song.getName())) {
+        for (Song song : songsImported)
+        {
+            if (isNameTaken(song.getName()))
+            {
                 int i = 1;
                 while (isNameTaken(song.getName() + "_" + i))
                     i++;
@@ -196,7 +225,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isNameTaken(String name) {
+    private boolean isNameTaken(String name)
+    {
         for (Song song : songs)
             if (song.getName().equals(name))
                 return true;
@@ -204,7 +234,8 @@ public class SettingsActivity extends AppCompatActivity {
         return false;
     }
 
-    private void setPreviewText() {
+    private void setPreviewText()
+    {
         textSizePreview.setText(String.format("%d", settings.getDefaultTextSize()));
         textSizePreview.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
     }

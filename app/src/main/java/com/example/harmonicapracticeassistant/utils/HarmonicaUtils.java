@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
-import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.raw.models.KewRaw;
@@ -17,8 +16,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
 
 public class HarmonicaUtils
 {
@@ -53,7 +50,7 @@ public class HarmonicaUtils
             if (key.getKeyName().equals(keyString))
                 return key;
 
-        return null;
+        return keys.get(0);
     }
 
     private static void setupAllKeys(Context context)
@@ -66,7 +63,6 @@ public class HarmonicaUtils
             convertRawKeysToKeys(rawKeys);
 
             keys.sort((key1, key2) -> key1.getKeyName().compareTo(key2.getKeyName()));
-            keys.add(0, new Key(NO_KEY, false, createNoKeyList()));
         }
     }
 
@@ -89,16 +85,6 @@ public class HarmonicaUtils
             Key key = new Key(rawKey);
             keys.add(key);
         }
-    }
-
-    private static List<Hole> createNoKeyList()
-    {
-        List<Hole> holeList = new ArrayList<>();
-
-        for (Note note : notes)
-            holeList.add(new Hole(note));
-
-        return holeList;
     }
 
     private static void setupAllNotes(Context context)

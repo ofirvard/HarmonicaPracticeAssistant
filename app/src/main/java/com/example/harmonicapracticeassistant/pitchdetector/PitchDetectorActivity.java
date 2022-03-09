@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
 import java.util.List;
@@ -50,11 +52,13 @@ public class PitchDetectorActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pitch_detector2);
+        setContentView(R.layout.activity_pitch_detector);
+
+        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
 
         HarmonicaUtils.setUp(getApplicationContext());
         pitchDetectorHandler = new PitchDetectorHandler();
-        pitchDetectorProcessor = new PitchDetectorProcessor();
+        pitchDetectorProcessor = new PitchDetectorProcessor(appSettings);
         notePairListHandler = new NotePairListHandler();
 
         hertz = findViewById(R.id.hertz);

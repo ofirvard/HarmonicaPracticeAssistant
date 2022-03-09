@@ -5,11 +5,11 @@ import android.util.Pair;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
 import java.util.List;
 
-import static com.example.harmonicapracticeassistant.utils.Constants.DEFAULT_KEY;
 import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
 
 public class PitchDetectorProcessor
@@ -17,9 +17,9 @@ public class PitchDetectorProcessor
     // TODO: 1/30/2022 this will have a list of the notes and the active key, visual
     private Key key;
 
-    public PitchDetectorProcessor()
+    public PitchDetectorProcessor(AppSettings appSettings)
     {
-        key = HarmonicaUtils.getKey(DEFAULT_KEY);
+        key = HarmonicaUtils.getKey(appSettings.getDefaultKey());
     }
 
     public Pair<Note, List<Hole>> processNewPitch(float frequency)

@@ -37,7 +37,7 @@
         android:id="@+id/pitch_detection_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:onClick="pitchDetector"
         android:padding="20sp"
         android:text="@string/pitch_detector"

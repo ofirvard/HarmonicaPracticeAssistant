@@ -3,7 +3,7 @@ package com.example.harmonicapracticeassistant.activities;
 import android.app.Application;
 import android.content.Context;
 
-public class App extends Application
+public class App extends Application //todo delete this
 {
 
     private static Context mContext;

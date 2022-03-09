@@ -10,6 +10,7 @@ import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.pitchdetector.PitchDetectorActivity;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
+import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.SaveHandler;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        HarmonicaUtils.setUp(getApplicationContext());
         songs = SaveHandler.loadSongs(getApplicationContext());
         settings = SaveHandler.loadSettings(getApplicationContext());
     }
