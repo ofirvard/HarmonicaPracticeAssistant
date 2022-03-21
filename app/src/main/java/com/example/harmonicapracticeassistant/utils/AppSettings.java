@@ -12,6 +12,7 @@ public class AppSettings implements Parcelable
     public AppSettings(int defaultTextSize, String defaultKey, boolean isKeyboardSlim)
     {
         this.defaultTextSize = defaultTextSize;
+        this.defaultKey = defaultKey;
         this.isKeyboardSlim = isKeyboardSlim;
     }
 

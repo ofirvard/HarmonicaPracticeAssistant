@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
@@ -17,6 +21,7 @@ import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.FileUtils;
+import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.SaveHandler;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.gson.Gson;
@@ -38,7 +43,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SettingsActivity extends AppCompatActivity
 {
     private AppSettings settings;
-    private EditText textSizePreview;
     private boolean newSongsImported = false;
     private Uri fileUri;
     private List<Song> songs;
@@ -57,22 +61,22 @@ public class SettingsActivity extends AppCompatActivity
 
         setupRecyclerView();
 
-        textSizePreview = findViewById(R.id.text_size_preview);
-        setPreviewText();// TODO: 08/03/2022 fix this
-
-        slim = findViewById(R.id.slim);
-        slim.setChecked(settings.isKeyboardSlim());
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                    if (isGranted)
+                    if (!isGranted)
                     {
-//                        Toast.makeText(this, "yes", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-//                        Toast.makeText(this, "no", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Permission was not granted", Toast.LENGTH_SHORT).show();
                     }
                 });
+        new Handler().postDelayed(this::setSettings, 100);
+    }
+
+    private void setSettings()
+    {
+        setPreviewText();
+        slim = findViewById(R.id.slim);
+        slim.setChecked(settings.isKeyboardSlim());
+        setupKeySpinner();// TODO: 21/03/2022 set key form settings
     }
 
     private void setupRecyclerView()
@@ -89,6 +93,7 @@ public class SettingsActivity extends AppCompatActivity
     {
         return Arrays.asList(R.layout.settings_import_export_songs,
                 R.layout.settings_keyboard_type,
+                R.layout.settings_default_key,
                 R.layout.settings_text_size);
     }
 
@@ -134,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     public void increase(View view)
-    {// TODO: 10/10/2020 why dose this seem smaller?
+    {
         if (settings.getDefaultTextSize() < Constants.MAX_TEXT_SIZE)
         {
             settings.setDefaultTextSize(settings.getDefaultTextSize() + 1);
@@ -236,7 +241,34 @@ public class SettingsActivity extends AppCompatActivity
 
     private void setPreviewText()
     {
-        textSizePreview.setText(String.format("%d", settings.getDefaultTextSize()));
-        textSizePreview.setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
+        ((TextView) findViewById(R.id.text_size_preview)).setText(String.format("%d", settings.getDefaultTextSize()));
+        ((TextView) findViewById(R.id.text_size_preview)).setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
+    }
+
+    private void setupKeySpinner()
+    {
+        Spinner keySpinner = findViewById(R.id.setting_default_key_spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.spinner_item_text,
+                HarmonicaUtils.getKeysName());
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        keySpinner.setAdapter(adapter);
+        keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(settings.getDefaultKey()));
+        keySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                // TODO: 21/03/2022 set new option
+                settings.setDefaultKey(HarmonicaUtils.getKeys().get(i).getKeyName());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+            }
+        });
     }
 }

@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,13 +36,17 @@ public class HarmonicaUtils
 
     public static List<Key> getKeys()
     {
-        return keys;
+        return Collections.unmodifiableList(keys);
     }
 
     public static List<String> getKeysName()
     {
+        return keys.stream().map(Key::getKeyName).sorted(String::compareTo).collect(Collectors.toList());
+    }
 
-        return keys.stream().map(Key::getKeyName).collect(Collectors.toList());
+    public static int getPositionOfKey(String keyName)
+    {
+        return getKeysName().indexOf(keyName);
     }
 
     public static Key getKey(String keyString)

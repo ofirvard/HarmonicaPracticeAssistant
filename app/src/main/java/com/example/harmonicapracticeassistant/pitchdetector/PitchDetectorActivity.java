@@ -199,7 +199,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     private void setupKeySpinner()
     {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item,
+                R.layout.spinner_item_text,
                 HarmonicaUtils.getKeysName());
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         keySpinner.setAdapter(adapter);

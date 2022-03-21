@@ -19,8 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    todo does this have to be an edit text, why not a textview-->
-    <EditText
+    <TextView
         android:id="@+id/text_size_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
