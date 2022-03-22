@@ -40,4 +40,5 @@
     <string name="holes">Holes</string>
     <string name="clear">Clear</string>
     <string name="pitch_detector">Pitch Detector</string>
+    <string name="recording_button_desc">recording button</string>
 </resources>

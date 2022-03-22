@@ -73,7 +73,8 @@
         android:src="@drawable/microphone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_middle" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_horizontal_middle"
+        android:contentDescription="@string/recording_button_desc" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notes_list_pitch_detector"
