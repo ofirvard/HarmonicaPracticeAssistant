@@ -47,7 +47,6 @@ public class PitchDetectorActivity extends AppCompatActivity
     private RecyclerView notesRecyclerView;
 
     // TODO: 10/11/2021 add save/record song button
-    // TODO: 12/22/2021 add in settings default key
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -73,7 +72,7 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         checkPermission();
         setupRecyclerView();
-        setupKeySpinner();
+        setupKeySpinner(appSettings);
     }
 
     private void setupRecyclerView()
@@ -135,7 +134,7 @@ public class PitchDetectorActivity extends AppCompatActivity
 
     public void switchVisual(View view)
     {
-        ((Button) view).setText(NoteTranslator.switchVisual(pitchDetectorProcessor.getKey().getKeyName()));
+        ((Button) view).setText(NoteTranslator.switchVisual());
         pitchDetectorAdapter.notifyDataSetChanged();
     }
 
@@ -147,7 +146,7 @@ public class PitchDetectorActivity extends AppCompatActivity
 
     @Override
     protected void onPause()
-    {// TODO: 05/02/2022 test this
+    {
         stopRecording();
         super.onPause();
     }
@@ -196,13 +195,14 @@ public class PitchDetectorActivity extends AppCompatActivity
         Log.d("Hertz Update", "started update ui thread");
     }
 
-    private void setupKeySpinner()
+    private void setupKeySpinner(AppSettings appSettings)
     {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item_text,
                 HarmonicaUtils.getKeysName());
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         keySpinner.setAdapter(adapter);
+        keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(appSettings.getDefaultKey()));
         keySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
@@ -211,9 +211,6 @@ public class PitchDetectorActivity extends AppCompatActivity
                 pitchDetectorProcessor.setCurrentKey(HarmonicaUtils.getKeys().get(i));
                 notePairListHandler.clear();
                 pitchDetectorAdapter.notifyDataSetChanged();
-
-                if (pitchDetectorProcessor.isCurrentKeyNone())// TODO: 16/02/2022 only if its on hole
-                    switchVisual(findViewById(R.id.visual_change));
             }
 
             @Override

@@ -10,7 +10,6 @@ import com.example.harmonicapracticeassistant.harmonica.Note;
 import java.util.List;
 
 import static com.example.harmonicapracticeassistant.utils.Constants.NOT_APPLICABLE;
-import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
 
 public class NoteTranslator
 {
@@ -52,9 +51,9 @@ public class NoteTranslator
         return s.toString();
     }
 
-    public static int switchVisual(String keyName)
+    public static int switchVisual()
     {
-        // NOTE_WITH_OCTAVE -> FREQUENCY -> (HOLES only key) -> NOTE_WITH_OCTAVE
+        // NOTE_WITH_OCTAVE -> FREQUENCY -> HOLES -> NOTE_WITH_OCTAVE
         switch (noteVisual)
         {
             case NOTE_WITH_OCTAVE:
@@ -62,16 +61,8 @@ public class NoteTranslator
                 return R.string.frequency;
 
             case FREQUENCY:
-                if (keyName.equals(NO_KEY))
-                {
-                    noteVisual = NoteVisual.NOTE_WITH_OCTAVE;
-                    return R.string.notes;
-                }
-                else
-                {
-                    noteVisual = NoteVisual.HOLES;
-                    return R.string.holes;
-                }
+                noteVisual = NoteVisual.HOLES;
+                return R.string.holes;
 
             default:
                 noteVisual = NoteVisual.NOTE_WITH_OCTAVE;

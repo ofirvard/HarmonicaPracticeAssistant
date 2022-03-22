@@ -52,7 +52,6 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // TODO: 08/03/2022 make settings a list of views, each a section of settings
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -76,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity
         setPreviewText();
         slim = findViewById(R.id.slim);
         slim.setChecked(settings.isKeyboardSlim());
-        setupKeySpinner();// TODO: 21/03/2022 set key form settings
+        setupKeySpinner();
     }
 
     private void setupRecyclerView()
@@ -261,7 +260,6 @@ public class SettingsActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
-                // TODO: 21/03/2022 set new option
                 settings.setDefaultKey(HarmonicaUtils.getKeys().get(i).getKeyName());
             }
 

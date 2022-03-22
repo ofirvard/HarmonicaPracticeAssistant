@@ -8,9 +8,8 @@ public class Constants
     public static final String SETTINGS = "SETTINGS";
     public static final String NEW_SONGS_IMPORTED = "NEW_SONGS_IMPORTED";
     public static final String JSON_END = ".json";
-    public static final String NO_KEY = "None";
     public static final String NOT_APPLICABLE = "N/A";
-    public static final String DEFAULT_KEY = "C";// TODO: 1/30/2022 make this configurable setting
+    public static final String DEFAULT_KEY = "C";
 
     public static final double DEVIATION_PERCENT = 0.01;
 

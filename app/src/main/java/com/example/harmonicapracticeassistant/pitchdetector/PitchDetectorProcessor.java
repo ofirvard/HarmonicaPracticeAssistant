@@ -10,8 +10,6 @@ import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
 import java.util.List;
 
-import static com.example.harmonicapracticeassistant.utils.Constants.NO_KEY;
-
 public class PitchDetectorProcessor
 {
     // TODO: 1/30/2022 this will have a list of the notes and the active key, visual
@@ -43,10 +41,5 @@ public class PitchDetectorProcessor
     public void setCurrentKey(Key key)
     {
         this.key = key;
-    }
-
-    public boolean isCurrentKeyNone()
-    {
-        return key.getKeyName().equals(NO_KEY);
     }
 }
