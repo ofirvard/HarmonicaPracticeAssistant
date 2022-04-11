@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.Song;
+import com.example.harmonicapracticeassistant.editor2.Editor2Activity;
 import com.example.harmonicapracticeassistant.pitchdetector.PitchDetectorActivity;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
@@ -37,26 +38,33 @@ public class MainActivity extends AppCompatActivity
 
     public void newSong(View view)
     {
-        Intent intent = new Intent(this, SongActivity.class);
+//        Intent intent = new Intent(this, SongActivity.class);
+        Intent intent = new Intent(this, Editor2Activity.class);
+
         intent.putExtra(Constants.IS_NEW_SONG, true);
         intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Constants.SETTINGS, settings);
+
         startActivityForResult(intent, Constants.SONG_LIST_UPDATE_CODE);
     }
 
     public void loadSongs(View view)
     {
         Intent intent = new Intent(this, SongListActivity.class);
+
         intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Constants.SETTINGS, settings);
+
         startActivityForResult(intent, Constants.SONG_LIST_UPDATE_CODE);
     }
 
     public void settings(View view)
     {
         Intent intent = new Intent(this, SettingsActivity.class);
+
         intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Constants.SETTINGS, settings);
+
         startActivityForResult(intent, Constants.SETTINGS_REQUEST_CODE);
     }
 

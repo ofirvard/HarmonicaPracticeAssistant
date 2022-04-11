@@ -14,6 +14,7 @@
         android:roundIcon="@drawable/harmonica"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".editor2.Editor2Activity"></activity>
         <activity android:name=".pitchdetector.PitchDetectorActivity" />
         <activity android:name=".editor.SongBuilder2" />
         <activity android:name=".activities.SettingsActivity" />
@@ -22,6 +23,7 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
