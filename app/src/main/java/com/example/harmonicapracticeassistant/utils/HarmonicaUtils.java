@@ -22,11 +22,13 @@ public class HarmonicaUtils
 {
     private static List<Note> notes = null;
     private static List<Key> keys = null;
+    private static List<String> legalTabs = null;
 
     public static void setUp(Context context)
     {
         setupAllNotes(context);
         setupAllKeys(context);
+        setupLegalTabs(context);
     }
 
     public static List<Note> getNotes()
@@ -71,6 +73,19 @@ public class HarmonicaUtils
         }
     }
 
+    private static void setupLegalTabs(Context context)
+    {
+        if (legalTabs == null)
+        {
+            Type listOfString = new TypeToken<List<String>>()
+            {
+            }.getType();
+
+            Gson gson = new Gson();
+            legalTabs = gson.fromJson(RawReader.getNoteFrequency(context), listOfString);
+        }
+    }
+
     private static List<KewRaw> readRawKeys(Context context)
     {
         Gson gson = new GsonBuilder().
@@ -99,7 +114,7 @@ public class HarmonicaUtils
             Gson gson = new GsonBuilder().
                     registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
                     create();
-            Type listOfNotes = new TypeToken<ArrayList<Note>>()
+            Type listOfNotes = new TypeToken<List<Note>>()
             {
             }.getType();
 

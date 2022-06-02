@@ -24,8 +24,6 @@ public class Editor2Activity extends AppCompatActivity
         editText.setInputType(EditorInfo.TYPE_NULL);
         editText.setShowSoftInputOnFocus(false);
         editText.setRawInputType(InputType.TYPE_CLASS_TEXT);
-
-
     }
 
     public void test(View view)
