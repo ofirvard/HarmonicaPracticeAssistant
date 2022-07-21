@@ -104,7 +104,7 @@ public class SongActivity extends AppCompatActivity
         // TODO: 1/31/21 move to function
         this.keyboard.setVisibility(LinearLayout.GONE);
         findViewById(R.id.backspace).setVisibility(View.GONE);
-        findViewById(R.id.enter).setVisibility(View.GONE);
+        findViewById(R.id.new_line).setVisibility(View.GONE);
         findViewById(R.id.blowDraw).setVisibility(View.GONE);
         findViewById(R.id.space).setVisibility(View.GONE);
         findViewById(R.id.more_buttons).setVisibility(View.GONE);
@@ -206,7 +206,7 @@ public class SongActivity extends AppCompatActivity
                     songTabs.append(Song.noteTranslator(Constants.NOTE_SPACE));
                     break;
 
-                case R.id.enter:// TODO: 16/04/2021 this will create two line
+                case R.id.new_line:// TODO: 16/04/2021 this will create two line
 //                    song.addNote(Keys.NOTE_ENTER);
 //                    songTabs.append(Song.noteTranslator(Keys.NOTE_ENTER));
                     break;
@@ -320,7 +320,7 @@ public class SongActivity extends AppCompatActivity
 
             keyboard.setVisibility(LinearLayout.GONE);
             findViewById(R.id.backspace).setVisibility(View.GONE);
-            findViewById(R.id.enter).setVisibility(View.GONE);
+            findViewById(R.id.new_line).setVisibility(View.GONE);
             findViewById(R.id.space).setVisibility(View.GONE);
             findViewById(R.id.more_buttons).setVisibility(View.GONE);
 //            findViewById(R.id.bracketOpen).setVisibility(View.GONE);
@@ -341,7 +341,7 @@ public class SongActivity extends AppCompatActivity
 
             keyboard.setVisibility(LinearLayout.VISIBLE);
             findViewById(R.id.backspace).setVisibility(View.VISIBLE);
-            findViewById(R.id.enter).setVisibility(View.VISIBLE);
+            findViewById(R.id.new_line).setVisibility(View.VISIBLE);
             findViewById(R.id.space).setVisibility(View.VISIBLE);
             findViewById(R.id.more_buttons).setVisibility(View.VISIBLE);
 //            findViewById(R.id.bracketOpen).setVisibility(View.VISIBLE);

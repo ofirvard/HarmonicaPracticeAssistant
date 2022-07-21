@@ -37,11 +37,11 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="space"
-        app:srcCompat="@drawable/spacebar"
+        app:srcCompat="@drawable/space_bar"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/enter"
+        android:id="@+id/new_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3sp"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="note_blow_1">1</string>
+    <string name="note_blow_2">2</string>
+    <string name="note_blow_3">3</string>
+    <string name="note_blow_4">4</string>
+    <string name="note_blow_5">5</string>
+    <string name="note_blow_6">6</string>
+    <string name="note_blow_7">7</string>
+    <string name="note_blow_8">8</string>
+    <string name="note_blow_9">9</string>
+    <string name="note_blow_10">10</string>
+    <string name="note_draw_1">-1</string>
+    <string name="note_draw_2">-2</string>
+    <string name="note_draw_3">-3</string>
+    <string name="note_draw_4">-4</string>
+    <string name="note_draw_5">-5</string>
+    <string name="note_draw_6">-6</string>
+    <string name="note_draw_7">-7</string>
+    <string name="note_draw_8">-8</string>
+    <string name="note_draw_9">-9</string>
+    <string name="note_draw_10">-10</string>
+</resources>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@color/colorPrimary"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent">
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:onClick="note"
             android:text=" 1 " />
@@ -117,7 +118,7 @@
             android:background="@drawable/round_button"
             android:gravity="center"
             android:onClick="note"
-            android:text=" 3 " />
+            android:text="3" />
 
         <TextView
             android:id="@+id/button_m3"
@@ -137,7 +138,7 @@
             android:background="@drawable/round_button"
             android:gravity="center"
             android:onClick="note"
-            android:text=" 8 " />
+            android:text="8" />
 
         <TextView
             android:id="@+id/button_m8"
@@ -164,7 +165,7 @@
             android:background="@drawable/round_button"
             android:gravity="center"
             android:onClick="note"
-            android:text=" 4 " />
+            android:text="4" />
 
         <TextView
             android:id="@+id/button_m4"
@@ -184,7 +185,7 @@
             android:background="@drawable/round_button"
             android:gravity="center"
             android:onClick="note"
-            android:text=" 9 " />
+            android:text="9" />
 
         <TextView
             android:id="@+id/button_m9"
@@ -211,7 +212,7 @@
             android:background="@drawable/round_button"
             android:gravity="center"
             android:onClick="note"
-            android:text=" 5 " />
+            android:text="5" />
 
         <TextView
             android:id="@+id/button_m5"

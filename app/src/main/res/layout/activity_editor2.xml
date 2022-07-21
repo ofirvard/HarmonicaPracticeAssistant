@@ -9,27 +9,36 @@
 
     <EditText
         android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0sp"
+        android:layout_height="0sp"
+        android:autofillHints="Write your notes"
         android:ems="10"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:maxLines="100"
         android:textIsSelectable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/extra_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="LabelFor" />
 
-    <Button
-        android:id="@+id/button"
+    <include
+        android:id="@+id/extra_buttons"
+        layout="@layout/buttons_extra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Button"
-        android:onClick="test"
+        app:layout_constraintBottom_toTopOf="@id/keyboard"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <include
+        android:id="@+id/keyboard"
+        layout="@layout/buttons_full_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

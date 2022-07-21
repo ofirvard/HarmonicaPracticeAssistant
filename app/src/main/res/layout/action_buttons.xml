@@ -34,13 +34,13 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="space"
-        app:layout_constraintEnd_toStartOf="@+id/enter"
+        app:layout_constraintEnd_toStartOf="@+id/new_line"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/spacebar"
+        app:srcCompat="@drawable/space_bar"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/enter"
+        android:id="@+id/new_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3sp"

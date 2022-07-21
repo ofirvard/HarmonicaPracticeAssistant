@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/half_step_bend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:onClick="halfStepBend">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3sp"
+            android:layout_marginBottom="5sp"
+            android:clickable="false"
+            android:focusable="false"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:elevation="16dp"
+            android:focusable="false"
+            android:text="@string/half_step_bend"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/whole_step_bend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:onClick="wholeStepBend">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3sp"
+            android:layout_marginBottom="5sp"
+            android:clickable="false"
+            android:focusable="false"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:elevation="16dp"
+            android:focusable="false"
+            android:text="@string/whole_step_bend"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/step_and_a_half_bend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:onClick="stepAndAHalfBend">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="3sp"
+            android:layout_marginBottom="5sp"
+            android:clickable="false"
+            android:focusable="false"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:elevation="16dp"
+            android:focusable="false"
+            android:text="@string/step_and_a_half_bend"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
+    </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="space"
+        app:srcCompat="@drawable/space_bar"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="newLine"
+        app:srcCompat="@drawable/enter"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/backspace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3sp"
+        android:layout_marginBottom="5sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:longClickable="true"
+        android:onClick="backspace"
+        app:srcCompat="@drawable/backspace"
+        tools:ignore="ContentDescription" />
+</LinearLayout>
