@@ -82,7 +82,7 @@ public class HarmonicaUtils
             }.getType();
 
             Gson gson = new Gson();
-            legalTabs = gson.fromJson(RawReader.getNoteFrequency(context), listOfString);
+            legalTabs = gson.fromJson(RawReader.getLegalTabs(context), listOfString);
         }
     }
 

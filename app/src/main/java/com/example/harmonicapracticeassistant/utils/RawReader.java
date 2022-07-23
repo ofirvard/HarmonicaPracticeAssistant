@@ -21,6 +21,11 @@ public class RawReader
         return read(context, R.raw.harmonica_keys);
     }
 
+    public static String getLegalTabs(Context context)
+    {
+        return read(context, R.raw.all_legal_keys);
+    }
+
     private static String read(Context context, int id)
     {
         try
