@@ -14,4 +14,19 @@
         <item name="android:onClick">writeNote</item>
     </style>
 
+    <style name="ExtraButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_marginEnd">3sp</item>
+        <item name="android:layout_marginBottom">5sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="FrameExtraButton" parent="ExtraButton">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+    </style>
+
 </resources>

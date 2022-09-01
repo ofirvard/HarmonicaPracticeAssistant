@@ -115,15 +115,17 @@ public class PitchDetectorActivity extends AppCompatActivity
     @SuppressLint("DefaultLocale")
     private void updateHertz()
     {
-        Pair<Note, List<Hole>> noteWithHoles = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency());
-        notePairListHandler.add(noteWithHoles);
+        Pair<Note, List<Hole>> noteHolesPair = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency());
+        // TODO: 9/1/2022 dont use pair, get holes each time, or dont save note, use first hole
+        notePairListHandler.add(noteHolesPair);
 
-        if (noteWithHoles != null)
+        if (noteHolesPair != null)
         {
             pitchDetectorAdapter.notifyDataSetChanged();
+            // TODO: 9/1/2022 dont update unless you need to
             notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(notePairListHandler.getLastPosition()));// TODO: 08/03/2022 this feels a little weird
-            hertz.setText(NoteTranslator.holesToString(pitchDetectorProcessor.getKey().isSharp(), noteWithHoles));
-            Log.d("Hertz Update", "updated ui: " + noteWithHoles.first);
+            hertz.setText(NoteTranslator.holesToString(pitchDetectorProcessor.getKey().isSharp(), noteHolesPair));
+            Log.d("Hertz Update", "updated ui: " + noteHolesPair.first);
         }
         else
         {

@@ -60,6 +60,14 @@ public class HarmonicaUtils
         return keys.get(0);
     }
 
+    public static List<String> findIllegalTabs(List<String> tabs)
+    {
+        return tabs.stream()
+                .filter(s -> !legalTabs.contains(s))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     private static void setupAllKeys(Context context)
     {
         if (keys == null)

@@ -8,7 +8,7 @@
     tools:context=".editor2.Editor2Activity">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/edit_text_song_tabs"
         android:layout_width="0sp"
         android:layout_height="0sp"
         android:autofillHints="Write your notes"

@@ -37,4 +37,7 @@ public class Constants
     public static final int WHOLE_BEND = 18;
     public static final int WHOLE_HALF_BEND = 19;
     public static final int OVER = 20;
+
+    public static final int BACKSPACE_LONG_CLICK_INITIAL_DELAY = 500;
+    public static final int BACKSPACE_LONG_CLICK_DELETE_DELAY = 50;
 }

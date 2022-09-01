@@ -1,10 +1,19 @@
 package com.example.harmonicapracticeassistant.editor2;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.widget.EditText;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
+import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditorUtil
 {
@@ -15,9 +24,12 @@ public class EditorUtil
         this.editText = editText;
     }
 
-    public String[] getNotesStringList()
+    public List<String> getNotesStringList()
     {
-        return editText.getText().toString().split(" ");
+        return Arrays.stream(editText.getText().toString()
+                .split("[ \n]"))
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
     }
 
     public void smartDelete()
@@ -33,10 +45,12 @@ public class EditorUtil
         String note = findNoteString(context, id);
 
         if (!note.equals(""))
-            editText.getText()
-                    .replace(editText.getSelectionStart(),
-                            editText.getSelectionEnd(),
-                            note + " ");
+        {
+            space();
+            editText.getText().replace(editText.getSelectionStart(),
+                    editText.getSelectionEnd(),
+                    note);
+        }
     }
 
     public void space()
@@ -52,6 +66,33 @@ public class EditorUtil
     public void bend(Bend bend)
     {
         editText.getText().insert(editText.getSelectionStart(), bend.toString());
+    }
+
+    public void colorIllegalTabs()
+    {
+        List<String> illegalTabs = HarmonicaUtils.findIllegalTabs(getNotesStringList());
+
+        String tabs = editText.getText().toString();
+        Spannable spannable = new SpannableString(tabs);
+
+        for (String illegalTab : illegalTabs)
+            colorIllegalTab(tabs, spannable, illegalTab);
+
+        editText.setText(spannable);
+    }
+
+    private void colorIllegalTab(String tabs, Spannable spannable, String illegalTab)
+    {
+        int index = tabs.indexOf(illegalTab);
+
+        while (index >= 0)
+        {
+            // TODO: 9/1/2022 check if start or if space before
+            if (index == 0 || tabs.charAt(index - 1) == ' ')
+                spannable.setSpan(new ForegroundColorSpan(Color.RED), index, index + illegalTab.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+
+            index = tabs.indexOf(illegalTab, index + 1);
+        }
     }
 
     private String findNoteString(Context context, int id)
