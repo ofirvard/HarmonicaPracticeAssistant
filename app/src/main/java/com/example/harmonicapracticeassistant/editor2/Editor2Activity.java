@@ -1,5 +1,6 @@
 package com.example.harmonicapracticeassistant.editor2;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -11,7 +12,11 @@ import android.widget.EditText;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
+import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,21 +41,33 @@ public class Editor2Activity extends AppCompatActivity
 
     private EditorUtil editorUtil;
     private boolean backspacePressed = false;
+    private Song song;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // TODO: 8/31/2022 load song
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor2);
 
-        HarmonicaUtils.setUp(getApplicationContext());
-
-        getSupportActionBar().setTitle("New Song");
-
+        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
         EditText editText = findViewById(R.id.edit_text_song_tabs);
+        // TODO: 9/9/2022 add slim keyboard
+        if (getIntent().getExtras().getBoolean(Constants.IS_NEW_SONG))
+            song = new Song(String.format("%s %d", getResources().getString(R.string.new_song), appSettings.getSongNextId()),
+                    "",
+                    appSettings.getSongNextId());
+        else
+        {
+            song = getIntent().getExtras().getParcelable(Constants.SONG);
+            editText.setText(song.getNotes());
+        }
+
+        HarmonicaUtils.setUp(getApplicationContext());
+        Objects.requireNonNull(getSupportActionBar()).setTitle("New Song");
+
         editText.setShowSoftInputOnFocus(false);
         editText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setTextSize(appSettings.getDefaultTextSize());
 
         editorUtil = new EditorUtil(editText);
 
@@ -85,6 +102,7 @@ public class Editor2Activity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.edit_song_menu, menu);
+
         return true;
     }
 
@@ -94,17 +112,13 @@ public class Editor2Activity extends AppCompatActivity
         // Handle item selection
         if (item.getItemId() == R.id.edit_song_save)
         {
-//            saveSong();// TODO: 8/31/2022 save song
-            if (!HarmonicaUtils.findIllegalTabs(editorUtil.getNotesStringList()).isEmpty())
-            {
-                // TODO: 9/1/2022 show popup warning that there are illegal tabs
-            }
-
-            editorUtil.colorIllegalTabs();
-
-
-            return true;
+            saveSongMenuItem();
         }
+        else if (item.getItemId() == R.id.edit_song_name)
+        {
+            renameSongMenuItem();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -138,8 +152,45 @@ public class Editor2Activity extends AppCompatActivity
         editorUtil.space();
     }
 
-    public void save(MenuItem menuItem)
+    private void renameSongMenuItem()
     {
-        // TODO: 9/1/2022 check if all legal
+        final EditText edittext = new EditText(getApplicationContext());
+        edittext.setText(song.getName());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.rename_title);
+        builder.setView(edittext);
+        builder.setPositiveButton(R.string.rename, (dialog, which) -> song.setName(edittext.getText().toString()));
+        builder.setNegativeButton(R.string.discard, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void saveSongMenuItem()
+    {
+        if (!HarmonicaUtils.findIllegalTabs(editorUtil.getNotesStringList()).isEmpty())
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.warning);
+            builder.setMessage(R.string.illegal_tabs_warning);
+            builder.setPositiveButton(R.string.yes, (dialog, which) -> saveSong());
+            builder.setNegativeButton(R.string.no, (dialog, which) -> editorUtil.colorIllegalTabs());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else
+            saveSong();
+    }
+
+    private void saveSong()
+    {
+        if (song.getName().equals(""))
+            song.setName(String.format("%s %d", getResources().getString(R.string.new_song), song.getId()));
+
+        song.setNotes(editorUtil.getEditTextString());
+
+        // TODO: 9/9/2022 use save util
     }
 }

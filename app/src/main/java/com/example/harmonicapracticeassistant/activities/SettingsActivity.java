@@ -22,7 +22,8 @@ import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.FileUtils;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
-import com.example.harmonicapracticeassistant.utils.SaveHandler;
+import com.example.harmonicapracticeassistant.utils.LoadUtils;
+import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.gson.Gson;
 
@@ -105,7 +106,7 @@ public class SettingsActivity extends AppCompatActivity
             {
                 fileUri = data.getData();
                 File file = new File(FileUtils.getPath(this, fileUri));
-                List<Song> importedSongs = SaveHandler.loadSongs(file);
+                List<Song> importedSongs = SaveUtils.importSongs(file);
                 if (importedSongs.isEmpty())
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -196,8 +197,8 @@ public class SettingsActivity extends AppCompatActivity
     public void save(View view)
     {
         settings.setKeyboardSlim(slim.isChecked());
-        SaveHandler.saveSettings(getApplicationContext(), settings);
-        SaveHandler.saveSongs(getApplicationContext(), songs);
+        SaveUtils.saveSettings(getApplicationContext(), settings);
+        SaveUtils.saveSongs(getApplicationContext(), songs);
 
         Intent intent = new Intent();
         intent.putExtra(Constants.SETTINGS, settings);

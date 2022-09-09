@@ -9,7 +9,8 @@ import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.editor.SongListAdapter;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
-import com.example.harmonicapracticeassistant.utils.SaveHandler;
+import com.example.harmonicapracticeassistant.utils.LoadUtils;
+import com.example.harmonicapracticeassistant.utils.SaveUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class SongListActivity extends AppCompatActivity
             {
                 songs = data.getExtras().getParcelableArrayList(Constants.SONGS);
                 mAdapter.setSongs(songs);
-                SaveHandler.saveSongs(getApplicationContext(), songs);
+                SaveUtils.saveSongs(getApplicationContext(), songs);
             }
         }
     }

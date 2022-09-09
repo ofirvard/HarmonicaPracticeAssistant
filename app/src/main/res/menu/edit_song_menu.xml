@@ -6,4 +6,8 @@
         android:id="@+id/edit_song_save"
         android:title="@string/save"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/edit_song_name"
+        android:title="@string/rename"
+        app:showAsAction="ifRoom" />
 </menu>

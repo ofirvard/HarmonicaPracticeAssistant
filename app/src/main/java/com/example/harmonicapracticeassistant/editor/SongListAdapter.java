@@ -15,7 +15,8 @@ import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.activities.SongActivity;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
-import com.example.harmonicapracticeassistant.utils.SaveHandler;
+import com.example.harmonicapracticeassistant.utils.LoadUtils;
+import com.example.harmonicapracticeassistant.utils.SaveUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,7 +93,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
                         songs.remove(position);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, songs.size());
-                        SaveHandler.saveSongs(context, songs);
+                        SaveUtils.saveSongs(context, songs);
                     }
                 });
 

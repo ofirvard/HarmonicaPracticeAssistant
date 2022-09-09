@@ -6,14 +6,15 @@ import android.os.Parcelable;
 public class AppSettings implements Parcelable
 {
     private int defaultTextSize;
-    private String defaultKey;// TODO: 09/03/2022 add this
+    private String defaultKey;// TODO: 09/03/2022 add this to recorder
     private boolean isKeyboardSlim;
+    private int nextSongId;
 
-    public AppSettings(int defaultTextSize, String defaultKey, boolean isKeyboardSlim)
+    public AppSettings()
     {
-        this.defaultTextSize = defaultTextSize;
-        this.defaultKey = defaultKey;
-        this.isKeyboardSlim = isKeyboardSlim;
+        this.defaultTextSize = Constants.DEFAULT_TEXT_SIZE;
+        this.defaultKey = Constants.DEFAULT_KEY;
+        this.isKeyboardSlim = false;
     }
 
     protected AppSettings(Parcel in)
@@ -82,4 +83,9 @@ public class AppSettings implements Parcelable
             return new AppSettings[size];
         }
     };
+
+    public int getSongNextId()
+    {
+        return nextSongId;
+    }
 }

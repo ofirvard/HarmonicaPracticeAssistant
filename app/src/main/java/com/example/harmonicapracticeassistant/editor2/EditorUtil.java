@@ -24,10 +24,15 @@ public class EditorUtil
         this.editText = editText;
     }
 
+    public String getEditTextString()
+    {
+        return editText.getText().toString();
+    }
+
     public List<String> getNotesStringList()
     {
         return Arrays.stream(editText.getText().toString()
-                .split("[ \n]"))
+                        .split("[ \n]"))
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
     }
