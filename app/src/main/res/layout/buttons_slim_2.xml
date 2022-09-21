@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/buttons_back"
+    android:columnCount="5"
+    android:padding="3sp"
+    android:rowCount="4">
+
+    <Button
+        android:id="@+id/note_1"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_1" />
+
+    <Button
+        android:id="@+id/note_2"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_2" />
+
+    <Button
+        android:id="@+id/note_3"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_column="2"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_3" />
+
+    <Button
+        android:id="@+id/note_4"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_column="3"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_4" />
+
+    <Button
+        android:id="@+id/note_5"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_rowWeight="1"
+        android:layout_column="4"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_5" />
+
+    <Button
+        android:id="@+id/note_6"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_rowWeight="2"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_6" />
+
+    <Button
+        android:id="@+id/note_7"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_rowWeight="1"
+        android:layout_column="1"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_7" />
+
+    <Button
+        android:id="@+id/note_8"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_rowWeight="1"
+        android:layout_column="2"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_8" />
+
+    <Button
+        android:id="@+id/note_9"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_rowWeight="1"
+        android:layout_column="3"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_9" />
+
+    <Button
+        android:id="@+id/note_10"
+        style="@style/NoteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_rowWeight="1"
+        android:layout_column="4"
+        android:layout_columnWeight="1"
+        android:text="@string/keyboard_blow_10" />
+
+</GridLayout>

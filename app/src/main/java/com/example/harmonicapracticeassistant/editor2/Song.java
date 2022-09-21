@@ -1,16 +1,18 @@
 package com.example.harmonicapracticeassistant.editor2;
 
+import java.util.UUID;
+
 public class Song
 {
     private String name;
     private String notes;
-    private int id;
+    private UUID id;
 
-    public Song(String name, String notes, int id)
+    public Song(String name, String notes)
     {
         this.name = name;
         this.notes = notes;
-        this.id = id;
+        this.id = UUID.randomUUID();
     }
 
     public String getName()
@@ -33,7 +35,7 @@ public class Song
         this.notes = notes;
     }
 
-    public int getId()
+    public UUID getId()
     {
         return id;
     }

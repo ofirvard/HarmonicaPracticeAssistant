@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.harmonicapracticeassistant.R;
@@ -15,6 +17,7 @@ import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
@@ -42,6 +45,8 @@ public class Editor2Activity extends AppCompatActivity
     private EditorUtil editorUtil;
     private boolean backspacePressed = false;
     private Song song;
+    private FloatingActionButton blowDrawSwitch;
+    private boolean isBlow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,11 +56,13 @@ public class Editor2Activity extends AppCompatActivity
 
         AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
         EditText editText = findViewById(R.id.edit_text_song_tabs);
-        // TODO: 9/9/2022 add slim keyboard
+        // TODO: 18/09/2022 add apply settings
+
+        applySettings(appSettings);
+
         if (getIntent().getExtras().getBoolean(Constants.IS_NEW_SONG))
-            song = new Song(String.format("%s %d", getResources().getString(R.string.new_song), appSettings.getSongNextId()),
-                    "",
-                    appSettings.getSongNextId());
+            song = new Song(getResources().getString(R.string.new_song),
+                    "");
         else
         {
             song = getIntent().getExtras().getParcelable(Constants.SONG);
@@ -63,7 +70,7 @@ public class Editor2Activity extends AppCompatActivity
         }
 
         HarmonicaUtils.setUp(getApplicationContext());
-        Objects.requireNonNull(getSupportActionBar()).setTitle("New Song");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(song.getName());
 
         editText.setShowSoftInputOnFocus(false);
         editText.setRawInputType(InputType.TYPE_CLASS_TEXT);
@@ -124,7 +131,7 @@ public class Editor2Activity extends AppCompatActivity
 
     public void writeNote(View view)
     {
-        editorUtil.writeNote(this, view.getId());
+        editorUtil.writeNote(this, isBlow, view.getId());
     }
 
     public void halfStepBend(View view)
@@ -152,19 +159,68 @@ public class Editor2Activity extends AppCompatActivity
         editorUtil.space();
     }
 
+    public void switchBlowDraw(View view)
+    {
+        if (isBlow)
+        {
+            isBlow = false;
+            blowDrawSwitch.setImageResource(R.drawable.minus);
+        }
+        else
+        {
+            isBlow = true;
+            blowDrawSwitch.setImageResource(R.drawable.plus);
+        }
+
+        updateSlimKeyboard();
+    }
+
+    private void updateSlimKeyboard()
+    {
+        if (isBlow)
+        {
+            ((Button) findViewById(R.id.note_1)).setText(R.string.keyboard_blow_1);
+            ((Button) findViewById(R.id.note_1)).setText(R.string.keyboard_blow_1);
+            ((Button) findViewById(R.id.note_2)).setText(R.string.keyboard_blow_2);
+            ((Button) findViewById(R.id.note_3)).setText(R.string.keyboard_blow_3);
+            ((Button) findViewById(R.id.note_4)).setText(R.string.keyboard_blow_4);
+            ((Button) findViewById(R.id.note_5)).setText(R.string.keyboard_blow_5);
+            ((Button) findViewById(R.id.note_6)).setText(R.string.keyboard_blow_6);
+            ((Button) findViewById(R.id.note_7)).setText(R.string.keyboard_blow_7);
+            ((Button) findViewById(R.id.note_8)).setText(R.string.keyboard_blow_8);
+            ((Button) findViewById(R.id.note_9)).setText(R.string.keyboard_blow_9);
+            ((Button) findViewById(R.id.note_10)).setText(R.string.keyboard_blow_10);
+        }
+        else
+        {
+            ((Button) findViewById(R.id.note_1)).setText(R.string.keyboard_draw_1);
+            ((Button) findViewById(R.id.note_1)).setText(R.string.keyboard_draw_1);
+            ((Button) findViewById(R.id.note_2)).setText(R.string.keyboard_draw_2);
+            ((Button) findViewById(R.id.note_3)).setText(R.string.keyboard_draw_3);
+            ((Button) findViewById(R.id.note_4)).setText(R.string.keyboard_draw_4);
+            ((Button) findViewById(R.id.note_5)).setText(R.string.keyboard_draw_5);
+            ((Button) findViewById(R.id.note_6)).setText(R.string.keyboard_draw_6);
+            ((Button) findViewById(R.id.note_7)).setText(R.string.keyboard_draw_7);
+            ((Button) findViewById(R.id.note_8)).setText(R.string.keyboard_draw_8);
+            ((Button) findViewById(R.id.note_9)).setText(R.string.keyboard_draw_9);
+            ((Button) findViewById(R.id.note_10)).setText(R.string.keyboard_draw_10);
+            ;
+        }
+    }
+
     private void renameSongMenuItem()
     {
         final EditText edittext = new EditText(getApplicationContext());
         edittext.setText(song.getName());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.rename_title);
-        builder.setView(edittext);
-        builder.setPositiveButton(R.string.rename, (dialog, which) -> song.setName(edittext.getText().toString()));
-        builder.setNegativeButton(R.string.discard, null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.rename_title)
+                .setView(edittext)
+                .setPositiveButton(R.string.rename, (dialog, which) -> {
+                    song.setName(edittext.getText().toString());
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(song.getName());
+                })
+                .setNegativeButton(R.string.discard, null).create().show();
     }
 
     private void saveSongMenuItem()
@@ -192,5 +248,19 @@ public class Editor2Activity extends AppCompatActivity
         song.setNotes(editorUtil.getEditTextString());
 
         // TODO: 9/9/2022 use save util
+    }
+
+    private void applySettings(AppSettings appSettings)
+    {
+        if (appSettings.isKeyboardSlim())
+        {
+            blowDrawSwitch = findViewById(R.id.blow_draw_switch);
+            blowDrawSwitch.setVisibility(View.VISIBLE);
+
+            ViewStub keyboardStub = findViewById(R.id.keyboard_stub);
+            keyboardStub.setLayoutResource(R.layout.buttons_slim_2);
+            keyboardStub.inflate();
+            // TODO: 19/09/2022 change stub to slim
+        }
     }
 }

@@ -5,16 +5,10 @@ import android.util.Log;
 
 import com.example.harmonicapracticeassistant.editor.Song;
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 
-import org.json.JSONArray;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -38,6 +32,9 @@ public class LoadUtils
         } catch (IOException e)
         {
             Log.d(Tags.ERROR, "Failed to read song list", e);
+        } catch (NullPointerException e)
+        {
+            Log.d(Tags.ERROR, String.format("Failed to read song list, possible data corruption: %s", data), e);
         }
 
         return songs;
@@ -45,7 +42,6 @@ public class LoadUtils
 
     public static AppSettings loadSettings(Context context)
     {
-        // TODO: 9/9/2022 check song list for largest id
         AppSettings settings = new AppSettings();
         String data = "";
         try

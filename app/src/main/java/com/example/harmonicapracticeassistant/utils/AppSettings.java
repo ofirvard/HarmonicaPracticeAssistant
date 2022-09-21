@@ -3,18 +3,26 @@ package com.example.harmonicapracticeassistant.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class AppSettings implements Parcelable
 {
     private int defaultTextSize;
     private String defaultKey;// TODO: 09/03/2022 add this to recorder
     private boolean isKeyboardSlim;
-    private int nextSongId;
 
     public AppSettings()
     {
         this.defaultTextSize = Constants.DEFAULT_TEXT_SIZE;
         this.defaultKey = Constants.DEFAULT_KEY;
         this.isKeyboardSlim = false;
+    }
+
+    public AppSettings(AppSettings oldSettings)
+    {
+        this.defaultTextSize = oldSettings.getDefaultTextSize();
+        this.defaultKey = oldSettings.getDefaultKey();
+        this.isKeyboardSlim = oldSettings.isKeyboardSlim();
     }
 
     protected AppSettings(Parcel in)
@@ -84,8 +92,10 @@ public class AppSettings implements Parcelable
         }
     };
 
-    public int getSongNextId()
+    public boolean hasChanged(AppSettings newSettings)
     {
-        return nextSongId;
+        return !Objects.equals(defaultKey, newSettings.getDefaultKey()) ||
+                isKeyboardSlim != newSettings.isKeyboardSlim() ||
+                defaultTextSize != newSettings.getDefaultTextSize();
     }
 }

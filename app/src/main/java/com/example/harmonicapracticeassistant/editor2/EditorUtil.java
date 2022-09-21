@@ -45,9 +45,9 @@ public class EditorUtil
             deleteLastNote();
     }
 
-    public void writeNote(Context context, int id)
+    public void writeNote(Context context, boolean isBlow, int id)
     {
-        String note = findNoteString(context, id);
+        String note = findNoteString(context, isBlow, id);
 
         if (!note.equals(""))
         {
@@ -100,7 +100,7 @@ public class EditorUtil
         }
     }
 
-    private String findNoteString(Context context, int id)
+    private String findNoteString(Context context, boolean isBlow, int id)
     {
         if (id == R.id.note_blow_1)
         {
@@ -181,6 +181,46 @@ public class EditorUtil
         else if (id == R.id.note_draw_10)
         {
             return context.getString(R.string.note_draw_10);
+        }
+        else if (id == R.id.note_1)
+        {
+            return isBlow ? context.getString(R.string.note_blow_1) : context.getString(R.string.note_draw_1);
+        }
+        else if (id == R.id.note_2)
+        {
+            return isBlow ? context.getString(R.string.note_blow_2) : context.getString(R.string.note_draw_2);
+        }
+        else if (id == R.id.note_3)
+        {
+            return isBlow ? context.getString(R.string.note_blow_3) : context.getString(R.string.note_draw_3);
+        }
+        else if (id == R.id.note_4)
+        {
+            return isBlow ? context.getString(R.string.note_blow_4) : context.getString(R.string.note_draw_4);
+        }
+        else if (id == R.id.note_5)
+        {
+            return isBlow ? context.getString(R.string.note_blow_5) : context.getString(R.string.note_draw_5);
+        }
+        else if (id == R.id.note_6)
+        {
+            return isBlow ? context.getString(R.string.note_blow_6) : context.getString(R.string.note_draw_6);
+        }
+        else if (id == R.id.note_7)
+        {
+            return isBlow ? context.getString(R.string.note_blow_7) : context.getString(R.string.note_draw_7);
+        }
+        else if (id == R.id.note_8)
+        {
+            return isBlow ? context.getString(R.string.note_blow_8) : context.getString(R.string.note_draw_8);
+        }
+        else if (id == R.id.note_9)
+        {
+            return isBlow ? context.getString(R.string.note_blow_9) : context.getString(R.string.note_draw_9);
+        }
+        else if (id == R.id.note_10)
+        {
+            return isBlow ? context.getString(R.string.note_blow_10) : context.getString(R.string.note_draw_10);
         }
 
         return "";

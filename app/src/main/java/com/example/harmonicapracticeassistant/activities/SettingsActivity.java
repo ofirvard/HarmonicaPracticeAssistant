@@ -22,7 +22,6 @@ import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.FileUtils;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
-import com.example.harmonicapracticeassistant.utils.LoadUtils;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.gson.Gson;
@@ -43,10 +42,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SettingsActivity extends AppCompatActivity
 {
-    private AppSettings settings;
+    private AppSettings oldSettings;
+    private AppSettings newSettings;
     private boolean newSongsImported = false;
     private Uri fileUri;
-    private List<Song> songs;
+    private List<Song> songs;// TODO: 22/09/2022 remove this whole thing
     private SwitchMaterial slim;
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
@@ -56,8 +56,9 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        settings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
-        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
+        oldSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
+        newSettings = new AppSettings(oldSettings);
+        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);// TODO: 22/09/2022 remove this whole thing 
 
         setupRecyclerView();
 
@@ -75,7 +76,7 @@ public class SettingsActivity extends AppCompatActivity
     {
         setPreviewText();
         slim = findViewById(R.id.slim);
-        slim.setChecked(settings.isKeyboardSlim());
+        slim.setChecked(newSettings.isKeyboardSlim());
         setupKeySpinner();
     }
 
@@ -140,18 +141,18 @@ public class SettingsActivity extends AppCompatActivity
 
     public void increase(View view)
     {
-        if (settings.getDefaultTextSize() < Constants.MAX_TEXT_SIZE)
+        if (newSettings.getDefaultTextSize() < Constants.MAX_TEXT_SIZE)
         {
-            settings.setDefaultTextSize(settings.getDefaultTextSize() + 1);
+            newSettings.setDefaultTextSize(newSettings.getDefaultTextSize() + 1);
             setPreviewText();
         }
     }
 
     public void decrease(View view)
     {
-        if (settings.getDefaultTextSize() > Constants.MIN_TEXT_SIZE)
+        if (newSettings.getDefaultTextSize() > Constants.MIN_TEXT_SIZE)
         {
-            settings.setDefaultTextSize(settings.getDefaultTextSize() - 1);
+            newSettings.setDefaultTextSize(newSettings.getDefaultTextSize() - 1);
             setPreviewText();
         }
     }
@@ -196,12 +197,12 @@ public class SettingsActivity extends AppCompatActivity
 
     public void save(View view)
     {
-        settings.setKeyboardSlim(slim.isChecked());
-        SaveUtils.saveSettings(getApplicationContext(), settings);
+        newSettings.setKeyboardSlim(slim.isChecked());
+        SaveUtils.saveSettings(getApplicationContext(), newSettings);
         SaveUtils.saveSongs(getApplicationContext(), songs);
 
         Intent intent = new Intent();
-        intent.putExtra(Constants.SETTINGS, settings);
+        intent.putExtra(Constants.SETTINGS, newSettings);
         intent.putExtra(Constants.NEW_SONGS_IMPORTED, newSongsImported);
         setResult(RESULT_OK, intent);
         finish();
@@ -210,8 +211,17 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        save(null);
-        super.onBackPressed();
+        // TODO: 21/09/2022 add popup to ask if to save, only if settings has been changed
+        if (oldSettings.hasChanged(newSettings))
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.save_settings)
+                    .setMessage(R.string.settings_activity_back_press_dialog)
+                    .setPositiveButton(R.string.save, (dialog, which) -> {
+                        save(null);
+                        super.onBackPressed();
+                    }).
+                    setNegativeButton(R.string.discard, (dialog, which) -> super.onBackPressed())
+                    .create().show();
     }
 
     private void setNewSongsImported(List<Song> songsImported)
@@ -241,8 +251,8 @@ public class SettingsActivity extends AppCompatActivity
 
     private void setPreviewText()
     {
-        ((TextView) findViewById(R.id.text_size_preview)).setText(String.format("%d", settings.getDefaultTextSize()));
-        ((TextView) findViewById(R.id.text_size_preview)).setTextSize(TypedValue.COMPLEX_UNIT_SP, settings.getDefaultTextSize());
+        ((TextView) findViewById(R.id.text_size_preview)).setText(String.format("%d", newSettings.getDefaultTextSize()));
+        ((TextView) findViewById(R.id.text_size_preview)).setTextSize(TypedValue.COMPLEX_UNIT_SP, newSettings.getDefaultTextSize());
     }
 
     private void setupKeySpinner()
@@ -255,13 +265,13 @@ public class SettingsActivity extends AppCompatActivity
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         keySpinner.setAdapter(adapter);
-        keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(settings.getDefaultKey()));
+        keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(newSettings.getDefaultKey()));
         keySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
-                settings.setDefaultKey(HarmonicaUtils.getKeys().get(i).getKeyName());
+                newSettings.setDefaultKey(HarmonicaUtils.getKeys().get(i).getKeyName());
             }
 
             @Override

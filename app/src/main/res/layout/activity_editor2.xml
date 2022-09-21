@@ -28,16 +28,32 @@
     <include
         android:id="@+id/extra_buttons"
         layout="@layout/buttons_extra"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_stub"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/blow_draw_switch" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/blow_draw_switch"
+        style="@style/ExtraButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/keyboard"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:onClick="switchBlowDraw"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_stub"
+        app:layout_constraintEnd_toStartOf="@+id/extra_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/plus"
+        tools:ignore="ContentDescription" />
 
-    <include
-        android:id="@+id/keyboard"
-        layout="@layout/buttons_full_2"
+    <ViewStub
+        android:id="@+id/keyboard_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inflatedId="@id/keyboard_stub"
+        android:layout="@layout/buttons_full_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -17,7 +17,7 @@
         android:layout_rowWeight="1"
         android:layout_column="0"
         android:layout_columnWeight="1"
-        android:text="@string/blow_1" />
+        android:text="@string/keyboard_blow_1" />
 
     <Button
         android:id="@+id/note_blow_2"
@@ -28,7 +28,7 @@
         android:layout_rowWeight="1"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:text="@string/blow_2" />
+        android:text="@string/keyboard_blow_2" />
 
     <Button
         android:id="@+id/note_blow_3"
@@ -39,7 +39,7 @@
         android:layout_rowWeight="1"
         android:layout_column="2"
         android:layout_columnWeight="1"
-        android:text="@string/blow_3" />
+        android:text="@string/keyboard_blow_3" />
 
     <Button
         android:id="@+id/note_blow_4"
@@ -50,7 +50,7 @@
         android:layout_rowWeight="1"
         android:layout_column="3"
         android:layout_columnWeight="1"
-        android:text="@string/blow_4" />
+        android:text="@string/keyboard_blow_4" />
 
     <Button
         android:id="@+id/note_blow_5"
@@ -61,7 +61,7 @@
         android:layout_rowWeight="1"
         android:layout_column="4"
         android:layout_columnWeight="1"
-        android:text="@string/blow_5" />
+        android:text="@string/keyboard_blow_5" />
 
     <Button
         android:id="@+id/note_draw_1"
@@ -72,7 +72,7 @@
         android:layout_rowWeight="1"
         android:layout_column="0"
         android:layout_columnWeight="1"
-        android:text="@string/draw_1" />
+        android:text="@string/keyboard_draw_1" />
 
     <Button
         android:id="@+id/note_draw_2"
@@ -83,7 +83,7 @@
         android:layout_rowWeight="1"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:text="@string/draw_2" />
+        android:text="@string/keyboard_draw_2" />
 
     <Button
         android:id="@+id/note_draw_3"
@@ -94,7 +94,7 @@
         android:layout_rowWeight="1"
         android:layout_column="2"
         android:layout_columnWeight="1"
-        android:text="@string/draw_3" />
+        android:text="@string/keyboard_draw_3" />
 
     <Button
         android:id="@+id/note_draw_4"
@@ -105,7 +105,7 @@
         android:layout_rowWeight="1"
         android:layout_column="3"
         android:layout_columnWeight="1"
-        android:text="@string/draw_4" />
+        android:text="@string/keyboard_draw_4" />
 
     <Button
         android:id="@+id/note_draw_5"
@@ -116,7 +116,7 @@
         android:layout_rowWeight="1"
         android:layout_column="4"
         android:layout_columnWeight="1"
-        android:text="@string/draw_5" />
+        android:text="@string/keyboard_draw_5" />
 
     <Button
         android:id="@+id/note_blow_6"
@@ -127,7 +127,7 @@
         android:layout_rowWeight="2"
         android:layout_column="0"
         android:layout_columnWeight="1"
-        android:text="@string/blow_6" />
+        android:text="@string/keyboard_blow_6" />
 
     <Button
         android:id="@+id/note_blow_7"
@@ -138,7 +138,7 @@
         android:layout_rowWeight="1"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:text="@string/blow_7" />
+        android:text="@string/keyboard_blow_7" />
 
     <Button
         android:id="@+id/note_blow_8"
@@ -149,7 +149,7 @@
         android:layout_rowWeight="1"
         android:layout_column="2"
         android:layout_columnWeight="1"
-        android:text="@string/blow_8" />
+        android:text="@string/keyboard_blow_8" />
 
     <Button
         android:id="@+id/note_blow_9"
@@ -160,7 +160,7 @@
         android:layout_rowWeight="1"
         android:layout_column="3"
         android:layout_columnWeight="1"
-        android:text="@string/blow_9" />
+        android:text="@string/keyboard_blow_9" />
 
     <Button
         android:id="@+id/note_blow_10"
@@ -171,7 +171,7 @@
         android:layout_rowWeight="1"
         android:layout_column="4"
         android:layout_columnWeight="1"
-        android:text="@string/blow_10" />
+        android:text="@string/keyboard_blow_10" />
 
     <Button
         android:id="@+id/note_draw_6"
@@ -182,7 +182,7 @@
         android:layout_rowWeight="1"
         android:layout_column="0"
         android:layout_columnWeight="1"
-        android:text="@string/draw_6" />
+        android:text="@string/keyboard_draw_6" />
 
     <Button
         android:id="@+id/note_draw_7"
@@ -193,7 +193,7 @@
         android:layout_rowWeight="1"
         android:layout_column="1"
         android:layout_columnWeight="1"
-        android:text="@string/draw_7" />
+        android:text="@string/keyboard_draw_7" />
 
     <Button
         android:id="@+id/note_draw_8"
@@ -204,7 +204,7 @@
         android:layout_rowWeight="1"
         android:layout_column="2"
         android:layout_columnWeight="1"
-        android:text="@string/draw_8" />
+        android:text="@string/keyboard_draw_8" />
 
     <Button
         android:id="@+id/note_draw_9"
@@ -215,7 +215,7 @@
         android:layout_rowWeight="1"
         android:layout_column="3"
         android:layout_columnWeight="1"
-        android:text="@string/draw_9" />
+        android:text="@string/keyboard_draw_9" />
 
     <Button
         android:id="@+id/note_draw_10"
@@ -226,6 +226,6 @@
         android:layout_rowWeight="1"
         android:layout_column="4"
         android:layout_columnWeight="1"
-        android:text="@string/draw_10" />
+        android:text="@string/keyboard_draw_10" />
 
 </GridLayout>

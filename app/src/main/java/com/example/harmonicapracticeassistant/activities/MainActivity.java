@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         HarmonicaUtils.setUp(getApplicationContext());
-        songs = LoadUtils.loadSongs(getApplicationContext());
-        settings = LoadUtils.loadSettings(getApplicationContext());
+        songs = LoadUtils.loadSongs(this);// TODO: 22/09/2022 remove this 
+        settings = LoadUtils.loadSettings(this);
     }
 
     public void newSong(View view)
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, SongListActivity.class);
 
-        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
+//        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);// TODO: 21/09/2022 load songs inside 
         intent.putExtra(Constants.SETTINGS, settings);
 
         startActivityForResult(intent, Constants.SONG_LIST_UPDATE_CODE);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, SettingsActivity.class);
 
-        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
+//        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
         intent.putExtra(Constants.SETTINGS, settings);
 
         startActivityForResult(intent, Constants.SETTINGS_REQUEST_CODE);
