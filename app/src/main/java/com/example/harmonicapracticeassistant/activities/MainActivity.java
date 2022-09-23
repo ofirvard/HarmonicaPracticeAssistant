@@ -9,6 +9,7 @@ import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.editor2.Editor2Activity;
 import com.example.harmonicapracticeassistant.pitchdetector.PitchDetectorActivity;
+import com.example.harmonicapracticeassistant.songlist.SongListActivity;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
@@ -22,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity
 {
-    private List<Song> songs;
+    private List<Song> songs; // TODO: 9/23/2022 remove this 
     private AppSettings settings;
 
     @Override
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         HarmonicaUtils.setUp(getApplicationContext());
-        songs = LoadUtils.loadSongs(this);// TODO: 22/09/2022 remove this 
+//        songs = LoadUtils.loadSongs(this);// TODO: 22/09/2022 remove this 
         settings = LoadUtils.loadSettings(this);
     }
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 
         intent.putExtra(Constants.IS_NEW_SONG, true);
 //        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
-        intent.putExtra(Constants.SETTINGS, settings);
+        intent.putExtra(Constants.SETTINGS_PARCEL_ID, settings);
 
         startActivityForResult(intent, Constants.SONG_LIST_UPDATE_CODE);
     }
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, SongListActivity.class);
 
 //        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);// TODO: 21/09/2022 load songs inside 
-        intent.putExtra(Constants.SETTINGS, settings);
+        intent.putExtra(Constants.SETTINGS_PARCEL_ID, settings);
 
         startActivityForResult(intent, Constants.SONG_LIST_UPDATE_CODE);
     }
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, SettingsActivity.class);
 
 //        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
-        intent.putExtra(Constants.SETTINGS, settings);
+        intent.putExtra(Constants.SETTINGS_PARCEL_ID, settings);
 
         startActivityForResult(intent, Constants.SETTINGS_REQUEST_CODE);
     }
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity
         // TODO: 08/03/2022 start pitch detector
         Intent intent = new Intent(this, PitchDetectorActivity.class);
         intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);// TODO: 08/03/2022 do i need this 
-        intent.putExtra(Constants.SETTINGS, settings);
+        intent.putExtra(Constants.SETTINGS_PARCEL_ID, settings);
         startActivityForResult(intent, Constants.PITCH_DETECTOR_REQUEST_CODE);
     }
 
@@ -91,9 +92,9 @@ public class MainActivity extends AppCompatActivity
             case Constants.SETTINGS_REQUEST_CODE:
                 if (resultCode == RESULT_OK)
                 {
-                    settings = data.getExtras().getParcelable(Constants.SETTINGS);
-                    if (data.getExtras().getBoolean(Constants.NEW_SONGS_IMPORTED))
-                        songs = LoadUtils.loadSongs(getApplicationContext());
+                    settings = data.getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
+//                    if (data.getExtras().getBoolean(Constants.NEW_SONGS_IMPORTED))
+//                        songs = LoadUtils.loadSongs(getApplicationContext());
                 }
                 break;
 

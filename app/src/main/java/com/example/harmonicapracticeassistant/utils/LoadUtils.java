@@ -3,20 +3,26 @@ package com.example.harmonicapracticeassistant.utils;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.harmonicapracticeassistant.editor.Song;
+import com.example.harmonicapracticeassistant.editor2.Song;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class LoadUtils
 {
+    static Type songListType = new TypeToken<ArrayList<Song>>()
+    {
+    }.getType();
+
     public static List<Song> loadSongs(Context context)
     {
         List<Song> songs = new ArrayList<>();
@@ -25,7 +31,7 @@ public class LoadUtils
         {
             data = readFromContext(context, Constants.SONGS_FILE);
             Gson gson = new Gson();
-            songs = Arrays.asList(gson.fromJson(data, Song[].class));
+            songs = gson.fromJson(data, songListType);
         } catch (JsonSyntaxException e)
         {
             Log.d(Tags.ERROR, String.format("Failed to convert %s to List<Song>", data), e);
@@ -63,18 +69,18 @@ public class LoadUtils
         return settings;
     }
 
-    private static String readFromContext(Context context, String fileName) throws IOException
-    {
-        return readFileInputStream(context.openFileInput(fileName));
-    }
-
-    private static String readFileInputStream(FileInputStream in) throws IOException
+    public static String readFileInputStream(FileInputStream in) throws IOException
     {
         String data;
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         data = load(reader);
 
         return data;
+    }
+
+    private static String readFromContext(Context context, String fileName) throws IOException
+    {
+        return readFileInputStream(context.openFileInput(fileName));
     }
 
     private static String load(BufferedReader reader) throws IOException

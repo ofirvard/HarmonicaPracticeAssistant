@@ -53,7 +53,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitch_detector);
 
-        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
+        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
 
         HarmonicaUtils.setUp(getApplicationContext());
         pitchDetectorHandler = new PitchDetectorHandler();

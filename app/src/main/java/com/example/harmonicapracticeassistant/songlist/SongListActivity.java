@@ -1,16 +1,14 @@
-package com.example.harmonicapracticeassistant.activities;
+package com.example.harmonicapracticeassistant.songlist;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.editor.Song;
-import com.example.harmonicapracticeassistant.editor.SongListAdapter;
+import com.example.harmonicapracticeassistant.editor2.Song;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.LoadUtils;
-import com.example.harmonicapracticeassistant.utils.SaveUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +32,9 @@ public class SongListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
-        settings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
+//        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
+        settings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
+        songs = LoadUtils.loadSongs(this);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -55,9 +54,9 @@ public class SongListActivity extends AppCompatActivity
         {
             if (resultCode == RESULT_OK)
             {
-                songs = data.getExtras().getParcelableArrayList(Constants.SONGS);
+//                songs = data.getExtras().getParcelableArrayList(Constants.SONGS);
                 mAdapter.setSongs(songs);
-                SaveUtils.saveSongs(getApplicationContext(), songs);
+//                SaveUtils.saveSongs(getApplicationContext(), songs);
             }
         }
     }

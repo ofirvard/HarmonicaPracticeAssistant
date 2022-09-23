@@ -17,6 +17,7 @@ import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
@@ -54,9 +55,9 @@ public class Editor2Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor2);
 
-        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
+        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
+
         EditText editText = findViewById(R.id.edit_text_song_tabs);
-        // TODO: 18/09/2022 add apply settings
 
         applySettings(appSettings);
 
@@ -65,7 +66,7 @@ public class Editor2Activity extends AppCompatActivity
                     "");
         else
         {
-            song = getIntent().getExtras().getParcelable(Constants.SONG);
+            song = getIntent().getExtras().getParcelable(Constants.SONG_PARCEL_ID);
             editText.setText(song.getNotes());
         }
 
@@ -175,6 +176,22 @@ public class Editor2Activity extends AppCompatActivity
         updateSlimKeyboard();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        if (!editorUtil.isEmpty())
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.save_song)
+                    .setMessage(R.string.song_editor_dialog_back_press)
+                    .setPositiveButton(R.string.save, (dialog, which) -> {
+                        saveSong();
+                    }).
+                    setNegativeButton(R.string.discard, (dialog, which) -> super.onBackPressed())
+                    .create().show();
+        else
+            super.onBackPressed();
+    }
+
     private void updateSlimKeyboard()
     {
         if (isBlow)
@@ -246,21 +263,25 @@ public class Editor2Activity extends AppCompatActivity
             song.setName(String.format("%s %d", getResources().getString(R.string.new_song), song.getId()));
 
         song.setNotes(editorUtil.getEditTextString());
-
-        // TODO: 9/9/2022 use save util
+        if (!song.getNotes().isEmpty())
+            SaveUtils.saveSong(this, song);
+        finish();
     }
 
     private void applySettings(AppSettings appSettings)
     {
+        ViewStub keyboardStub = findViewById(R.id.keyboard_stub);
+
         if (appSettings.isKeyboardSlim())
         {
             blowDrawSwitch = findViewById(R.id.blow_draw_switch);
             blowDrawSwitch.setVisibility(View.VISIBLE);
 
-            ViewStub keyboardStub = findViewById(R.id.keyboard_stub);
             keyboardStub.setLayoutResource(R.layout.buttons_slim_2);
-            keyboardStub.inflate();
-            // TODO: 19/09/2022 change stub to slim
         }
+        else
+            keyboardStub.setLayoutResource(R.layout.buttons_full_2);
+
+        keyboardStub.inflate();
     }
 }

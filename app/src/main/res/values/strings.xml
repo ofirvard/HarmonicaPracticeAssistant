@@ -19,6 +19,7 @@
     <string name="import_songs_fail">Can\'t import songs due to lack of permission</string>
     <string name="export_songs">Export songs</string>
     <string name="save_settings">Save Settings</string>
+    <string name="save_song">Save Song</string>
     <string name="ok">OK</string>
     <string name="bad_file">The file is wrong</string>
     <string name="keyboard">Slim Keyboard</string>
@@ -45,4 +46,6 @@
     <string name="warning">Warning</string>
     <string name="illegal_tabs_warning">There are illegal tabs in the song, do you still wish to save?</string>
     <string name="settings_activity_back_press_dialog">Do you wish to save or discard the settings?</string>
+    <string name="save_settings_fail">Failed to save settings</string>
+    <string name="song_editor_dialog_back_press">You have unsaved changes, do you wish to save them?</string>
 </resources>

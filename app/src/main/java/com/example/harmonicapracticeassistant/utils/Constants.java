@@ -4,9 +4,9 @@ public class Constants
 {
     public static final String IS_NEW_SONG = "IS_NEW_SONG";
     public static final String SONGS = "SONGS";
-    public static final String SONG = "SONG";
+    public static final String SONG_PARCEL_ID = "SONG";
     public static final String SONG_POSITION = "SONG_POSITION";
-    public static final String SETTINGS = "SETTINGS";
+    public static final String SETTINGS_PARCEL_ID = "SETTINGS";
     public static final String NEW_SONGS_IMPORTED = "NEW_SONGS_IMPORTED";
     public static final String JSON_END = ".json";
     public static final String NOT_APPLICABLE = "N/A";

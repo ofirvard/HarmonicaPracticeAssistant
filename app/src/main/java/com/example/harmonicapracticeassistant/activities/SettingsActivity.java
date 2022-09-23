@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        oldSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
+        oldSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
         newSettings = new AppSettings(oldSettings);
         songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);// TODO: 22/09/2022 remove this whole thing 
 
@@ -101,13 +102,15 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
+        // TODO: 9/23/2022 redo import
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.FILE_PICKER_REQUEST_CODE)
             if (resultCode == RESULT_OK)
             {
                 fileUri = data.getData();
                 File file = new File(FileUtils.getPath(this, fileUri));
-                List<Song> importedSongs = SaveUtils.importSongs(file);
+                List<Song> importedSongs = new ArrayList<>();
+                SaveUtils.importSongs(this, file);
                 if (importedSongs.isEmpty())
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -198,11 +201,11 @@ public class SettingsActivity extends AppCompatActivity
     public void save(View view)
     {
         newSettings.setKeyboardSlim(slim.isChecked());
-        SaveUtils.saveSettings(getApplicationContext(), newSettings);
-        SaveUtils.saveSongs(getApplicationContext(), songs);
+        if (!SaveUtils.saveSettings(getApplicationContext(), newSettings))
+            Toast.makeText(this, R.string.save_settings_fail, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent();
-        intent.putExtra(Constants.SETTINGS, newSettings);
+        intent.putExtra(Constants.SETTINGS_PARCEL_ID, newSettings);
         intent.putExtra(Constants.NEW_SONGS_IMPORTED, newSongsImported);
         setResult(RESULT_OK, intent);
         finish();
@@ -211,7 +214,6 @@ public class SettingsActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        // TODO: 21/09/2022 add popup to ask if to save, only if settings has been changed
         if (oldSettings.hasChanged(newSettings))
             new AlertDialog.Builder(this)
                     .setTitle(R.string.save_settings)
@@ -222,6 +224,8 @@ public class SettingsActivity extends AppCompatActivity
                     }).
                     setNegativeButton(R.string.discard, (dialog, which) -> super.onBackPressed())
                     .create().show();
+        else
+            super.onBackPressed();
     }
 
     private void setNewSongsImported(List<Song> songsImported)

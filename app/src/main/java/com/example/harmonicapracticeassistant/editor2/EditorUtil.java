@@ -243,6 +243,11 @@ public class EditorUtil
 //        editText.getText().replace(getStartForDelete(end), end, "");
     }
 
+    public boolean isEmpty()
+    {
+        return editText.getText().toString().isEmpty();
+    }
+
 //    private int getStartForDelete(int end)
 //    {
 //        int i;

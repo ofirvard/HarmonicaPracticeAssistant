@@ -52,7 +52,7 @@ public class SongActivity extends AppCompatActivity
         specialKeysFABHandler = new SpecialKeysFABHandler(this);
 
         this.songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
-        this.settings = getIntent().getExtras().getParcelable(Constants.SETTINGS);
+        this.settings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
 
         this.songName = findViewById(R.id.song_title);
         this.songTabs = findViewById(R.id.song_text);
