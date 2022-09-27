@@ -13,17 +13,13 @@
         android:roundIcon="@drawable/image_harmonica"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".editor.EditorActivity">
-<!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
+        <activity android:name=".editor.EditorActivity" />
         <activity android:name=".pitchdetector.PitchDetectorActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".songlist.SongListActivity" />
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
