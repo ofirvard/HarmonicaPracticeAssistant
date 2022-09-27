@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant.editor2;
+package com.example.harmonicapracticeassistant.editor;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
+import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 public class EditorUtil
 {
+    // TODO: 9/23/2022 merge all add char
     private final EditText editText;
 
     public EditorUtil(EditText editText)
@@ -52,25 +54,23 @@ public class EditorUtil
         if (!note.equals(""))
         {
             space();
-            editText.getText().replace(editText.getSelectionStart(),
-                    editText.getSelectionEnd(),
-                    note);
+            writeToEditText(note);
         }
     }
 
     public void space()
     {
-        editText.getText().replace(editText.getSelectionStart(), editText.getSelectionEnd(), " ");
+        writeToEditText(Constants.SPACE);
     }
 
     public void newLine()
     {
-        editText.getText().insert(editText.getSelectionStart(), "\n");
+        writeToEditText(Constants.NEW_LINE);
     }
 
     public void bend(Bend bend)
     {
-        editText.getText().insert(editText.getSelectionStart(), bend.toString());
+        writeToEditText(bend.toString());
     }
 
     public void colorIllegalTabs()
@@ -84,6 +84,18 @@ public class EditorUtil
             colorIllegalTab(tabs, spannable, illegalTab);
 
         editText.setText(spannable);
+    }
+
+    public boolean isEmpty()
+    {
+        return editText.getText().toString().isEmpty();
+    }
+
+    private void writeToEditText(String s)
+    {
+        editText.getText().replace(editText.getSelectionStart(),
+                editText.getSelectionEnd(),
+                s);
     }
 
     private void colorIllegalTab(String tabs, Spannable spannable, String illegalTab)
@@ -228,7 +240,7 @@ public class EditorUtil
 
     private void deleteSelection()
     {
-        editText.getText().replace(editText.getSelectionStart(), editText.getSelectionEnd(), "");
+        writeToEditText(Constants.EMPTY_STRING);
     }
 
     private void deleteLastNote()
@@ -241,11 +253,6 @@ public class EditorUtil
 //        int end = editText.getSelectionEnd();
 //
 //        editText.getText().replace(getStartForDelete(end), end, "");
-    }
-
-    public boolean isEmpty()
-    {
-        return editText.getText().toString().isEmpty();
     }
 
 //    private int getStartForDelete(int end)

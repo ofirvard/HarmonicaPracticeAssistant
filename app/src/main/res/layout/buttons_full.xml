@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-1 " />
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text=" 6 " />
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-6 " />
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text=" 2 " />
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-2 " />
@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text=" 7 " />
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-7 " />
@@ -115,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="3" />
@@ -125,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-3 " />
@@ -135,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="8" />
@@ -145,7 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-8 " />
@@ -162,7 +162,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="4" />
@@ -172,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-4 " />
@@ -182,7 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="9" />
@@ -192,7 +192,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-9 " />
@@ -209,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="5" />
@@ -219,7 +219,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-5 " />
@@ -229,7 +229,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text=" 10 " />
@@ -239,7 +239,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/round_button"
+            android:background="@drawable/shape_button_round"
             android:gravity="center"
             android:onClick="note"
             android:text="-10 " />

@@ -22,6 +22,7 @@ import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+import com.example.harmonicapracticeassistant.utils.ParcelIds;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitch_detector);
 
-        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
+        AppSettings appSettings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
 
         HarmonicaUtils.setUp(getApplicationContext());
         pitchDetectorHandler = new PitchDetectorHandler();
@@ -156,7 +157,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     private void startRecording()
     {
         Log.d("Hertz Update", "starting recording");
-        ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.recording_button));
+        ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.shape_button_recording));
         pitchDetectorHandler.start();
         startUpdateUIThread();
     }
@@ -164,7 +165,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     private void stopRecording()
     {
         Log.d("Hertz Update", "stopping recording");
-        ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.microphone));
+        ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.image_microphone));
         pitchDetectorHandler.stop();
     }
 

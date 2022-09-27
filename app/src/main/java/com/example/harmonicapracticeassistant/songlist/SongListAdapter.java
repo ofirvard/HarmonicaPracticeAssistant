@@ -1,137 +1,132 @@
 package com.example.harmonicapracticeassistant.songlist;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.activities.SongActivity;
-import com.example.harmonicapracticeassistant.editor2.Song;
+import com.example.harmonicapracticeassistant.editor.EditorActivity;
+import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
-import com.example.harmonicapracticeassistant.utils.Constants;
+import com.example.harmonicapracticeassistant.utils.ParcelIds;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyViewHolder>
 {
-    private List<Song> songs;
+    private List<SelectableSong> selectableSongs;
     private Context context;
     private AppSettings settings;
+    private boolean isSelect;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
-    public SongListAdapter(List<Song> songs, Context context, AppSettings settings)
+    public SongListAdapter(List<SelectableSong> songs, Context context, AppSettings settings)
     {
-        this.songs = songs;
+        this.selectableSongs = songs;
         this.context = context;
         this.settings = settings;
-        Collections.sort(this.songs, songComparator);
+        this.isSelect = false;
+        this.selectableSongs.sort(songComparator);
+
+        activityResultLauncher = ((AppCompatActivity) context)
+                .registerForActivityResult(new ActivityResultContracts
+                        .StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK)
+                    {
+                        Song song = result.getData().getExtras().getParcelable(ParcelIds.SONG_PARCEL_ID);
+
+                        for (int i = 0; i < selectableSongs.size(); i++)
+                        {
+                            if (selectableSongs.get(i).getSong().getId().equals(song.getId()))
+                            {
+                                selectableSongs.get(i).setSong(song);
+                                notifyItemChanged(i);
+                            }
+                        }
+                    }
+                });
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
         public Button button;
+        public CheckBox checkBox;
 
         public MyViewHolder(View v)
         {
             super(v);
-            button = v.findViewById(R.id.song_button);
+            button = v.findViewById(R.id.song_list_button);
+            checkBox = v.findViewById(R.id.song_list_checkbox);
         }
     }
 
     @Override
-    public SongListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                           int viewType)
+    public SongListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.song_list_button, parent, false);
+        View v = LayoutInflater
+                .from(parent.getContext())
+                .inflate(R.layout.song_list_button,
+                        parent,
+                        false);
 
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+        return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position)
     {
-        holder.button.setText(songs.get(position).getName());
-
-        holder.button.setOnClickListener(new View.OnClickListener()
+        // TODO: 9/27/2022 long press opens menu (changes if select is true or false), short press opens editor (if select true then only selects)
+        holder.button.setText(selectableSongs.get(position).getSong().getName());
+        if (isSelect)
         {
-            @Override
-            public void onClick(View view)
-            {
-//                Context context = view.getContext();
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setChecked(selectableSongs.get(position).isSelected());
+        }
+        holder.button.setOnClickListener(view -> {
+            // TODO: 9/27/2022 move this to new launcher, make sure it gets it all
+            Intent intent = new Intent(context, EditorActivity.class);
+            intent.putExtra(ParcelIds.IS_NEW_SONG_PARCEL_ID, false);
+            intent.putExtra(ParcelIds.SONG_PARCEL_ID, selectableSongs.get(position).getSong());
+            intent.putExtra(ParcelIds.SETTINGS_PARCEL_ID, settings);
 
-                Intent intent = new Intent(context, SongActivity.class);
-                intent.putExtra(Constants.IS_NEW_SONG, false);
-                intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
-                intent.putExtra(Constants.SONG_POSITION, position);
-                intent.putExtra(Constants.SETTINGS_PARCEL_ID, settings);
-
-//                context.startActivity(intent);
-                ((Activity) context).startActivityForResult(intent, 1);
-
-            }
+            activityResultLauncher.launch(intent);
         });
 
-        holder.button.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View view)
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(R.string.delete_message);
-                builder.setMessage(R.string.delete_message_dialog);
+        holder.button.setOnLongClickListener(view -> {
+            // TODO: 9/27/2022 open menu, and depending on if items are selected show a diffrent menu (also if select is true and the item is not selected just select it)
 
-                builder.setNegativeButton(R.string.no, null);
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        songs.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, songs.size());
-//                        SaveUtils.saveSongs(context, songs);
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
-
-                return true;
-            }
+            return true;
         });
     }
 
     @Override
     public int getItemCount()
     {
-        return songs.size();
+        return selectableSongs.size();
     }
 
-    public void setSongs(List<Song> songs)
+    public boolean isSelect()
     {
-        this.songs = songs;
+        return isSelect;
     }
 
-    private static Comparator<Song> songComparator = new Comparator<Song>()
+    public void setSelect(Boolean select)
     {
-        @Override
-        public int compare(Song o1, Song o2)
-        {
-            return o1.getName().compareTo(o2.getName());
-        }
-    };
+        isSelect = select;
+        // TODO: 9/27/2022 update notify
+        notifyItemRangeChanged(0, selectableSongs.size());
+    }
+
+    private static final Comparator<SelectableSong> songComparator = Comparator.comparing(o -> o.getSong().getName());
 }

@@ -17,25 +17,18 @@ import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.SettingsListAdapter;
-import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
-import com.example.harmonicapracticeassistant.utils.FileUtils;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+import com.example.harmonicapracticeassistant.utils.ParcelIds;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,7 +40,6 @@ public class SettingsActivity extends AppCompatActivity
     private AppSettings newSettings;
     private boolean newSongsImported = false;
     private Uri fileUri;
-    private List<Song> songs;// TODO: 22/09/2022 remove this whole thing
     private SwitchMaterial slim;
     private ActivityResultLauncher<String> requestPermissionLauncher;
 
@@ -57,9 +49,8 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        oldSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
+        oldSettings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
         newSettings = new AppSettings(oldSettings);
-        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);// TODO: 22/09/2022 remove this whole thing 
 
         setupRecyclerView();
 
@@ -99,48 +90,48 @@ public class SettingsActivity extends AppCompatActivity
                 R.layout.settings_text_size);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
-        // TODO: 9/23/2022 redo import
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.FILE_PICKER_REQUEST_CODE)
-            if (resultCode == RESULT_OK)
-            {
-                fileUri = data.getData();
-                File file = new File(FileUtils.getPath(this, fileUri));
-                List<Song> importedSongs = new ArrayList<>();
-                SaveUtils.importSongs(this, file);
-                if (importedSongs.isEmpty())
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage(R.string.bad_file);
-                    builder.setPositiveButton(R.string.ok, null);
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }
-                else
-                    setNewSongsImported(importedSongs);
-            }
-        if (requestCode == Constants.FILE_SAVE_REQUEST_CODE)
-            if (resultCode == RESULT_OK)
-            {
-                fileUri = data.getData();
-                try
-                {
-                    Gson gson = new Gson();
-                    OutputStream os = this.getContentResolver().openOutputStream(fileUri);
-                    if (os != null)
-                    {
-                        os.write(gson.toJson(songs).getBytes());
-                        os.close();
-                    }
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+//    {
+//        // TODO: 9/23/2022 redo import
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == Constants.FILE_PICKER_REQUEST_CODE)
+//            if (resultCode == RESULT_OK)
+//            {
+//                fileUri = data.getData();
+//                File file = new File(FileUtils.getPath(this, fileUri));
+//                List<Song> importedSongs = new ArrayList<>();
+//                SaveUtils.importSongs(this, file);
+//                if (importedSongs.isEmpty())
+//                {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                    builder.setMessage(R.string.bad_file);
+//                    builder.setPositiveButton(R.string.ok, null);
+//                    AlertDialog dialog = builder.create();
+//                    dialog.show();
+//                }
+//                else
+//                    setNewSongsImported(importedSongs);
+//            }
+//        if (requestCode == Constants.FILE_SAVE_REQUEST_CODE)
+//            if (resultCode == RESULT_OK)
+//            {
+//                fileUri = data.getData();
+//                try
+//                {
+//                    Gson gson = new Gson();
+//                    OutputStream os = this.getContentResolver().openOutputStream(fileUri);
+//                    if (os != null)
+//                    {
+//                        os.write(gson.toJson(songs).getBytes());
+//                        os.close();
+//                    }
+//                } catch (IOException e)
+//                {
+//                    e.printStackTrace();
+//                }
+//            }
+//    }
 
     public void increase(View view)
     {
@@ -190,6 +181,7 @@ public class SettingsActivity extends AppCompatActivity
 
     public void exportSongs(View view)
     {
+        // TODO: 9/27/2022
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
@@ -205,8 +197,7 @@ public class SettingsActivity extends AppCompatActivity
             Toast.makeText(this, R.string.save_settings_fail, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent();
-        intent.putExtra(Constants.SETTINGS_PARCEL_ID, newSettings);
-        intent.putExtra(Constants.NEW_SONGS_IMPORTED, newSongsImported);
+        intent.putExtra(ParcelIds.SETTINGS_PARCEL_ID, newSettings);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -220,7 +211,6 @@ public class SettingsActivity extends AppCompatActivity
                     .setMessage(R.string.settings_activity_back_press_dialog)
                     .setPositiveButton(R.string.save, (dialog, which) -> {
                         save(null);
-                        super.onBackPressed();
                     }).
                     setNegativeButton(R.string.discard, (dialog, which) -> super.onBackPressed())
                     .create().show();
@@ -228,30 +218,21 @@ public class SettingsActivity extends AppCompatActivity
             super.onBackPressed();
     }
 
-    private void setNewSongsImported(List<Song> songsImported)
-    {
-        newSongsImported = true;
-        for (Song song : songsImported)
-        {
-            if (isNameTaken(song.getName()))
-            {
-                int i = 1;
-                while (isNameTaken(song.getName() + "_" + i))
-                    i++;
-                song.setName(song.getName() + "_" + i);
-            }
-            songs.add(song);
-        }
-    }
-
-    private boolean isNameTaken(String name)
-    {
-        for (Song song : songs)
-            if (song.getName().equals(name))
-                return true;
-
-        return false;
-    }
+//    private void setNewSongsImported(List<Song> songsImported)
+//    {
+//        newSongsImported = true;
+//        for (Song song : songsImported)
+//        {
+//            if (isNameTaken(song.getName()))
+//            {
+//                int i = 1;
+//                while (isNameTaken(song.getName() + "_" + i))
+//                    i++;
+//                song.setName(song.getName() + "_" + i);
+//            }
+//            songs.add(song);
+//        }
+//    }
 
     private void setPreviewText()
     {

@@ -81,7 +81,7 @@
         android:id="@+id/space"
         style="@style/ExtraButton"
         android:onClick="space"
-        app:srcCompat="@drawable/space_bar"
+        app:srcCompat="@drawable/image_space_bar"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -89,7 +89,7 @@
         style="@style/ExtraButton"
         android:focusable="true"
         android:onClick="newLine"
-        app:srcCompat="@drawable/enter"
+        app:srcCompat="@drawable/image_enter"
         tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -99,6 +99,6 @@
         android:layout_height="wrap_content"
         android:longClickable="true"
         app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/backspace"
+        app:srcCompat="@drawable/image_backspace"
         tools:ignore="ContentDescription" />
 </LinearLayout>

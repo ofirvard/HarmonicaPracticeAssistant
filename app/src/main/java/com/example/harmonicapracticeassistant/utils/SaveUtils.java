@@ -3,7 +3,7 @@ package com.example.harmonicapracticeassistant.utils;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.harmonicapracticeassistant.editor2.Song;
+import com.example.harmonicapracticeassistant.editor.Song;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -12,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class SaveUtils
 {
@@ -40,20 +39,20 @@ public class SaveUtils
         return saveSongs(context, songs);
     }
 
-    public static boolean removeSong(Context context, UUID uuid)
+    public static boolean removeSong(Context context, String uuid)
     {
         List<Song> songs = LoadUtils.loadSongs(context);
-        songs.removeIf(song -> song.getId().compareTo(uuid) == 0);
+        songs.removeIf(song -> song.getId().equals(uuid));
 
         return saveSongs(context, songs);
     }
 
-    public static boolean removeSongs(Context context, List<UUID> uuidList)
+    public static boolean removeSongs(Context context, List<String> uuidList)
     {
         List<Song> songs = LoadUtils.loadSongs(context);
 
-        for (UUID uuid : uuidList)
-            songs.removeIf(song -> song.getId().compareTo(uuid) == 0);
+        for (String uuid : uuidList)
+            songs.removeIf(song -> song.getId().equals(uuid));
 
         return saveSongs(context, songs);
     }

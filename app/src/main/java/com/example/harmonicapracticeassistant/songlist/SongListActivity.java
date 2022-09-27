@@ -1,17 +1,21 @@
 package com.example.harmonicapracticeassistant.songlist;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.editor2.Song;
+import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
-import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.LoadUtils;
+import com.example.harmonicapracticeassistant.utils.ParcelIds;
+import com.example.harmonicapracticeassistant.utils.SaveUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SongListActivity extends AppCompatActivity
 {
-    private List<Song> songs;
-    private RecyclerView recyclerView;
-    private SongListAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private AppSettings settings;
+    private List<SelectableSong> selectableSongs;
+    private SongListAdapter songListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,18 +33,58 @@ public class SongListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-//        songs = getIntent().getExtras().getParcelableArrayList(Constants.SONGS);
-        settings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
-        songs = LoadUtils.loadSongs(this);
+        AppSettings settings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
+        selectableSongs = setSelectableSongs(LoadUtils.loadSongs(this));
 
-        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new SongListAdapter(songs, SongListActivity.this, settings);
-        recyclerView.setAdapter(mAdapter);
+        songListAdapter = new SongListAdapter(selectableSongs, SongListActivity.this, settings);
+        recyclerView.setAdapter(songListAdapter);
+
+        getSupportActionBar().setTitle(R.string.song_list);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.song_list_general_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == R.id.select)
+        {
+            // TODO: 9/27/2022 start select
+        }
+        else if (item.getItemId() == R.id.select_all)
+        {
+            // TODO: 9/27/2022 select all
+            selectAllSongs();
+        }
+        else if (item.getItemId() == R.id.delete_all)
+        {
+            deleteAll();
+        }
+        else if (item.getItemId() == R.id.test_add_song)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Song song = new Song("Song " + new Random().nextInt(100), "");
+                SaveUtils.saveSong(this, song);
+                selectableSongs.add(new SelectableSong(song));
+            }
+
+            songListAdapter.notifyDataSetChanged();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -55,18 +96,48 @@ public class SongListActivity extends AppCompatActivity
             if (resultCode == RESULT_OK)
             {
 //                songs = data.getExtras().getParcelableArrayList(Constants.SONGS);
-                mAdapter.setSongs(songs);
+//                mAdapter.setSongs(selectableSongs);
 //                SaveUtils.saveSongs(getApplicationContext(), songs);
             }
         }
     }
 
+    private void selectAllSongs()
+    {
+        selectableSongs.forEach(selectableSong -> selectableSong.setSelected(true));
+        songListAdapter.setSelect(true);
+    }
+
+    private void deleteAll()
+    {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_all_title)
+                .setMessage(R.string.delete_all_message_dialog)
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    SaveUtils.removeAllSong(this);
+                    selectableSongs.clear();
+                    songListAdapter.notifyDataSetChanged();
+                }).
+                setNegativeButton(R.string.no, (dialog, which) -> {
+                })
+                .create().show();
+    }
+
+    private List<SelectableSong> setSelectableSongs(List<Song> loadSongs)
+    {
+        List<SelectableSong> selectableSongs = new ArrayList<>();
+        for (Song song : loadSongs)
+            selectableSongs.add(new SelectableSong(song));
+
+        return selectableSongs;
+    }
+
     @Override
     public void onBackPressed()
     {
-        Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(Constants.SONGS, (ArrayList<? extends Parcelable>) songs);
-        setResult(RESULT_OK, intent);
-        finish();
+        if (songListAdapter.isSelect())
+            songListAdapter.setSelect(false);
+        else
+            super.onBackPressed();
     }
 }

@@ -1,6 +1,7 @@
-package com.example.harmonicapracticeassistant.editor2;
+package com.example.harmonicapracticeassistant.editor;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -15,8 +16,8 @@ import android.widget.EditText;
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.utils.AppSettings;
-import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
+import com.example.harmonicapracticeassistant.utils.ParcelIds;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,7 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import static com.example.harmonicapracticeassistant.utils.Constants.BACKSPACE_LONG_CLICK_DELETE_DELAY;
 import static com.example.harmonicapracticeassistant.utils.Constants.BACKSPACE_LONG_CLICK_INITIAL_DELAY;
 
-public class Editor2Activity extends AppCompatActivity
+public class EditorActivity extends AppCompatActivity
 {
     private final Handler handler = new Handler();
     private final Runnable backspaceRunnable = new Runnable()
@@ -53,20 +54,19 @@ public class Editor2Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editor2);
+        setContentView(R.layout.activity_editor);
 
-        AppSettings appSettings = getIntent().getExtras().getParcelable(Constants.SETTINGS_PARCEL_ID);
+        AppSettings appSettings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
+        applySettings(appSettings);
 
         EditText editText = findViewById(R.id.edit_text_song_tabs);
 
-        applySettings(appSettings);
-
-        if (getIntent().getExtras().getBoolean(Constants.IS_NEW_SONG))
+        if (getIntent().getExtras().getBoolean(ParcelIds.IS_NEW_SONG_PARCEL_ID))
             song = new Song(getResources().getString(R.string.new_song),
                     "");
         else
         {
-            song = getIntent().getExtras().getParcelable(Constants.SONG_PARCEL_ID);
+            song = getIntent().getExtras().getParcelable(ParcelIds.SONG_PARCEL_ID);
             editText.setText(song.getNotes());
         }
 
@@ -117,7 +117,6 @@ public class Editor2Activity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle item selection
         if (item.getItemId() == R.id.edit_song_save)
         {
             saveSongMenuItem();
@@ -165,12 +164,12 @@ public class Editor2Activity extends AppCompatActivity
         if (isBlow)
         {
             isBlow = false;
-            blowDrawSwitch.setImageResource(R.drawable.minus);
+            blowDrawSwitch.setImageResource(R.drawable.image_minus);
         }
         else
         {
             isBlow = true;
-            blowDrawSwitch.setImageResource(R.drawable.plus);
+            blowDrawSwitch.setImageResource(R.drawable.image_plus);
         }
 
         updateSlimKeyboard();
@@ -260,11 +259,15 @@ public class Editor2Activity extends AppCompatActivity
     private void saveSong()
     {
         if (song.getName().equals(""))
-            song.setName(String.format("%s %d", getResources().getString(R.string.new_song), song.getId()));
+            song.setName(String.format("%s %s", getResources().getString(R.string.new_song), song.getId()));
 
         song.setNotes(editorUtil.getEditTextString());
-        if (!song.getNotes().isEmpty())
-            SaveUtils.saveSong(this, song);
+
+        SaveUtils.saveSong(this, song);
+        Intent data = new Intent();
+        data.putExtra(ParcelIds.SONG_PARCEL_ID, song);
+        setResult(RESULT_OK, data);
+
         finish();
     }
 

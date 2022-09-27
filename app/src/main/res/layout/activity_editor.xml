@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".editor2.Editor2Activity">
+    tools:context=".editor.EditorActivity">
 
     <EditText
         android:id="@+id/edit_text_song_tabs"
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toTopOf="@id/keyboard_stub"
         app:layout_constraintEnd_toStartOf="@+id/extra_buttons"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/plus"
+        app:srcCompat="@drawable/image_plus"
         tools:ignore="ContentDescription" />
 
     <ViewStub

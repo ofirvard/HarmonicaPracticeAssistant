@@ -10,6 +10,7 @@
     <string name="discard">Discard</string>
     <string name="delete_message">Delete song?</string>
     <string name="delete_message_dialog">Are you sure you want to delete this song?</string>
+    <string name="delete_all_message_dialog">Are you sure you want to delete all songs? (This cannot be undone)</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="increase_text_size">&gt;</string>
@@ -48,4 +49,9 @@
     <string name="settings_activity_back_press_dialog">Do you wish to save or discard the settings?</string>
     <string name="save_settings_fail">Failed to save settings</string>
     <string name="song_editor_dialog_back_press">You have unsaved changes, do you wish to save them?</string>
+    <string name="delete_all">Delete All</string>
+    <string name="select">Select</string>
+    <string name="song_list">Song List</string>
+    <string name="select_all">Select All</string>
+    <string name="delete_all_title">Delete All Songs?</string>
 </resources>
