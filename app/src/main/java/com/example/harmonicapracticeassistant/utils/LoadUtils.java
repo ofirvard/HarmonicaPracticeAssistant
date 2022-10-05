@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.harmonicapracticeassistant.editor.Song;
+import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;

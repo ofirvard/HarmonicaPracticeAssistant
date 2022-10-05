@@ -19,8 +19,7 @@ import android.widget.Toast;
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
-import com.example.harmonicapracticeassistant.utils.AppSettings;
-import com.example.harmonicapracticeassistant.utils.Constants;
+import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.ParcelIds;
 

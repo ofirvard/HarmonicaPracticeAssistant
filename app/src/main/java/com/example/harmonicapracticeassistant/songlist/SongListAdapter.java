@@ -12,7 +12,7 @@ import android.widget.CheckBox;
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.EditorActivity;
 import com.example.harmonicapracticeassistant.editor.Song;
-import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.ParcelIds;
 
 import java.util.Comparator;
@@ -26,10 +26,10 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyViewHolder>
 {
     private List<SelectableSong> selectableSongs;
-    private Context context;
-    private AppSettings settings;
+    private final Context context;
+    private final AppSettings settings;
     private boolean isSelect;
-    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private final ActivityResultLauncher<Intent> activityResultLauncher;
 
     public SongListAdapter(List<SelectableSong> songs, Context context, AppSettings settings)
     {
@@ -94,7 +94,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
             holder.checkBox.setChecked(selectableSongs.get(position).isSelected());
         }
         holder.button.setOnClickListener(view -> {
-            // TODO: 9/27/2022 move this to new launcher, make sure it gets it all
             Intent intent = new Intent(context, EditorActivity.class);
             intent.putExtra(ParcelIds.IS_NEW_SONG_PARCEL_ID, false);
             intent.putExtra(ParcelIds.SONG_PARCEL_ID, selectableSongs.get(position).getSong());

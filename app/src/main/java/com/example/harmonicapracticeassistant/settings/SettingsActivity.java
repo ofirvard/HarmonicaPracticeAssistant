@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant.activities;
+package com.example.harmonicapracticeassistant.settings;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -16,8 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.SettingsListAdapter;
-import com.example.harmonicapracticeassistant.utils.AppSettings;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.ParcelIds;

@@ -21,4 +21,9 @@
         android:id="@+id/delete_all"
         android:title="@string/delete_all"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_selected"
+        android:title="@string/delete_selected"
+        app:showAsAction="never" />
 </menu>

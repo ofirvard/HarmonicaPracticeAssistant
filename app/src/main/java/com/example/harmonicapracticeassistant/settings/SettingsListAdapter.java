@@ -1,9 +1,11 @@
-package com.example.harmonicapracticeassistant;
+package com.example.harmonicapracticeassistant.settings;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.harmonicapracticeassistant.R;
 
 import java.util.List;
 

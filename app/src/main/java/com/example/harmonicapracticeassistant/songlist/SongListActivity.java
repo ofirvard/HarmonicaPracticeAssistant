@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.Song;
-import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.LoadUtils;
 import com.example.harmonicapracticeassistant.utils.ParcelIds;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
@@ -26,6 +26,7 @@ public class SongListActivity extends AppCompatActivity
 {
     private List<SelectableSong> selectableSongs;
     private SongListAdapter songListAdapter;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,9 +52,25 @@ public class SongListActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.song_list_general_menu, menu);
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.song_list_menu, menu);
 
         return true;
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu)
+    {
+        menu.getItem(R.id.delete_selected).setVisible(songListAdapter.isSelect());
+
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        // TODO: 03/10/2022 use this 
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

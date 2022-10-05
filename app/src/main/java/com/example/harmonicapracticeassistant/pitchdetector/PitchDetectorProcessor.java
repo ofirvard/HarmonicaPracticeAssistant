@@ -5,7 +5,7 @@ import android.util.Pair;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
-import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 
 import java.util.List;

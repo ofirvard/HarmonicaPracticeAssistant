@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
-import com.example.harmonicapracticeassistant.utils.AppSettings;
+import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.ParcelIds;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;

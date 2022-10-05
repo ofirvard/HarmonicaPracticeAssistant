@@ -50,6 +50,7 @@
     <string name="save_settings_fail">Failed to save settings</string>
     <string name="song_editor_dialog_back_press">You have unsaved changes, do you wish to save them?</string>
     <string name="delete_all">Delete All</string>
+    <string name="delete_selected">Delete Selected</string>
     <string name="select">Select</string>
     <string name="song_list">Song List</string>
     <string name="select_all">Select All</string>
