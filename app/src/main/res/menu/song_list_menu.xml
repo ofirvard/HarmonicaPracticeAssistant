@@ -8,13 +8,18 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/stop_select"
+        android:title="@string/stop_selection"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/select_all"
         android:title="@string/select_all"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/test_add_song"
-        android:title="test"
+        android:id="@+id/delete_selected"
+        android:title="@string/delete_selected"
         app:showAsAction="never" />
 
     <item
@@ -23,7 +28,12 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/delete_selected"
-        android:title="@string/delete_selected"
+        android:id="@+id/test_add_song"
+        android:title="@string/test"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/test_add_song_10"
+        android:title="@string/test_x10"
         app:showAsAction="never" />
 </menu>

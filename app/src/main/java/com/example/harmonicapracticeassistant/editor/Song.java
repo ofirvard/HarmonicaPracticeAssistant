@@ -68,7 +68,7 @@ public class Song implements Parcelable
     @Override
     public String toString()
     {
-        return String.format("%s|%s", name, notes);
+        return String.format("%s | %s | %s", id, name, notes);
     }
 
     @Override

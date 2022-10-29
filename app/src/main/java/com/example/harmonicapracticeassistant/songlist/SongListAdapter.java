@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.EditorActivity;
@@ -62,6 +63,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
     {
         public Button button;
         public CheckBox checkBox;
+//        public CustomSwitchListener myCustomSwitchListener;
 
         public MyViewHolder(View v)
         {
@@ -84,9 +86,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position)
+    public void onBindViewHolder(MyViewHolder holder, int position)
     {
-        // TODO: 9/27/2022 long press opens menu (changes if select is true or false), short press opens editor (if select true then only selects)
         holder.button.setText(selectableSongs.get(position).getSong().getName());
         if (isSelect)
         {
@@ -103,9 +104,15 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
         });
 
         holder.button.setOnLongClickListener(view -> {
+            // TODO: 9/27/2022 long press opens menu (changes if select is true or false), short press opens editor (if select true then only selects)
             // TODO: 9/27/2022 open menu, and depending on if items are selected show a diffrent menu (also if select is true and the item is not selected just select it)
 
             return true;
+        });
+
+        holder.checkBox.setOnClickListener(view -> {
+            selectableSongs.get(position).setSelected(!selectableSongs.get(position).isSelected());
+            ((CheckBox) view).setChecked(selectableSongs.get(position).isSelected());
         });
     }
 

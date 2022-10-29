@@ -16,6 +16,7 @@ import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,7 +62,9 @@ public class SongListActivity extends AppCompatActivity
     @Override
     public boolean onMenuOpened(int featureId, Menu menu)
     {
-        menu.getItem(R.id.delete_selected).setVisible(songListAdapter.isSelect());
+        menu.findItem(R.id.delete_selected).setVisible(songListAdapter.isSelect());
+        menu.findItem(R.id.stop_select).setVisible(songListAdapter.isSelect());
+        menu.findItem(R.id.select).setVisible(!songListAdapter.isSelect());
 
         return super.onMenuOpened(featureId, menu);
     }
@@ -78,45 +81,44 @@ public class SongListActivity extends AppCompatActivity
     {
         if (item.getItemId() == R.id.select)
         {
-            // TODO: 9/27/2022 start select
+            songListAdapter.setSelect(true);
+        }
+        else if (item.getItemId() == R.id.stop_select)
+        {
+            songListAdapter.setSelect(false);
         }
         else if (item.getItemId() == R.id.select_all)
         {
-            // TODO: 9/27/2022 select all
             selectAllSongs();
         }
         else if (item.getItemId() == R.id.delete_all)
         {
             deleteAll();
         }
+        else if (item.getItemId() == R.id.delete_selected)
+        {
+            deleteSelected();
+        }
         else if (item.getItemId() == R.id.test_add_song)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                Song song = new Song("Song " + new Random().nextInt(100), "");
-                SaveUtils.saveSong(this, song);
-                selectableSongs.add(new SelectableSong(song));
-            }
-
-            songListAdapter.notifyDataSetChanged();
+            testMakeSong();
+        }
+        else if (item.getItemId() == R.id.test_add_song_10)
+        {
+            for (int i = 0; i < 10; i++)
+                testMakeSong();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    private void testMakeSong()
     {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1)
-        {
-            if (resultCode == RESULT_OK)
-            {
-//                songs = data.getExtras().getParcelableArrayList(Constants.SONGS);
-//                mAdapter.setSongs(selectableSongs);
-//                SaveUtils.saveSongs(getApplicationContext(), songs);
-            }
-        }
+        Song song = new Song("Song " + new Random().nextInt(10000), "");
+        SaveUtils.saveSong(this, song);
+        selectableSongs.add(new SelectableSong(song));
+
+        songListAdapter.notifyDataSetChanged();
     }
 
     private void selectAllSongs()
@@ -133,6 +135,33 @@ public class SongListActivity extends AppCompatActivity
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
                     SaveUtils.removeAllSong(this);
                     selectableSongs.clear();
+
+                    songListAdapter.setSelect(false);
+                    songListAdapter.notifyDataSetChanged();
+                }).
+                setNegativeButton(R.string.no, (dialog, which) -> {
+                })
+                .create().show();
+    }
+
+    private void deleteSelected()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_selected_title)
+                .setMessage(R.string.delete_selected_message_dialog)
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    List<String> songUUIDsToDelete = selectableSongs.stream()
+                            .filter(SelectableSong::isSelected)
+                            .map(SelectableSong::getSong)
+                            .map(Song::getId)
+                            .collect(Collectors.toList());
+                    SaveUtils.removeSongs(this, songUUIDsToDelete);
+
+                    selectableSongs.removeIf(selectableSong ->
+                            songUUIDsToDelete.contains(selectableSong.getSong().getId()));
+
+                    songListAdapter.setSelect(false);
                     songListAdapter.notifyDataSetChanged();
                 }).
                 setNegativeButton(R.string.no, (dialog, which) -> {

@@ -47,6 +47,7 @@ public class EditorActivity extends AppCompatActivity
     private EditorUtil editorUtil;
     private boolean backspacePressed = false;
     private Song song;
+    private String originalSongName;
     private FloatingActionButton blowDrawSwitch;
     private boolean isBlow = true;
 
@@ -69,6 +70,8 @@ public class EditorActivity extends AppCompatActivity
             song = getIntent().getExtras().getParcelable(ParcelIds.SONG_PARCEL_ID);
             editText.setText(song.getNotes());
         }
+
+        originalSongName = String.valueOf(song.getName());
 
         HarmonicaUtils.setUp(getApplicationContext());
         Objects.requireNonNull(getSupportActionBar()).setTitle(song.getName());
@@ -178,7 +181,7 @@ public class EditorActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        if (!editorUtil.isEmpty())
+        if (!song.getNotes().equals(editorUtil.getEditTextString()) || !originalSongName.equals(song.getName()))
             new AlertDialog.Builder(this)
                     .setTitle(R.string.save_song)
                     .setMessage(R.string.song_editor_dialog_back_press)
