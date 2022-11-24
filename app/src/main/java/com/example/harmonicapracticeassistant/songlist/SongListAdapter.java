@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.EditorActivity;
@@ -95,6 +94,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
             holder.checkBox.setChecked(selectableSongs.get(position).isSelected());
         }
         holder.button.setOnClickListener(view -> {
+            // TODO: 23/11/2022 make this go to practice
             Intent intent = new Intent(context, EditorActivity.class);
             intent.putExtra(ParcelIds.IS_NEW_SONG_PARCEL_ID, false);
             intent.putExtra(ParcelIds.SONG_PARCEL_ID, selectableSongs.get(position).getSong());
@@ -104,6 +104,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
         });
 
         holder.button.setOnLongClickListener(view -> {
+            // TODO: 23/11/2022 long press only starts select
             // TODO: 9/27/2022 long press opens menu (changes if select is true or false), short press opens editor (if select true then only selects)
             // TODO: 9/27/2022 open menu, and depending on if items are selected show a diffrent menu (also if select is true and the item is not selected just select it)
 

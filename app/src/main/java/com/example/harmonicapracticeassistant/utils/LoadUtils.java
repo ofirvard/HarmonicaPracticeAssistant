@@ -32,6 +32,9 @@ public class LoadUtils
             data = readFromContext(context, Constants.SONGS_FILE);
             Gson gson = new Gson();
             songs = gson.fromJson(data, songListType);
+
+            if (songs == null)
+                return new ArrayList<>();
         } catch (JsonSyntaxException e)
         {
             Log.d(Tags.ERROR, String.format("Failed to convert %s to List<Song>", data), e);
