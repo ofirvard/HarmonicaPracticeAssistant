@@ -1,7 +1,6 @@
 package com.example.harmonicapracticeassistant.songlist;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +52,7 @@ public class SongListActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.song_list_menu, menu);
+        getMenuInflater().inflate(R.menu.song_list_action_bar_menu, menu);
 
         return true;
     }

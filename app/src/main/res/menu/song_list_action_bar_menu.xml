@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/select"
+        android:title="@string/select"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/stop_select"
+        android:title="@string/stop_selection"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/select_all"
+        android:title="@string/select_all"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_selected"
+        android:title="@string/delete_selected"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_all"
+        android:title="@string/delete_all"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/favorite_selected"
+        android:title="@string/favorite_selected"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/unfavorite_selected"
+        android:title="@string/unfavorite_selected"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/test_add_song"
+        android:title="@string/test"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/test_add_song_10"
+        android:title="@string/test_x10"
+        app:showAsAction="never" />
+</menu>

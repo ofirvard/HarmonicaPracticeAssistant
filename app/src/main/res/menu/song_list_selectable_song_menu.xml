@@ -13,27 +13,22 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/select_all"
-        android:title="@string/select_all"
+        android:id="@+id/favorite_song"
+        android:title="@string/favorite"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/delete_selected"
-        android:title="@string/delete_selected"
+        android:id="@+id/unfavorite_song"
+        android:title="@string/unfavorite"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/delete_all"
-        android:title="@string/delete_all"
+        android:id="@+id/favorite_selected"
+        android:title="@string/favorite_selected"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/test_add_song"
-        android:title="@string/test"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/test_add_song_10"
-        android:title="@string/test_x10"
+        android:id="@+id/unfavorite_selected"
+        android:title="@string/unfavorite_selected"
         app:showAsAction="never" />
 </menu>

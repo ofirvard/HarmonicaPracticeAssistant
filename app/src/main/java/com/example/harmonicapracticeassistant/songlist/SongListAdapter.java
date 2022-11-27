@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.EditorActivity;
 import com.example.harmonicapracticeassistant.editor.Song;
+import com.example.harmonicapracticeassistant.practice.PracticeActivity;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.ParcelIds;
 
@@ -23,7 +25,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyViewHolder>
+public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongListHolder>
 {
     private List<SelectableSong> selectableSongs;
     private final Context context;
@@ -58,22 +60,25 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
                 });
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder
+    public static class SongListHolder extends RecyclerView.ViewHolder
     {
-        public Button button;
+        public Button nameButton;
         public CheckBox checkBox;
-//        public CustomSwitchListener myCustomSwitchListener;
+        public ImageButton practiceButton;
+        public ImageButton editButton;
 
-        public MyViewHolder(View v)
+        public SongListHolder(View v)
         {
             super(v);
-            button = v.findViewById(R.id.song_list_button);
+            nameButton = v.findViewById(R.id.song_list_name_button);
             checkBox = v.findViewById(R.id.song_list_checkbox);
+            practiceButton = v.findViewById(R.id.song_list_practice_button);
+            editButton = v.findViewById(R.id.song_list_edit_button);
         }
     }
 
     @Override
-    public SongListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public SongListHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater
                 .from(parent.getContext())
@@ -81,20 +86,29 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
                         parent,
                         false);
 
-        return new MyViewHolder(v);
+        return new SongListHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position)
+    public void onBindViewHolder(SongListHolder holder, int position)
     {
-        holder.button.setText(selectableSongs.get(position).getSong().getName());
+        holder.nameButton.setText(selectableSongs.get(position).getSong().getName());
+
         if (isSelect)
         {
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.checkBox.setChecked(selectableSongs.get(position).isSelected());
         }
-        holder.button.setOnClickListener(view -> {
-            // TODO: 23/11/2022 make this go to practice
+
+        holder.nameButton.setOnClickListener(view -> {
+            activityResultLauncher.launch(getPracticeIntent(position));
+        });
+
+        holder.practiceButton.setOnClickListener(view -> {
+            activityResultLauncher.launch(getPracticeIntent(position));
+        });
+
+        holder.editButton.setOnClickListener(view -> {
             Intent intent = new Intent(context, EditorActivity.class);
             intent.putExtra(ParcelIds.IS_NEW_SONG_PARCEL_ID, false);
             intent.putExtra(ParcelIds.SONG_PARCEL_ID, selectableSongs.get(position).getSong());
@@ -103,7 +117,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
             activityResultLauncher.launch(intent);
         });
 
-        holder.button.setOnLongClickListener(view -> {
+        holder.nameButton.setOnLongClickListener(view -> {
             // TODO: 23/11/2022 long press only starts select
             // TODO: 9/27/2022 long press opens menu (changes if select is true or false), short press opens editor (if select true then only selects)
             // TODO: 9/27/2022 open menu, and depending on if items are selected show a diffrent menu (also if select is true and the item is not selected just select it)
@@ -136,4 +150,13 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.MyView
     }
 
     private static final Comparator<SelectableSong> songComparator = Comparator.comparing(o -> o.getSong().getName());
+
+    private Intent getPracticeIntent(int position)
+    {
+        Intent intent = new Intent(context, PracticeActivity.class);
+        intent.putExtra(ParcelIds.SONG_PARCEL_ID, selectableSongs.get(position).getSong());
+        intent.putExtra(ParcelIds.SETTINGS_PARCEL_ID, settings);
+
+        return intent;
+    }
 }
