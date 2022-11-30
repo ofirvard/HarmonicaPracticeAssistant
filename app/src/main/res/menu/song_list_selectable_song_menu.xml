@@ -8,27 +8,17 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/stop_select"
-        android:title="@string/stop_selection"
+        android:id="@+id/unselect"
+        android:title="@string/unselect"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/favorite_song"
-        android:title="@string/favorite"
+        android:title="@string/favourite"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/unfavorite_song"
-        android:title="@string/unfavorite"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/favorite_selected"
-        android:title="@string/favorite_selected"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/unfavorite_selected"
-        android:title="@string/unfavorite_selected"
+        android:title="@string/unfavourite"
         app:showAsAction="never" />
 </menu>

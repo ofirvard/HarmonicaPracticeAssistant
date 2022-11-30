@@ -42,7 +42,7 @@ public class SongListActivity extends AppCompatActivity
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        songListAdapter = new SongListAdapter(selectableSongs, SongListActivity.this, settings);
+        songListAdapter = new SongListAdapter(selectableSongs, this, settings);
         recyclerView.setAdapter(songListAdapter);
 
         getSupportActionBar().setTitle(R.string.song_list);
@@ -77,6 +77,7 @@ public class SongListActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        // TODO: 01/12/2022 go over all and add fav 
         if (item.getItemId() == R.id.select)
         {
             songListAdapter.setSelect(true);
@@ -87,7 +88,11 @@ public class SongListActivity extends AppCompatActivity
         }
         else if (item.getItemId() == R.id.select_all)
         {
-            selectAllSongs();
+            setAllSongsSelect(true);
+        }
+        else if (item.getItemId() == R.id.unselect_all)
+        {
+            setAllSongsSelect(false);
         }
         else if (item.getItemId() == R.id.delete_all)
         {
@@ -119,10 +124,10 @@ public class SongListActivity extends AppCompatActivity
         songListAdapter.notifyDataSetChanged();
     }
 
-    private void selectAllSongs()
+    private void setAllSongsSelect(boolean select)
     {
-        selectableSongs.forEach(selectableSong -> selectableSong.setSelected(true));
-        songListAdapter.setSelect(true);
+        selectableSongs.forEach(selectableSong -> selectableSong.setSelected(select));
+        songListAdapter.setSelect(select);
     }
 
     private void deleteAll()
@@ -144,7 +149,6 @@ public class SongListActivity extends AppCompatActivity
 
     private void deleteSelected()
     {
-
         new AlertDialog.Builder(this)
                 .setTitle(R.string.delete_selected_title)
                 .setMessage(R.string.delete_selected_message_dialog)

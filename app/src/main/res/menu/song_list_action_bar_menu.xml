@@ -18,6 +18,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/unselect_all"
+        android:title="@string/unselect_all"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/delete_selected"
         android:title="@string/delete_selected"
         app:showAsAction="never" />
@@ -28,13 +33,13 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/favorite_selected"
-        android:title="@string/favorite_selected"
+        android:id="@+id/favourite_selected"
+        android:title="@string/favourite_selected"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/unfavorite_selected"
-        android:title="@string/unfavorite_selected"
+        android:id="@+id/unfavourite_selected"
+        android:title="@string/unfavourite_selected"
         app:showAsAction="never" />
 
     <item

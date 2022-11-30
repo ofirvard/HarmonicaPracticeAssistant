@@ -7,9 +7,10 @@ import java.util.UUID;
 
 public class Song implements Parcelable
 {
+    private final String id;
     private String name;
     private String notes;
-    private final String id;
+    private boolean favourite = false;
 
     public Song(String name, String notes)
     {
@@ -20,9 +21,10 @@ public class Song implements Parcelable
 
     protected Song(Parcel in)
     {
+        id = in.readString();
         name = in.readString();
         notes = in.readString();
-        id = in.readString();
+        favourite = in.readBoolean();
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>()
@@ -65,6 +67,16 @@ public class Song implements Parcelable
         return id;
     }
 
+    public boolean isFavourite()
+    {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite)
+    {
+        this.favourite = favourite;
+    }
+
     @Override
     public String toString()
     {
@@ -83,5 +95,6 @@ public class Song implements Parcelable
         dest.writeString(name);
         dest.writeString(notes);
         dest.writeString(id);
+        dest.writeBoolean(favourite);
     }
 }

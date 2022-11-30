@@ -60,8 +60,10 @@
     <string name="test">test</string>
     <string name="stop_selection">Stop Selection</string>
     <string name="test_x10">test x10</string>
-    <string name="favorite_selected">Favorite Selected</string>
-    <string name="unfavorite_selected">Unfavorite Selected</string>
-    <string name="favorite">Favorite</string>
-    <string name="unfavorite">Unfavorite</string>
+    <string name="favourite_selected">Favourite Selected</string>
+    <string name="unfavourite_selected">Unfavourite Selected</string>
+    <string name="favourite">Favourite</string>
+    <string name="unfavourite">Unfavourite</string>
+    <string name="unselect">Unselect</string>
+    <string name="unselect_all">Unselect All</string>
 </resources>

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".PracticeActivity"
+            android:name=".practice.PracticeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
