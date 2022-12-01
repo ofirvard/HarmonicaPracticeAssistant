@@ -35,6 +35,14 @@ public class SaveUtils
     public static boolean saveSong(Context context, Song song)
     {
         List<Song> songs = LoadUtils.loadSongs(context);
+
+        // TODO: 01/12/2022 check if song exists and update if needed
+
+        songs.stream()
+                .filter(s -> s.getId()
+                        .equals(song.getId()))
+                .forEach(s -> s.update(song));
+
         songs.add(song);
 
         return saveSongs(context, songs);

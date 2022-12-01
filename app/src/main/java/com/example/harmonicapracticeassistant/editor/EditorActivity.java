@@ -1,7 +1,6 @@
 package com.example.harmonicapracticeassistant.editor;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -17,7 +16,7 @@ import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
-import com.example.harmonicapracticeassistant.utils.ParcelIds;
+import com.example.harmonicapracticeassistant.utils.IntentBuilder;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -57,17 +56,17 @@ public class EditorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        AppSettings appSettings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
+        AppSettings appSettings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
         applySettings(appSettings);
 
         EditText editText = findViewById(R.id.edit_text_song_tabs);
 
-        if (getIntent().getExtras().getBoolean(ParcelIds.IS_NEW_SONG_PARCEL_ID))
+        if (getIntent().getExtras().getBoolean(IntentBuilder.IS_NEW_SONG_PARCEL_ID))
             song = new Song(getResources().getString(R.string.new_song),
                     "");
         else
         {
-            song = getIntent().getExtras().getParcelable(ParcelIds.SONG_PARCEL_ID);
+            song = getIntent().getExtras().getParcelable(IntentBuilder.SONG_PARCEL_ID);
             editText.setText(song.getNotes());
         }
 
@@ -267,9 +266,7 @@ public class EditorActivity extends AppCompatActivity
         song.setNotes(editorUtil.getEditTextString());
 
         SaveUtils.saveSong(this, song);
-        Intent data = new Intent();
-        data.putExtra(ParcelIds.SONG_PARCEL_ID, song);
-        setResult(RESULT_OK, data);
+        setResult(RESULT_OK, IntentBuilder.buildSaveResultSongIntent(song));
 
         finish();
     }

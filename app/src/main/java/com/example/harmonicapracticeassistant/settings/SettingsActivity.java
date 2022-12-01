@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
-import com.example.harmonicapracticeassistant.utils.ParcelIds;
+import com.example.harmonicapracticeassistant.utils.IntentBuilder;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        oldSettings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
+        oldSettings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
         newSettings = new AppSettings(oldSettings);
 
         setupRecyclerView();
@@ -150,13 +150,12 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     public void importSongs(View view)
-    {
+    {// TODO: 01/12/2022 redo this
         if (checkPermission())
         {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("application/json");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, "Choose a file"), Constants.FILE_PICKER_REQUEST_CODE);
+            startActivityForResult(Intent.createChooser(IntentBuilder.buildImportIntent(),
+                            "Choose a file"),
+                    Constants.FILE_PICKER_REQUEST_CODE);
         }
     }
 
@@ -179,13 +178,9 @@ public class SettingsActivity extends AppCompatActivity
 
     public void exportSongs(View view)
     {
-        // TODO: 9/27/2022
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/json");
-        intent.putExtra(Intent.EXTRA_TITLE, "harmonica-songs.json");
-
-        startActivityForResult(intent, Constants.FILE_SAVE_REQUEST_CODE);
+        // TODO: 9/27/2022 redo
+        startActivityForResult(IntentBuilder.buildExportIntent(),
+                Constants.FILE_SAVE_REQUEST_CODE);
     }
 
     public void save(View view)
@@ -194,9 +189,7 @@ public class SettingsActivity extends AppCompatActivity
         if (!SaveUtils.saveSettings(getApplicationContext(), newSettings))
             Toast.makeText(this, R.string.save_settings_fail, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent();
-        intent.putExtra(ParcelIds.SETTINGS_PARCEL_ID, newSettings);
-        setResult(RESULT_OK, intent);
+        setResult(RESULT_OK, IntentBuilder.buildSaveResultSettingIntent(newSettings));
         finish();
     }
 

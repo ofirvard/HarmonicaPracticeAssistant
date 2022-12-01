@@ -8,8 +8,8 @@ import android.view.MenuItem;
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
+import com.example.harmonicapracticeassistant.utils.IntentBuilder;
 import com.example.harmonicapracticeassistant.utils.LoadUtils;
-import com.example.harmonicapracticeassistant.utils.ParcelIds;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class SongListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_list);
 
-        AppSettings settings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
+        AppSettings settings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
         selectableSongs = setSelectableSongs(LoadUtils.loadSongs(this));
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);

@@ -21,7 +21,7 @@ import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
-import com.example.harmonicapracticeassistant.utils.ParcelIds;
+import com.example.harmonicapracticeassistant.utils.IntentBuilder;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitch_detector);
 
-        AppSettings appSettings = getIntent().getExtras().getParcelable(ParcelIds.SETTINGS_PARCEL_ID);
+        AppSettings appSettings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
 
         HarmonicaUtils.setUp(getApplicationContext());
         pitchDetectorHandler = new PitchDetectorHandler();

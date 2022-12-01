@@ -97,4 +97,11 @@ public class Song implements Parcelable
         dest.writeString(id);
         dest.writeBoolean(favourite);
     }
+
+    public void update(Song song)
+    {
+        setFavourite(song.isFavourite());
+        setName(song.getName());
+        setNotes(song.getNotes());
+    }
 }

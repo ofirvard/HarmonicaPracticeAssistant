@@ -14,11 +14,9 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.example.harmonicapracticeassistant.R;
-import com.example.harmonicapracticeassistant.editor.EditorActivity;
 import com.example.harmonicapracticeassistant.editor.Song;
-import com.example.harmonicapracticeassistant.practice.PracticeActivity;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
-import com.example.harmonicapracticeassistant.utils.ParcelIds;
+import com.example.harmonicapracticeassistant.utils.IntentBuilder;
 import com.example.harmonicapracticeassistant.utils.SaveUtils;
 
 import java.util.Comparator;
@@ -38,7 +36,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
     private final AppSettings settings;
     private final ActivityResultLauncher<Intent> activityResultLauncher;
     private boolean isSelect;
-    private List<SelectableSong> selectableSongs;
+    private final List<SelectableSong> selectableSongs;
 
     public SongListAdapter(List<SelectableSong> songs, Context context, AppSettings settings)
     {
@@ -53,7 +51,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
                         .StartActivityForResult(), result -> {
                     if (result.getResultCode() == Activity.RESULT_OK)
                     {
-                        Song song = result.getData().getExtras().getParcelable(ParcelIds.SONG_PARCEL_ID);
+                        Song song = result.getData().getExtras().getParcelable(IntentBuilder.SONG_PARCEL_ID);
 
                         for (int i = 0; i < selectableSongs.size(); i++)
                         {
@@ -117,20 +115,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
         }
 
         holder.nameButton.setOnClickListener(view -> {
-            activityResultLauncher.launch(getPracticeIntent(selectableSong));
+            activityResultLauncher.launch(IntentBuilder.buildPracticeIntent(context,
+                    selectableSong.getSong(),
+                    settings));
         });
 
         holder.practiceButton.setOnClickListener(view -> {
-            activityResultLauncher.launch(getPracticeIntent(selectableSong));
+            activityResultLauncher.launch(IntentBuilder.buildPracticeIntent(context,
+                    selectableSong.getSong(),
+                    settings));
         });
 
         holder.editButton.setOnClickListener(view -> {
-            Intent intent = new Intent(context, EditorActivity.class);
-            intent.putExtra(ParcelIds.IS_NEW_SONG_PARCEL_ID, false);
-            intent.putExtra(ParcelIds.SONG_PARCEL_ID, selectableSong.getSong());
-            intent.putExtra(ParcelIds.SETTINGS_PARCEL_ID, settings);
-
-            activityResultLauncher.launch(intent);
+            activityResultLauncher.launch(IntentBuilder.buildExistingSongEditorIntent(context,
+                    selectableSong.getSong(),
+                    settings));
         });
 
         holder.nameButton.setOnLongClickListener(view -> {
@@ -202,15 +201,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
         isSelect = select;
         // TODO: 9/27/2022 update notify
         notifyItemRangeChanged(0, selectableSongs.size());
-    }
-
-    private Intent getPracticeIntent(SelectableSong selectableSong)
-    {
-        Intent intent = new Intent(context, PracticeActivity.class);
-        intent.putExtra(ParcelIds.SONG_PARCEL_ID, selectableSong.getSong());
-        intent.putExtra(ParcelIds.SETTINGS_PARCEL_ID, settings);
-
-        return intent;
     }
 
     private void setSongSelect(SelectableSong selectableSong, boolean isSelect)
