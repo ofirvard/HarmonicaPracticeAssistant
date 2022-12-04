@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.example.harmonicapracticeassistant.editor.Song;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
+import com.example.harmonicapracticeassistant.songlist.SelectableSong;
+import com.example.harmonicapracticeassistant.songlist.SongListActivity;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -13,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SaveUtils
 {
@@ -35,15 +38,19 @@ public class SaveUtils
     public static boolean saveSong(Context context, Song song)
     {
         List<Song> songs = LoadUtils.loadSongs(context);
+        boolean foundSong = false;
 
-        // TODO: 01/12/2022 check if song exists and update if needed
+        for (Song s : songs)
+        {
+            if (s.getId().equals(song.getId()))
+            {
+                s.update(song);
+                foundSong = true;
+            }
+        }
 
-        songs.stream()
-                .filter(s -> s.getId()
-                        .equals(song.getId()))
-                .forEach(s -> s.update(song));
-
-        songs.add(song);
+        if (!foundSong)
+            songs.add(song);
 
         return saveSongs(context, songs);
     }
@@ -96,5 +103,13 @@ public class SaveUtils
 
             return false;
         }
+    }
+
+    public static void saveSongs(SongListActivity context, List<SelectableSong> selectedSongs)
+    {
+        saveSongs(context,
+                selectedSongs.stream()
+                        .map(SelectableSong::getSong)
+                        .collect(Collectors.toList()));
     }
 }

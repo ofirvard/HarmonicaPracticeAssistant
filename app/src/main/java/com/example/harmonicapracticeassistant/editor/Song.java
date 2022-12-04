@@ -21,9 +21,9 @@ public class Song implements Parcelable
 
     protected Song(Parcel in)
     {
-        id = in.readString();
         name = in.readString();
         notes = in.readString();
+        id = in.readString();
         favourite = in.readBoolean();
     }
 

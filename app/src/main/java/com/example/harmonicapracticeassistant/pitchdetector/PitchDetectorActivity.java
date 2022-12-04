@@ -40,7 +40,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private PitchDetectorHandler pitchDetectorHandler;
     private PitchDetectorProcessor pitchDetectorProcessor;
-    private PitchDetectorAdapter pitchDetectorAdapter;
+    private PitchDetectorRecyclerViewAdapter pitchDetectorRecyclerViewAdapter;
     private NotePairListHandler notePairListHandler;
     private Spinner keySpinner;
     private TextView hertz;
@@ -79,13 +79,13 @@ public class PitchDetectorActivity extends AppCompatActivity
     {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         SnapHelper snapHelper = new LinearSnapHelper();
-        pitchDetectorAdapter = new PitchDetectorAdapter(this, pitchDetectorProcessor, notePairListHandler, snapHelper);
+        pitchDetectorRecyclerViewAdapter = new PitchDetectorRecyclerViewAdapter(this, pitchDetectorProcessor, notePairListHandler, snapHelper);
 
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         notesRecyclerView.setLayoutManager(layoutManager);
-        notesRecyclerView.setAdapter(pitchDetectorAdapter);
+        notesRecyclerView.setAdapter(pitchDetectorRecyclerViewAdapter);
         snapHelper.attachToRecyclerView(notesRecyclerView);
-        notesRecyclerView.addOnScrollListener(pitchDetectorAdapter.getOnScrollListener());
+        notesRecyclerView.addOnScrollListener(pitchDetectorRecyclerViewAdapter.getOnScrollListener());
     }
 
     public void checkPermission()
@@ -121,7 +121,7 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         if (noteHolesPair != null)
         {
-            pitchDetectorAdapter.notifyDataSetChanged();
+            pitchDetectorRecyclerViewAdapter.notifyDataSetChanged();
             // TODO: 9/1/2022 dont update unless you need to
             notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(notePairListHandler.getLastPosition()));// TODO: 08/03/2022 this feels a little weird
             hertz.setText(NoteTranslator.holesToString(pitchDetectorProcessor.getKey().isSharp(), noteHolesPair));
@@ -137,13 +137,13 @@ public class PitchDetectorActivity extends AppCompatActivity
     public void switchVisual(View view)
     {
         ((Button) view).setText(NoteTranslator.switchVisual());
-        pitchDetectorAdapter.notifyDataSetChanged();
+        pitchDetectorRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     public void clear(View view)
     {
         notePairListHandler.clear();
-        pitchDetectorAdapter.notifyDataSetChanged();
+        pitchDetectorRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -212,7 +212,7 @@ public class PitchDetectorActivity extends AppCompatActivity
             {
                 pitchDetectorProcessor.setCurrentKey(HarmonicaUtils.getKeys().get(i));
                 notePairListHandler.clear();
-                pitchDetectorAdapter.notifyDataSetChanged();
+                pitchDetectorRecyclerViewAdapter.notifyDataSetChanged();
             }
 
             @Override

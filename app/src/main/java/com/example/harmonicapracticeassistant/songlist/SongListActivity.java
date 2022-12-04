@@ -58,26 +58,23 @@ public class SongListActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onMenuOpened(int featureId, Menu menu)
+    public boolean onPrepareOptionsMenu(Menu menu)
     {
         menu.findItem(R.id.delete_selected).setVisible(songListAdapter.isSelect());
         menu.findItem(R.id.stop_select).setVisible(songListAdapter.isSelect());
         menu.findItem(R.id.select).setVisible(!songListAdapter.isSelect());
+        menu.findItem(R.id.unselect_all).setVisible(songListAdapter.isSelect());
+        menu.findItem(R.id.favourite_selected).setVisible(songListAdapter.isSelect() &&
+                !areAllSelectedSongsFavourite(getSelectedSongs()));
+        menu.findItem(R.id.unfavourite_selected).setVisible(songListAdapter.isSelect() &&
+                areAllSelectedSongsFavourite(getSelectedSongs()));
 
-        return super.onMenuOpened(featureId, menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        // TODO: 03/10/2022 use this 
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // TODO: 01/12/2022 go over all and add fav 
         if (item.getItemId() == R.id.select)
         {
             songListAdapter.setSelect(true);
@@ -94,13 +91,17 @@ public class SongListActivity extends AppCompatActivity
         {
             setAllSongsSelect(false);
         }
+        else if (item.getItemId() == R.id.delete_selected)
+        {
+            deleteSelected();
+        }
         else if (item.getItemId() == R.id.delete_all)
         {
             deleteAll();
         }
-        else if (item.getItemId() == R.id.delete_selected)
+        else if (item.getItemId() == R.id.favourite_selected || item.getItemId() == R.id.unfavourite_selected)
         {
-            deleteSelected();
+            setFavouriteSelected();
         }
         else if (item.getItemId() == R.id.test_add_song)
         {
@@ -113,6 +114,24 @@ public class SongListActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setFavouriteSelected()
+    {
+        List<SelectableSong> selectedSongs = getSelectedSongs();
+        boolean favouriteValue = !areAllSelectedSongsFavourite(selectedSongs);
+
+        selectedSongs.forEach(selectedSong -> selectedSong.getSong()
+                .setFavourite(favouriteValue));
+        SaveUtils.saveSongs(this, selectableSongs);
+        songListAdapter.sort();
+        songListAdapter.notifyDataSetChanged();
+    }
+
+    private boolean areAllSelectedSongsFavourite(List<SelectableSong> selectedSongs)
+    {
+        return selectedSongs.stream().allMatch(selectableSong ->
+                selectableSong.getSong().isFavourite());
     }
 
     private void testMakeSong()
@@ -153,8 +172,7 @@ public class SongListActivity extends AppCompatActivity
                 .setTitle(R.string.delete_selected_title)
                 .setMessage(R.string.delete_selected_message_dialog)
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    List<String> songUUIDsToDelete = selectableSongs.stream()
-                            .filter(SelectableSong::isSelected)
+                    List<String> songUUIDsToDelete = getSelectedSongs().stream()
                             .map(SelectableSong::getSong)
                             .map(Song::getId)
                             .collect(Collectors.toList());
@@ -187,5 +205,13 @@ public class SongListActivity extends AppCompatActivity
             songListAdapter.setSelect(false);
         else
             super.onBackPressed();
+    }
+
+    private List<SelectableSong> getSelectedSongs()
+    {
+
+        return selectableSongs.stream()
+                .filter(SelectableSong::isSelected)
+                .collect(Collectors.toList());
     }
 }

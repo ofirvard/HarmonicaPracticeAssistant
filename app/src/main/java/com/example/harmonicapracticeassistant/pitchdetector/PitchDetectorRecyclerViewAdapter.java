@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdapter.NoteItemViewHolder>
+public class PitchDetectorRecyclerViewAdapter extends RecyclerView.Adapter<PitchDetectorRecyclerViewAdapter.NoteItemViewHolder>
 {
     private final List<Pair<Note, List<Hole>>> notesWithHoles;
     private final PitchDetectorProcessor pitchDetectorProcessor;
@@ -25,7 +25,7 @@ public class PitchDetectorAdapter extends RecyclerView.Adapter<PitchDetectorAdap
     private int centerPos = 0;
     private final RecyclerView.OnScrollListener onScrollListener;
 
-    public PitchDetectorAdapter(Context context, PitchDetectorProcessor pitchDetectorProcessor, NotePairListHandler notePairListHandler, SnapHelper snapHelper)
+    public PitchDetectorRecyclerViewAdapter(Context context, PitchDetectorProcessor pitchDetectorProcessor, NotePairListHandler notePairListHandler, SnapHelper snapHelper)
     {
         this.context = context;
         this.pitchDetectorProcessor = pitchDetectorProcessor;

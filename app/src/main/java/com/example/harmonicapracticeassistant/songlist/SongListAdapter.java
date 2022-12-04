@@ -57,7 +57,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
                         {
                             if (selectableSongs.get(i).getSong().getId().equals(song.getId()))
                             {
-                                selectableSongs.get(i).setSong(song);
+                                selectableSongs.get(i).getSong().update(song);
                                 notifyItemChanged(i);
                             }
                         }
@@ -65,8 +65,12 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
                 });
     }
 
-    public class SongListHolder extends RecyclerView.ViewHolder
-//            implements View.OnCreateContextMenuListener
+    public void sort()
+    {
+        selectableSongs.sort(songComparator);
+    }
+
+    public static class SongListHolder extends RecyclerView.ViewHolder
     {
         public Button nameButton;
         public CheckBox checkBox;
@@ -100,6 +104,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
     @Override
     public void onBindViewHolder(SongListHolder holder, int position)
     {
+        // TODO: 12/1/2022 move the diffrent clicks to somewhere else 
         SelectableSong selectableSong = selectableSongs.get(position);
         holder.nameButton.setText(selectableSongs.get(position).getSong().getName());
 
@@ -133,39 +138,38 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
         });
 
         holder.nameButton.setOnLongClickListener(view -> {
-            // TODO: 9/27/2022 long press opens menu (changes if select is true or false), short press opens editor (if select true then only selects)
-            // TODO: 9/27/2022 open menu, and depending on if items are selected show a different menu (also if select is true and the item is not selected just select it)
-
             PopupMenu popup = new PopupMenu(context, holder.nameButton);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.song_list_selectable_song_menu, popup.getMenu());
 
             popup.getMenu().findItem(R.id.favorite_song).setVisible(!selectableSong.getSong().isFavourite());
             popup.getMenu().findItem(R.id.unfavorite_song).setVisible(selectableSong.getSong().isFavourite());
-            // TODO: 01/12/2022 check if you need to hide
+            popup.getMenu().findItem(R.id.select).setVisible(!selectableSong.isSelected());
+            popup.getMenu().findItem(R.id.unselect).setVisible(selectableSong.isSelected());
+
             popup.setOnMenuItemClickListener(menuItem -> {
                 int itemId = menuItem.getItemId();
                 if (itemId == R.id.select)
                 {
-                    setSongSelect(selectableSong, true);
+                    setSongSelect(selectableSong, true, holder.checkBox);
 
                     return true;
                 }
                 else if (itemId == R.id.unselect)
                 {
-                    setSongSelect(selectableSong, false);
+                    setSongSelect(selectableSong, false, holder.checkBox);
 
                     return true;
                 }
                 else if (itemId == R.id.favorite_song)
                 {
-                    setSongFavourite(selectableSong, true);
+                    setSongFavourite(selectableSong, true, position, holder.favouriteHeart);
 
                     return true;
                 }
                 else if (itemId == R.id.unfavorite_song)
                 {
-                    setSongFavourite(selectableSong, false);
+                    setSongFavourite(selectableSong, false, position, holder.favouriteHeart);
 
                     return true;
                 }
@@ -178,7 +182,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
         });
 
         holder.checkBox.setOnClickListener(view ->
-
         {
             selectableSongs.get(position).setSelected(!selectableSongs.get(position).isSelected());
             ((CheckBox) view).setChecked(selectableSongs.get(position).isSelected());
@@ -199,24 +202,32 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongLi
     public void setSelect(Boolean select)
     {
         isSelect = select;
-        // TODO: 9/27/2022 update notify
         notifyItemRangeChanged(0, selectableSongs.size());
     }
 
-    private void setSongSelect(SelectableSong selectableSong, boolean isSelect)
+    private void setSongSelect(SelectableSong selectableSong, boolean setSelect, CheckBox checkBox)
     {
-        selectableSong.setSelected(isSelect);
+        selectableSong.setSelected(setSelect);
+        checkBox.setChecked(setSelect);
 
         if (!isSelect)
             setSelect(true);
     }
 
-    private void setSongFavourite(SelectableSong selectableSong, boolean isFavourite)
+    private void setSongFavourite(SelectableSong selectableSong, boolean isFavourite, int fromPosition, ImageView favouriteHeart)
     {
         selectableSong.getSong().setFavourite(isFavourite);
         SaveUtils.saveSong(context, selectableSong.getSong());
         this.selectableSongs.sort(songComparator);
 
-        notifyDataSetChanged();// TODO: 01/12/2022 see if you can do the sort better
+        if (selectableSong.getSong().isFavourite())
+            favouriteHeart.setVisibility(View.VISIBLE);
+        else
+            favouriteHeart.setVisibility(View.GONE);
+
+//        notifyItemMoved(fromPosition, selectableSongs.indexOf(selectableSong));
+
+
+        notifyDataSetChanged();// TODO: 01/12/2022 see if you can do this better
     }
 }

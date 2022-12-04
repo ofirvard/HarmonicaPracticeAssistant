@@ -73,7 +73,7 @@ public class EditorActivity extends AppCompatActivity
         originalSongName = String.valueOf(song.getName());
 
         HarmonicaUtils.setUp(getApplicationContext());
-        Objects.requireNonNull(getSupportActionBar()).setTitle(song.getName());
+        getSupportActionBar().setTitle(song.getName());
 
         editText.setShowSoftInputOnFocus(false);
         editText.setRawInputType(InputType.TYPE_CLASS_TEXT);

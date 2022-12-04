@@ -36,6 +36,6 @@ public class SelectableSong
     @Override
     public String toString()
     {
-        return String.format("%s | %s | %s", song.getId(), song.getName(), isSelected);
+        return String.format("%s | %s | f: %s | s: %s", song.getId(), song.getName(), song.isFavourite(), isSelected);
     }
 }

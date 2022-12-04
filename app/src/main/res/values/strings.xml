@@ -66,4 +66,5 @@
     <string name="unfavourite">Unfavourite</string>
     <string name="unselect">Unselect</string>
     <string name="unselect_all">Unselect All</string>
+    <string name="key_spinner">Key Spinner</string>
 </resources>
