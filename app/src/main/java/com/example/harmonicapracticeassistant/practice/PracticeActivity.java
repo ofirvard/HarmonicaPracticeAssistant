@@ -32,6 +32,7 @@ public class PracticeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // TODO: 23/11/2022 this will be where i show the song and check how well you play it, it will show a text view that will change color as you progress
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practice);
 
@@ -42,11 +43,9 @@ public class PracticeActivity extends AppCompatActivity
         textView.setTextSize(appSettings.getDefaultTextSize());
         textView.setText(TextUtil.getColorIllegalTabsSpannable(song.getNotes()));
         getSupportActionBar().setTitle(song.getName());
-        // TODO: 23/11/2022 load the song, color it
 
-        // TODO: 23/11/2022 this will be where i show the song and check how well you play it, it will show a text view that will change color as you progress 
-
-        // TODO: 11/27/2022 can i put the spinner in the action bar?
+        pitchDetectorProcessor = new PitchDetectorProcessor(appSettings);
+        pitchDetectorHandler = new PitchDetectorHandler();
     }
 
     @Override
