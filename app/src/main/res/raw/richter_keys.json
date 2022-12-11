@@ -1,0 +1,14 @@
+[
+  {"keyName": "C",  "isSharp":false, "baseNote": { "semitone": 0,  "octave": 5 }},
+  {"keyName": "Db", "isSharp":false, "baseNote": { "semitone": 1,  "octave": 5 }},
+  {"keyName": "D",  "isSharp":true,  "baseNote": { "semitone": 2,  "octave": 5 }},
+  {"keyName": "Eb", "isSharp":false, "baseNote": { "semitone": 3,  "octave": 5 }},
+  {"keyName": "E",  "isSharp":true,  "baseNote": { "semitone": 4,  "octave": 5 }},
+  {"keyName": "F",  "isSharp":false, "baseNote": { "semitone": 5,  "octave": 5 }},
+  {"keyName": "F#", "isSharp":true,  "baseNote": { "semitone": 6,  "octave": 5 }},
+  {"keyName": "G",  "isSharp":true,  "baseNote": { "semitone": 7,  "octave": 4 }},
+  {"keyName": "Ab", "isSharp":false, "baseNote": { "semitone": 8,  "octave": 4 }},
+  {"keyName": "A",  "isSharp":true,  "baseNote": { "semitone": 9,  "octave": 4 }},
+  {"keyName": "Bb", "isSharp":false, "baseNote": { "semitone": 10, "octave": 4 }},
+  {"keyName": "B",  "isSharp":true,  "baseNote": { "semitone": 11, "octave": 4 }}
+]

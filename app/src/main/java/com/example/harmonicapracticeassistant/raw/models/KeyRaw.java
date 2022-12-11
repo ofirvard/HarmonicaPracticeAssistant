@@ -2,7 +2,7 @@ package com.example.harmonicapracticeassistant.raw.models;
 
 import java.util.List;
 
-public class KewRaw
+public class KeyRaw
 {
     private String keyName;
     private boolean isSharp;

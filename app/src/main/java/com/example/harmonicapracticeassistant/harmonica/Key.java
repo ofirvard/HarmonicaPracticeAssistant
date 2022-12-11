@@ -1,7 +1,7 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
 import com.example.harmonicapracticeassistant.raw.models.HoleRaw;
-import com.example.harmonicapracticeassistant.raw.models.KewRaw;
+import com.example.harmonicapracticeassistant.raw.models.KeyRaw;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class Key
         this.holes = holes;
     }
 
-    public Key(KewRaw rawKey)
+    public Key(KeyRaw rawKey)
     {
         keyName = rawKey.getKeyName();
         isSharp = rawKey.isSharp();

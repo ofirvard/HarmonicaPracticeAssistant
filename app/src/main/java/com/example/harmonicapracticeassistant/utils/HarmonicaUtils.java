@@ -7,7 +7,7 @@ import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
-import com.example.harmonicapracticeassistant.raw.models.KewRaw;
+import com.example.harmonicapracticeassistant.raw.models.KeyRaw;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -73,7 +73,7 @@ public class HarmonicaUtils
         if (keys == null)
         {
             keys = new ArrayList<>();
-            List<KewRaw> rawKeys = readRawKeys(context);
+            List<KeyRaw> rawKeys = readRawKeys(context);
 
             convertRawKeysToKeys(rawKeys);
 
@@ -94,21 +94,21 @@ public class HarmonicaUtils
         }
     }
 
-    private static List<KewRaw> readRawKeys(Context context)
+    private static List<KeyRaw> readRawKeys(Context context)
     {
         Gson gson = new GsonBuilder().
                 registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
                 create();
-        Type rawKeyList = new TypeToken<ArrayList<KewRaw>>()
+        Type rawKeyList = new TypeToken<ArrayList<KeyRaw>>()
         {
         }.getType();
 
         return gson.fromJson(RawReader.getKeys(context), rawKeyList);
     }
 
-    private static void convertRawKeysToKeys(List<KewRaw> rawKeys)
+    private static void convertRawKeysToKeys(List<KeyRaw> rawKeys)
     {
-        for (KewRaw rawKey : rawKeys)
+        for (KeyRaw rawKey : rawKeys)
         {
             Key key = new Key(rawKey);
             keys.add(key);
