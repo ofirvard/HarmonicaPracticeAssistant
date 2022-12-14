@@ -8,6 +8,7 @@ import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
 import androidx.annotation.NonNull;
 
+@Deprecated
 public class Hole
 {
     private final Note note;

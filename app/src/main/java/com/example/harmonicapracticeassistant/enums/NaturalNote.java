@@ -1,5 +1,6 @@
 package com.example.harmonicapracticeassistant.enums;
 
+@Deprecated
 public enum NaturalNote implements MusicalNote
 {
     C("C"),

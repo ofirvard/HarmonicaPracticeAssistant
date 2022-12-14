@@ -1,7 +1,5 @@
 package com.example.harmonicapracticeassistant.richter;
 
-import com.example.harmonicapracticeassistant.harmonica.Key;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,4 +14,6 @@ public class Harmonica
         for (Tuning tuning : tuningList)
             holes.add(new Hole(key, tuning));
     }
+
+
 }

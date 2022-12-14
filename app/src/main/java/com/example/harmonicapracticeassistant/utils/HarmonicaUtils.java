@@ -8,6 +8,7 @@ import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.raw.models.KeyRaw;
+import com.example.harmonicapracticeassistant.richter.RichterHarmonicaGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +30,7 @@ public class HarmonicaUtils
         setupAllNotes(context);
         setupAllKeys(context);
         setupLegalTabs(context);
+        generateRichterHarmonicas(context);
     }
 
     public static List<Note> getNotes()
@@ -68,6 +70,7 @@ public class HarmonicaUtils
                 .collect(Collectors.toList());
     }
 
+    @Deprecated
     private static void setupAllKeys(Context context)
     {
         if (keys == null)
@@ -134,5 +137,10 @@ public class HarmonicaUtils
     public static String getBendString(Bend bend)
     {// TODO: 19/01/2022 make this use enum string
         return bend.toString();
+    }
+
+    private static void generateRichterHarmonicas(Context context)
+    {
+        RichterHarmonicaGenerator.setUp(context);
     }
 }

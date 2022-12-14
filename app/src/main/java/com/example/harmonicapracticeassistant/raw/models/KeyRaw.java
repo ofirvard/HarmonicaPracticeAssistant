@@ -2,6 +2,7 @@ package com.example.harmonicapracticeassistant.raw.models;
 
 import java.util.List;
 
+@Deprecated
 public class KeyRaw
 {
     private String keyName;

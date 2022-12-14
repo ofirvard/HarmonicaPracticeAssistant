@@ -1,11 +1,12 @@
 package com.example.harmonicapracticeassistant.enums;
 
+@Deprecated
 public enum Bend
 {
     NONE(""),
     HALF_STEP("'"),
     WHOLE_STEP("\""),
-    STEP_AND_A_HALF("\"\'"),
+    STEP_AND_A_HALF("\"'"),
     OVER("o");
 
     private final String name;

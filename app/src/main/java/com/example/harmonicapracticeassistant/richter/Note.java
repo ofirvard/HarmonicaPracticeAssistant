@@ -2,14 +2,15 @@ package com.example.harmonicapracticeassistant.richter;
 
 public class Note
 {
-    private final int numberOfNotesInAnOctave = 12;
-    private int noteNumber;
-    private int octave;
+    private final int noteNumber;
+    private final int octave;
+    private final boolean isSharp;
 
     public Note(RichterKey key, int halfSteps)
     {
         this.noteNumber = calculateNoteNumber(key, halfSteps);
         this.octave = calculateOctave(key, halfSteps);
+        this.isSharp = key.isSharp();
     }
 
     public int getNoteNumber()
@@ -22,13 +23,16 @@ public class Note
         return octave;
     }
 
-    public String toString(RichterKey key)
+    @Override
+    public String toString()
     {
-        return noteNumberToString(noteNumber, key) + octave;
+        return noteNumberToString() + octave;
     }
 
     private int calculateNoteNumber(RichterKey key, int halfSteps)
     {
+        int numberOfNotesInAnOctave = 12;
+
         return (((key.getNoteNumber() + halfSteps)
                 % numberOfNotesInAnOctave)
                 + numberOfNotesInAnOctave)
@@ -41,21 +45,21 @@ public class Note
         return (int) (key.getOctave() + Math.floor((double) (key.getNoteNumber() + halfSteps) / 12));
     }
 
-    private static String noteNumberToString(int semitone, RichterKey key)
+    private String noteNumberToString()
     {
-        switch (semitone)
+        switch (noteNumber)
         {
             case 0:
                 return "C";
 
             case 1:
-                return key.isSharp() ? "C#" : "Db";
+                return isSharp ? "C#" : "Db";
 
             case 2:
                 return "D";
 
             case 3:
-                return key.isSharp() ? "D#" : "Eb";
+                return isSharp ? "D#" : "Eb";
 
             case 4:
                 return "E";
@@ -64,19 +68,19 @@ public class Note
                 return "F";
 
             case 6:
-                return key.isSharp() ? "F#" : "Gb";
+                return isSharp ? "F#" : "Gb";
 
             case 7:
                 return "G";
 
             case 8:
-                return key.isSharp() ? "G#" : "Ab";
+                return isSharp ? "G#" : "Ab";
 
             case 9:
                 return "A";
 
             case 10:
-                return key.isSharp() ? "A#" : "Bb";
+                return isSharp ? "A#" : "Bb";
 
             case 11:
                 return "B";

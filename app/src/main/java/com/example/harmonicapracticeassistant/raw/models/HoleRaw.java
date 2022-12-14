@@ -3,6 +3,7 @@ package com.example.harmonicapracticeassistant.raw.models;
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 
+@Deprecated
 public class HoleRaw
 {
     private int hole;

@@ -4,6 +4,7 @@ import com.example.harmonicapracticeassistant.enums.MusicalNote;
 
 import androidx.annotation.NonNull;
 
+@Deprecated
 public class Note
 {
     private final MusicalNote musicalNote;

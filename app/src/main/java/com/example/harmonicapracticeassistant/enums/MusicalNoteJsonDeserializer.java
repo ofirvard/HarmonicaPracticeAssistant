@@ -7,6 +7,7 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+@Deprecated
 public class MusicalNoteJsonDeserializer implements JsonDeserializer<MusicalNote>
 {
     @Override

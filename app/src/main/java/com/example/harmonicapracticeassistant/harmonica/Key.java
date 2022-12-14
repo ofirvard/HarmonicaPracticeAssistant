@@ -6,6 +6,7 @@ import com.example.harmonicapracticeassistant.raw.models.KeyRaw;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class Key
 {
     private final String keyName;
