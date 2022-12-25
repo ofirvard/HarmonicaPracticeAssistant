@@ -3,24 +3,8 @@ package com.example.harmonicapracticeassistant.harmonica;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.utils.MusicalNoteUtil;
 
-import java.util.Comparator;
-
 public class Note
 {
-    public static Comparator<Note> noteComparator = (n1, n2) -> {
-        int octave1 = ((Note) n1).getOctave();
-        int octave2 = ((Note) n2).getOctave();
-        int octaveComp = Integer.compare(octave1, octave2);
-
-        if (octaveComp != 0)
-            return octaveComp;
-
-        int musicalNote1 = ((Note) n1).getNoteNumber();
-        int musicalNote2 = ((Note) n2).getNoteNumber();
-
-        return Integer.compare(musicalNote1, musicalNote2);
-    };
-
     private final MusicalNote musicalNote;
     private final int octave;
     private final boolean isSharp;

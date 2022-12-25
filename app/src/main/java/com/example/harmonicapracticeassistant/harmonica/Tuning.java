@@ -1,17 +1,26 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
+import com.example.harmonicapracticeassistant.enums.Bend;
+
 public class Tuning
 {
-    private int hole;
-    private int bend;
-    private int halfSteps;
+    private final int hole;
+    private final Bend bend;
+    private final int halfSteps;
+
+    public Tuning(int hole, Bend bend, int halfSteps)
+    {
+        this.hole = hole;
+        this.bend = bend;
+        this.halfSteps = halfSteps;
+    }
 
     public int getHole()
     {
         return hole;
     }
 
-    public int getBend()
+    public Bend getBend()
     {
         return bend;
     }

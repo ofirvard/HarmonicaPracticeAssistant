@@ -1,7 +1,7 @@
 package com.example.harmonicapracticeassistant.enums;
 
 public enum Bend
-{// TODO: 12/21/2022 add this to new stuff? 
+{
     NONE(""),
     HALF_STEP("'"),
     WHOLE_STEP("\""),

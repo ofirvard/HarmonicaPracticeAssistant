@@ -1,6 +1,7 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,10 +40,10 @@ public class Harmonica
 
     public List<Note> getAllNotes()
     {
-        // TODO: 12/23/2022 remove duplicate
         return holes.stream()
                 .map(Hole::getNote)
-                .sorted(Note.noteComparator)
+                .sorted(Comparator.comparingInt(Note::getOctave)
+                        .thenComparingInt(Note::getNoteNumber))
                 .collect(Collectors.toList());
     }
 
@@ -60,10 +61,5 @@ public class Harmonica
         return holes.stream()
                 .filter(hole -> hole.isNoteEqual(note))
                 .collect(Collectors.toList());
-    }
-
-    public Hole getHole(int i)
-    {
-        return holes.stream().filter(hole -> hole.getNumber() == i && hole.getBend() == 0).findFirst().orElse(null);
     }
 }

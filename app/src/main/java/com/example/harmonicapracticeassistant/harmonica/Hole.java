@@ -1,11 +1,11 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
-import com.example.harmonicapracticeassistant.utils.NoteFinder;
+import com.example.harmonicapracticeassistant.enums.Bend;
 
 public class Hole
 {
     private final int number;
-    private final int bend;
+    private final Bend bend;
     private final Note note;
 
     public Hole(Key key, Tuning tuning, Note baseNote)
@@ -17,22 +17,12 @@ public class Hole
 
     public String getHoleString()
     {
-        return number + translateBend();
+        return number + bend.toString();
     }
 
     public Note getNote()
     {
         return note;
-    }
-
-    public int getNumber()
-    {
-        return number;
-    }
-
-    public int getBend()
-    {
-        return bend;
     }
 
     @Override
@@ -41,37 +31,9 @@ public class Hole
         return getHoleString() + " | " + note.toString();
     }
 
-    public boolean isWithinFrequencyRange(float testFrequency)
-    {
-        return NoteFinder.isWithinFrequencyRange(note, testFrequency);
-    }
-
     public boolean isNoteEqual(Note note)
     {
         return this.note.equals(note);
-    }
-
-    private String translateBend()
-    {
-        // TODO: 12/23/2022 change this to the enum 
-        switch (bend)
-        {
-            case 1:
-                return "'";
-
-            case 2:
-                return "\"";
-
-            case 3:
-                return "\"'";
-
-            case 4:
-                // TODO: 14/12/2022 this will be over blow/draw
-                return "";
-
-            default:
-                return "";
-        }
     }
 
     public String getNoteWithOctave()

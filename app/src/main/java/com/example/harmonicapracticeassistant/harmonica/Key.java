@@ -27,6 +27,11 @@ public class Key
         return baseNote.getOctave();
     }
 
+    public HarmonicaTuningType getTuningType()
+    {
+        return tuningType;
+    }
+
     public boolean isSameTuningType(HarmonicaTuningType tuningType)
     {
         return this.tuningType == tuningType;

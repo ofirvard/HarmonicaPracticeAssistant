@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,8 @@ public class HarmonicaUtils
         }.getType();
 
         keys.addAll(gson.fromJson(RawReader.getRichterKeys(context), listOfRichterKey));
+
+        keys.sort(Comparator.comparing(Key::getTuningType).thenComparing(Key::getKeyName));
     }
 
     public static List<Key> getKeys(HarmonicaTuningType tuningType)
