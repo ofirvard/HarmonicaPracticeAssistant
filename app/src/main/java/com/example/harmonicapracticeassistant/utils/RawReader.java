@@ -11,11 +11,6 @@ import java.io.InputStreamReader;
 
 public class RawReader
 {
-    public static String getNoteFrequency(Context context)
-    {
-        return read(context, R.raw.note_frequency);
-    }
-
     public static String getRichterKeys(Context context)
     {
         return read(context, R.raw.richter_keys);
@@ -24,11 +19,6 @@ public class RawReader
     public static String getRichterTuning(Context context)
     {
         return read(context, R.raw.richter_tuning);
-    }
-
-    public static String getKeys(Context context)
-    {
-        return read(context, R.raw.harmonica_keys);
     }
 
     public static String getLegalTabs(Context context)

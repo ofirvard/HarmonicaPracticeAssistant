@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.harmonica.HarmonicaTuningType;
 import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.IntentBuilder;
@@ -24,6 +25,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -36,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity
 {
     private AppSettings oldSettings;
     private AppSettings newSettings;
-    private boolean newSongsImported = false;
+    private final boolean newSongsImported = false;
     private Uri fileUri;
     private SwitchMaterial slim;
     private ActivityResultLauncher<String> requestPermissionLauncher;
@@ -68,6 +70,7 @@ public class SettingsActivity extends AppCompatActivity
         slim = findViewById(R.id.slim);
         slim.setChecked(newSettings.isKeyboardSlim());
         setupKeySpinner();
+        setupTuningSpinner();
     }
 
     private void setupRecyclerView()
@@ -84,6 +87,7 @@ public class SettingsActivity extends AppCompatActivity
     {
         return Arrays.asList(R.layout.settings_import_export_songs,
                 R.layout.settings_keyboard_type,
+                R.layout.settings_default_tuning,
                 R.layout.settings_default_key,
                 R.layout.settings_text_size);
     }
@@ -131,7 +135,7 @@ public class SettingsActivity extends AppCompatActivity
 //            }
 //    }
 
-    public void increase(View view)
+    public void increaseTextSize(View view)
     {
         if (newSettings.getDefaultTextSize() < Constants.MAX_TEXT_SIZE)
         {
@@ -140,7 +144,7 @@ public class SettingsActivity extends AppCompatActivity
         }
     }
 
-    public void decrease(View view)
+    public void decreaseTextSize(View view)
     {
         if (newSettings.getDefaultTextSize() > Constants.MIN_TEXT_SIZE)
         {
@@ -234,20 +238,49 @@ public class SettingsActivity extends AppCompatActivity
     private void setupKeySpinner()
     {
         Spinner keySpinner = findViewById(R.id.setting_default_key_spinner);
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item_text,
-                HarmonicaUtils.getKeysName());
+                HarmonicaUtils.getKeysName(newSettings.getDefaultTuningType()));
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         keySpinner.setAdapter(adapter);
-        keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(newSettings.getDefaultKey()));
+        keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(newSettings));
         keySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
             {
                 newSettings.setDefaultKey(HarmonicaUtils.getKeys().get(i).getKeyName());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+            }
+        });
+    }
+
+    private void setupTuningSpinner()
+    {
+        Spinner tuningSpinner = findViewById(R.id.setting_default_tuning_spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.spinner_item_text,
+                Arrays.stream(HarmonicaTuningType.values())
+                        .map(Enum::toString)
+                        .collect(Collectors.toList()));
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
+        tuningSpinner.setAdapter(adapter);
+        tuningSpinner.setSelection(Arrays.asList(HarmonicaTuningType.values())
+                .indexOf(oldSettings.getDefaultTuningType()));
+        tuningSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                newSettings.setDefaultTuning(HarmonicaTuningType.values()[i]);
+                setupKeySpinner();
             }
 
             @Override

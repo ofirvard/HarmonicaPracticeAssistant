@@ -1,27 +1,34 @@
 package com.example.harmonicapracticeassistant.enums;
 
-@Deprecated
 public enum NaturalNote implements MusicalNote
 {
-    C("C"),
-    D("D"),
-    E("E"),
-    F("F"),
-    G("G"),
-    A("A"),
-    B("B");
+    C("C", 0),
+    D("D", 2),
+    E("E", 4),
+    F("F", 5),
+    G("G", 7),
+    A("A", 9),
+    B("B", 11);
 
     private final String name;
+    private final int number;
 
-    NaturalNote(String name)
+    NaturalNote(String name, int number)
     {
         this.name = name;
+        this.number = number;
     }
 
     @Override
     public String toString(boolean isSharp)
     {
         return name;
+    }
+
+    @Override
+    public int getNoteNumber()
+    {
+        return number;
     }
 
     @Override

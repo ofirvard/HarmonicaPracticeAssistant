@@ -71,8 +71,6 @@ public class EditorActivity extends AppCompatActivity
         }
 
         originalSongName = String.valueOf(song.getName());
-
-        HarmonicaUtils.setUp(getApplicationContext());
         getSupportActionBar().setTitle(song.getName());
 
         editText.setShowSoftInputOnFocus(false);
@@ -222,7 +220,6 @@ public class EditorActivity extends AppCompatActivity
             ((Button) findViewById(R.id.note_8)).setText(R.string.keyboard_draw_8);
             ((Button) findViewById(R.id.note_9)).setText(R.string.keyboard_draw_9);
             ((Button) findViewById(R.id.note_10)).setText(R.string.keyboard_draw_10);
-            ;
         }
     }
 

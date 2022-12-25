@@ -57,12 +57,12 @@ public class PracticeActivity extends AppCompatActivity
         MenuItem item = menu.findItem(R.id.practice_key_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item_text,
-                HarmonicaUtils.getKeysName());
+                HarmonicaUtils.getKeysName(appSettings.getDefaultTuningType()));
         Spinner spinner = (Spinner) item.getActionView();
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_text);
         spinner.setAdapter(adapter);
-        spinner.setSelection(HarmonicaUtils.getPositionOfKey(appSettings.getDefaultKey()));
+        spinner.setSelection(HarmonicaUtils.getPositionOfKey(appSettings));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override

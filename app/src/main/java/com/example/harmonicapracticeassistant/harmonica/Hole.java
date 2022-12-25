@@ -1,57 +1,23 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
-import com.example.harmonicapracticeassistant.enums.Bend;
-import com.example.harmonicapracticeassistant.enums.MusicalNote;
-import com.example.harmonicapracticeassistant.raw.models.HoleRaw;
-import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
-import androidx.annotation.NonNull;
-
-@Deprecated
 public class Hole
 {
+    private final int number;
+    private final int bend;
     private final Note note;
-    private final int holeNumber;
-    private final Bend bend;
 
-    public Hole(Note note)
+    public Hole(Key key, Tuning tuning, Note baseNote)
     {
-        this.note = note;
-        this.holeNumber = 0;
-        this.bend = Bend.NONE;
+        this.number = tuning.getHole();
+        this.bend = tuning.getBend();
+        this.note = new Note(key, tuning.getHalfSteps(), baseNote);
     }
 
-    public Hole(HoleRaw raw)
+    public String getHoleString()
     {
-        holeNumber = raw.getHole();
-        bend = raw.getBend();
-        note = NoteFinder.getNoteById(raw.getMusicalNote(), raw.getOctave());
-    }
-
-    public boolean isSameNote(MusicalNote musicalNote, int octave)
-    {
-        return this.note.isSameNote(musicalNote, octave);
-    }
-
-    public boolean isWithinFrequencyRange(float testFrequency)
-    {
-        return NoteFinder.isWithinFrequencyRange(note, testFrequency);
-    }
-
-    public String getNoteWithOctave(boolean isSharp)
-    {
-        return note.getNoteWithOctave(isSharp);
-    }
-
-    public String getHoleWithBend()
-    {
-        return holeNumber + HarmonicaUtils.getBendString(bend);
-    }
-
-    public MusicalNote getMusicalNote()
-    {
-        return note.getMusicalNote();
+        return number + translateBend();
     }
 
     public Note getNote()
@@ -59,20 +25,57 @@ public class Hole
         return note;
     }
 
-    public float getFrequency()
+    public int getNumber()
     {
-        return note.getFrequency();
+        return number;
     }
 
-    public int getHole()
+    public int getBend()
     {
-        return holeNumber;
+        return bend;
     }
 
-    @NonNull
     @Override
     public String toString()
     {
-        return note + "," + holeNumber + "," + bend;
+        return getHoleString() + " | " + note.toString();
+    }
+
+    public boolean isWithinFrequencyRange(float testFrequency)
+    {
+        return NoteFinder.isWithinFrequencyRange(note, testFrequency);
+    }
+
+    public boolean isNoteEqual(Note note)
+    {
+        return this.note.equals(note);
+    }
+
+    private String translateBend()
+    {
+        // TODO: 12/23/2022 change this to the enum 
+        switch (bend)
+        {
+            case 1:
+                return "'";
+
+            case 2:
+                return "\"";
+
+            case 3:
+                return "\"'";
+
+            case 4:
+                // TODO: 14/12/2022 this will be over blow/draw
+                return "";
+
+            default:
+                return "";
+        }
+    }
+
+    public String getNoteWithOctave()
+    {
+        return note.toString();
     }
 }

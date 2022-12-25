@@ -5,10 +5,13 @@ import android.content.Context;
 import com.example.harmonicapracticeassistant.enums.Bend;
 import com.example.harmonicapracticeassistant.enums.MusicalNote;
 import com.example.harmonicapracticeassistant.enums.MusicalNoteJsonDeserializer;
+import com.example.harmonicapracticeassistant.enums.NaturalNote;
+import com.example.harmonicapracticeassistant.harmonica.Harmonica;
+import com.example.harmonicapracticeassistant.harmonica.HarmonicaTuningType;
 import com.example.harmonicapracticeassistant.harmonica.Key;
 import com.example.harmonicapracticeassistant.harmonica.Note;
-import com.example.harmonicapracticeassistant.raw.models.KeyRaw;
-import com.example.harmonicapracticeassistant.richter.RichterHarmonicaGenerator;
+import com.example.harmonicapracticeassistant.harmonica.RichterHarmonicaGenerator;
+import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -21,16 +24,48 @@ import java.util.stream.Collectors;
 
 public class HarmonicaUtils
 {
-    private static List<Note> notes = null;
-    private static List<Key> keys = null;
+    private static final List<Note> notes = new ArrayList<>();
+    private static final List<Key> keys = new ArrayList<>();
     private static List<String> legalTabs = null;
+    private static final List<Harmonica> harmonicaList = new ArrayList<>();
+    private static Note baseNote;
 
-    public static void setUp(Context context)
+    public static void setUp(Context context, AppSettings appSettings)
     {
-        setupAllNotes(context);
-        setupAllKeys(context);
+        baseNote = new Note(NaturalNote.A, 4, appSettings.getFreq());
+        setupKeys(context);// TODO: 12/20/2022 sort by type and then key 
         setupLegalTabs(context);
-        generateRichterHarmonicas(context);
+        harmonicaList.addAll(RichterHarmonicaGenerator.generateRichterHarmonicas(context, appSettings));
+        generateAllNotes();
+    }
+
+    private static void setupKeys(Context context)
+    {
+        Gson gson = new GsonBuilder().
+                registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
+                create();
+
+        Type listOfRichterKey = new TypeToken<ArrayList<com.example.harmonicapracticeassistant.harmonica.Key>>()
+        {
+        }.getType();
+
+        keys.addAll(gson.fromJson(RawReader.getRichterKeys(context), listOfRichterKey));
+    }
+
+    public static List<Key> getKeys(HarmonicaTuningType tuningType)
+    {
+        return keys.stream()
+                .filter(key -> key.isSameTuningType(tuningType))
+                .collect(Collectors.toList());
+    }
+
+    public static Harmonica getHarmonica(HarmonicaTuningType tuningType, String keyName)
+    {
+        return harmonicaList.stream()
+                .filter(harmonica -> harmonica.getTuningType() == tuningType &&
+                        harmonica.getKey().getKeyName().equals(keyName))
+                .findFirst()
+                .orElse(null);
     }
 
     public static List<Note> getNotes()
@@ -43,23 +78,26 @@ public class HarmonicaUtils
         return Collections.unmodifiableList(keys);
     }
 
-    public static List<String> getKeysName()
+    public static List<String> getKeysName(HarmonicaTuningType tuningType)
     {
-        return keys.stream().map(Key::getKeyName).sorted(String::compareTo).collect(Collectors.toList());
+        return keys.stream()
+                .filter(key -> key.isSameTuningType(tuningType))
+                .map(Key::getKeyName)
+                .collect(Collectors.toList());
     }
 
-    public static int getPositionOfKey(String keyName)
+    public static int getPositionOfKey(AppSettings appSettings)
     {
-        return getKeysName().indexOf(keyName);
+        return getKeysName(appSettings.getDefaultTuningType())
+                .indexOf(appSettings.getDefaultKey());
     }
 
-    public static Key getKey(String keyString)
+    public static Key getKey(AppSettings appSettings)
     {
-        for (Key key : keys)
-            if (key.getKeyName().equals(keyString))
-                return key;
-
-        return keys.get(0);
+        return getKeys(appSettings.getDefaultTuningType()).stream()
+                .findFirst()
+                .filter(key -> key.getKeyName().equals(appSettings.getDefaultKey()))
+                .orElse(null);
     }
 
     public static List<String> findIllegalTabs(List<String> tabs)
@@ -68,20 +106,6 @@ public class HarmonicaUtils
                 .filter(s -> !legalTabs.contains(s))
                 .distinct()
                 .collect(Collectors.toList());
-    }
-
-    @Deprecated
-    private static void setupAllKeys(Context context)
-    {
-        if (keys == null)
-        {
-            keys = new ArrayList<>();
-            List<KeyRaw> rawKeys = readRawKeys(context);
-
-            convertRawKeysToKeys(rawKeys);
-
-            keys.sort((key1, key2) -> key1.getKeyName().compareTo(key2.getKeyName()));
-        }
     }
 
     private static void setupLegalTabs(Context context)
@@ -97,50 +121,22 @@ public class HarmonicaUtils
         }
     }
 
-    private static List<KeyRaw> readRawKeys(Context context)
-    {
-        Gson gson = new GsonBuilder().
-                registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
-                create();
-        Type rawKeyList = new TypeToken<ArrayList<KeyRaw>>()
-        {
-        }.getType();
-
-        return gson.fromJson(RawReader.getKeys(context), rawKeyList);
-    }
-
-    private static void convertRawKeysToKeys(List<KeyRaw> rawKeys)
-    {
-        for (KeyRaw rawKey : rawKeys)
-        {
-            Key key = new Key(rawKey);
-            keys.add(key);
-        }
-    }
-
-    private static void setupAllNotes(Context context)
-    {
-        if (notes == null)
-        {
-            Gson gson = new GsonBuilder().
-                    registerTypeAdapter(MusicalNote.class, new MusicalNoteJsonDeserializer()).
-                    create();
-            Type listOfNotes = new TypeToken<List<Note>>()
-            {
-            }.getType();
-
-            notes = gson.fromJson(RawReader.getNoteFrequency(context), listOfNotes);
-            notes.sort((o1, o2) -> Float.compare(o1.getFrequency(), o2.getFrequency()));
-        }
-    }
-
     public static String getBendString(Bend bend)
     {// TODO: 19/01/2022 make this use enum string
         return bend.toString();
     }
 
-    private static void generateRichterHarmonicas(Context context)
+    private static void generateAllNotes()
     {
-        RichterHarmonicaGenerator.setUp(context);
+        for (int octave = 1; octave < 9; octave++)
+            for (int noteNumber = 0; noteNumber < 12; noteNumber++)
+                notes.add(new Note(MusicalNoteUtil.getMusicalNoteFromNumber(noteNumber),
+                        octave,
+                        baseNote));
+    }
+
+    public static Note getBaseNote()
+    {
+        return baseNote;
     }
 }

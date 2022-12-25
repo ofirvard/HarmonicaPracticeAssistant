@@ -1,7 +1,6 @@
 package com.example.harmonicapracticeassistant.pitchdetector;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
-import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.List;
 
@@ -19,17 +17,17 @@ import androidx.recyclerview.widget.SnapHelper;
 
 public class PitchDetectorRecyclerViewAdapter extends RecyclerView.Adapter<PitchDetectorRecyclerViewAdapter.NoteItemViewHolder>
 {
-    private final List<Pair<Note, List<Hole>>> notesWithHoles;
+    private final List<List<Hole>> holesDetectedList;
     private final PitchDetectorProcessor pitchDetectorProcessor;
     private final Context context;
     private int centerPos = 0;
     private final RecyclerView.OnScrollListener onScrollListener;
 
-    public PitchDetectorRecyclerViewAdapter(Context context, PitchDetectorProcessor pitchDetectorProcessor, NotePairListHandler notePairListHandler, SnapHelper snapHelper)
+    public PitchDetectorRecyclerViewAdapter(Context context, PitchDetectorProcessor pitchDetectorProcessor, List<List<Hole>> holesDetectedList, SnapHelper snapHelper)
     {
         this.context = context;
         this.pitchDetectorProcessor = pitchDetectorProcessor;
-        this.notesWithHoles = notePairListHandler.getNotePairList();
+        this.holesDetectedList = holesDetectedList;
         this.onScrollListener = createOnScrollListener(snapHelper);
     }
 
@@ -47,14 +45,14 @@ public class PitchDetectorRecyclerViewAdapter extends RecyclerView.Adapter<Pitch
         holder.noteText.setText(
                 NoteTranslator.holesToString(
                         pitchDetectorProcessor.getKey().isSharp(),
-                        notesWithHoles.get(position)));
+                        holesDetectedList.get(position)));
         setNormalDecor(holder.noteText, holder.coloredBar);
     }
 
     @Override
     public int getItemCount()
     {
-        return notesWithHoles.size();
+        return holesDetectedList.size();
     }
 
     public void setCenterNote(int newSnapPosition)

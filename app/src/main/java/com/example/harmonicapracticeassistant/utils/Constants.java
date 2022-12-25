@@ -1,5 +1,7 @@
 package com.example.harmonicapracticeassistant.utils;
 
+import com.example.harmonicapracticeassistant.harmonica.HarmonicaTuningType;
+
 public class Constants
 {
     public static final String NEW_SONGS_IMPORTED = "NEW_SONGS_IMPORTED";
@@ -41,4 +43,7 @@ public class Constants
     public static final String NEW_LINE = "\n";
     public static final String SPACE = " ";
     public static final String EMPTY_STRING = "";
+
+    public static final int DEFAULT_FREQ = 440;
+    public static final HarmonicaTuningType DEFAULT_TUNING = HarmonicaTuningType.RICHTER;
 }

@@ -1,4 +1,4 @@
-package com.example.harmonicapracticeassistant.richter;
+package com.example.harmonicapracticeassistant.harmonica;
 
 public class Tuning
 {

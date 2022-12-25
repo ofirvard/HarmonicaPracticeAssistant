@@ -37,7 +37,7 @@
         android:id="@+id/decrease_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="decrease"
+        android:onClick="decreaseTextSize"
         android:text="@string/decrease_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -46,7 +46,7 @@
         android:id="@+id/increase_text_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="increase"
+        android:onClick="increaseTextSize"
         android:text="@string/increase_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

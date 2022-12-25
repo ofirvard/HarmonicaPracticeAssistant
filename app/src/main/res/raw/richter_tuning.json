@@ -23,6 +23,7 @@
   { "hole": -3,  "bend":2, "halfSteps": -3  },
   { "hole": -3,  "bend":3, "halfSteps": -4  },
   { "hole": -4,  "bend":0, "halfSteps":  2  },
+  { "hole": -4,  "bend":1, "halfSteps":  1  },
   { "hole": -5,  "bend":0, "halfSteps":  5  },
   { "hole": -6,  "bend":0, "halfSteps":  9  },
   { "hole": -6,  "bend":1, "halfSteps":  8  },

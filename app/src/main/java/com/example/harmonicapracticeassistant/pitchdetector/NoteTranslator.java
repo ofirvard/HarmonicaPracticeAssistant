@@ -1,54 +1,38 @@
 package com.example.harmonicapracticeassistant.pitchdetector;
 
-import android.util.Pair;
-
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.enums.NoteVisual;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
-import com.example.harmonicapracticeassistant.harmonica.Note;
 
 import java.util.List;
-
-import static com.example.harmonicapracticeassistant.utils.Constants.NOT_APPLICABLE;
 
 public class NoteTranslator
 {
     private static NoteVisual noteVisual = NoteVisual.HOLES;
 
-    public static NoteVisual getNoteVisual()
+    public static String holesToString(boolean isSharp, List<Hole> holesDetected)//boolean isSharpKey, Pair<Note, List<Hole>> noteListPair)
     {
-        return noteVisual;
-    }
-
-    public static String holesToString(boolean isSharpKey, Pair<Note, List<Hole>> noteListPair)
-    {
-        if (noteListPair.second.size() == 0)
-            return NOT_APPLICABLE;
-
-        StringBuilder s;
-
-
         switch (noteVisual)
         {
             case NOTE_WITH_OCTAVE:
-                s = new StringBuilder(noteListPair.first.getNoteWithOctave(isSharpKey));
-                break;
+                return holesDetected.get(0).getNoteWithOctave();
 
             case FREQUENCY:
-                s = new StringBuilder(Float.toString(noteListPair.first.getFrequency()));
-                break;
+                return Float.toString(holesDetected.get(0).getNote().getFrequency());
 
             case HOLES:
-                s = new StringBuilder(Integer.toString(noteListPair.second.get(0).getHole()));
-                for (int i = 1; i < noteListPair.second.size(); i++)
-                    s.append("/").append(noteListPair.second.get(i).getHole());
-                break;
+                StringBuilder holes = new StringBuilder();
+                for (int i = 0; i < holesDetected.size(); i++)
+                    if (i == holesDetected.size() - 1)
+                        holes.append(holesDetected.get(i).getHoleString());
+                    else
+                        holes.append(holesDetected.get(i).getHoleString()).append("/");
+
+                return holes.toString();
 
             default:
-                throw new IllegalStateException("Unexpected value: " + noteVisual);
+                return "";
         }
-
-        return s.toString();
     }
 
     public static int switchVisual()
