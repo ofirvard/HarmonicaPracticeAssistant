@@ -1,7 +1,17 @@
 package com.example.harmonicapracticeassistant.pitchdetector;
 
+import android.content.Context;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaRecorder;
 import android.util.Log;
 
+import com.lbbento.pitchuptuner.GuitarTuner;
+import com.lbbento.pitchuptuner.GuitarTunerListener;
+import com.lbbento.pitchuptuner.audio.PitchAudioRecorder;
+import com.lbbento.pitchuptuner.service.TunerResult;
+
+import androidx.annotation.NonNull;
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioProcessor;
 import be.tarsos.dsp.io.android.AudioDispatcherFactory;
@@ -25,6 +35,36 @@ public class PitchDetectorHandler
         new Thread(dispatcher, "Audio Dispatcher").start();
         isRunning = true;
         Log.d("Hertz Update", "dispatcher started");
+    }
+
+    public void newStart(Context context)
+    {
+        PitchAudioRecorder pitchAudioRecorder = new PitchAudioRecorder(new AudioRecord(MediaRecorder.AudioSource.DEFAULT,
+                44100,
+                AudioFormat.CHANNEL_IN_DEFAULT,
+                AudioFormat.ENCODING_PCM_16BIT,
+                AudioRecord.getMinBufferSize(44100,
+                        AudioFormat.CHANNEL_IN_DEFAULT,
+                        AudioFormat.ENCODING_PCM_16BIT)));
+
+        GuitarTunerListener guitarTunerListener = new GuitarTunerListener()
+        {
+            @Override
+            public void onNoteReceived(@NonNull TunerResult tunerResult)
+            {
+                System.out.println("A");
+            }
+
+            @Override
+            public void onError(@NonNull Throwable throwable)
+            {
+
+            }
+        };
+
+        GuitarTuner guitarTuner = new GuitarTuner(pitchAudioRecorder, guitarTunerListener);
+
+        guitarTuner.start();
     }
 
     public void stop()
