@@ -1,11 +1,13 @@
 package com.example.harmonicapracticeassistant.pitchdetector;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.util.Log;
 
+import com.example.harmonicapracticeassistant.utils.Tags;
 import com.lbbento.pitchuptuner.GuitarTuner;
 import com.lbbento.pitchuptuner.GuitarTunerListener;
 import com.lbbento.pitchuptuner.audio.PitchAudioRecorder;
@@ -39,7 +41,7 @@ public class PitchDetectorHandler
 
     public void newStart(Context context)
     {
-        PitchAudioRecorder pitchAudioRecorder = new PitchAudioRecorder(new AudioRecord(MediaRecorder.AudioSource.DEFAULT,
+        @SuppressLint("MissingPermission") PitchAudioRecorder pitchAudioRecorder = new PitchAudioRecorder(new AudioRecord(MediaRecorder.AudioSource.DEFAULT,
                 44100,
                 AudioFormat.CHANNEL_IN_DEFAULT,
                 AudioFormat.ENCODING_PCM_16BIT,
@@ -52,7 +54,9 @@ public class PitchDetectorHandler
             @Override
             public void onNoteReceived(@NonNull TunerResult tunerResult)
             {
-                System.out.println("A");
+                Log.d(Tags.DEBUG, "NoteReceived: " + tunerResult.getNote() + " | " + tunerResult.getExpectedFrequency());
+                if (tunerResult.getExpectedFrequency() != 0)
+                    System.out.println("A");
             }
 
             @Override
