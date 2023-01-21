@@ -21,6 +21,7 @@ import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.IntentBuilder;
+import com.example.harmonicapracticeassistant.utils.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +141,10 @@ public class PitchDetectorActivity extends AppCompatActivity
     @SuppressLint("DefaultLocale")
     private void updateHertz()
     {
+
         List<Hole> holesDetected = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency());
+        List<Hole> holesDetectedTest = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getTestFrequency());
+        // TODO: 17/01/2023 test new lib, check if they give diffrent stuff
 
         if (!holesDetected.isEmpty())
         {
@@ -157,28 +161,29 @@ public class PitchDetectorActivity extends AppCompatActivity
                 String translatedHolesDetected = NoteTranslator.holesToString(
                         pitchDetectorProcessor.getKey().isSharp(), holesDetected);
                 hertz.setText(translatedHolesDetected);
-                Log.d("Hertz Update", "updated ui: " + translatedHolesDetected);
+                Log.d(Tags.HERTZ_UPDATE, "updated ui: " + translatedHolesDetected);
             }
         }
         else
         {
             hertz.setText(R.string.not_applicable);
             lastNote = null;
-            Log.d("Hertz Update", "updated ui: na");
+            Log.d(Tags.HERTZ_UPDATE, "updated ui: na");
         }
     }
 
     private void startRecording()
     {
-        Log.d("Hertz Update", "starting recording");
+        Log.d(Tags.HERTZ_UPDATE, "starting recording");
         ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.shape_button_recording));
         pitchDetectorHandler.start();
+        pitchDetectorHandler.newStart(this);
         startUpdateUIThread();
     }
 
     private void stopRecording()
     {
-        Log.d("Hertz Update", "stopping recording");
+        Log.d(Tags.HERTZ_UPDATE, "stopping recording");
         ((ImageButton) findViewById(R.id.record_pitch_detector)).setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.image_microphone));
         pitchDetectorHandler.stop();
     }
@@ -191,14 +196,14 @@ public class PitchDetectorActivity extends AppCompatActivity
             @Override
             public void run()
             {
-                Log.d("Hertz Update", "ui updater started");
+                Log.d(Tags.HERTZ_UPDATE, "ui updater started");
                 while (pitchDetectorHandler.isRunning())
                 {
                     try
                     {
                         Thread.sleep(100);//todo restore
 //                        Thread.sleep(500);
-                        Log.d("Hertz Update", "slept for 100 millis");
+                        Log.d(Tags.HERTZ_UPDATE, "slept for 100 millis");
                     } catch (InterruptedException e)
                     {
                         e.printStackTrace();
@@ -206,11 +211,11 @@ public class PitchDetectorActivity extends AppCompatActivity
 
                     handler.post(() -> updateHertz());
                 }
-                Log.d("Hertz Update", "stopped update ui thread");
+                Log.d(Tags.HERTZ_UPDATE, "stopped update ui thread");
             }
         };
         uiUpdaterThread.start();
-        Log.d("Hertz Update", "started update ui thread");
+        Log.d(Tags.HERTZ_UPDATE, "started update ui thread");
     }
 
     private void setupKeySpinner(AppSettings appSettings)

@@ -24,19 +24,23 @@ public class PitchDetectorHandler
 {
     private boolean isRunning;
     private float frequency;
+    private float testFrequency;
     private AudioDispatcher dispatcher;
 
     public void start()
     {
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
-        PitchDetectionHandler pdh = (res, e) -> frequency = res.getPitch();
+        PitchDetectionHandler pdh = (res, e) -> {
+            Log.d(Tags.TAROS, String.valueOf(res.getPitch()));
+            frequency = res.getPitch();
+        };
         AudioProcessor p = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
 
         dispatcher.addAudioProcessor(p);
         new Thread(dispatcher, "Audio Dispatcher").start();
         isRunning = true;
-        Log.d("Hertz Update", "dispatcher started");
+        Log.d(Tags.HERTZ_UPDATE, "dispatcher started");
     }
 
     public void newStart(Context context)
@@ -54,9 +58,11 @@ public class PitchDetectorHandler
             @Override
             public void onNoteReceived(@NonNull TunerResult tunerResult)
             {
-                Log.d(Tags.DEBUG, "NoteReceived: " + tunerResult.getNote() + " | " + tunerResult.getExpectedFrequency());
                 if (tunerResult.getExpectedFrequency() != 0)
-                    System.out.println("A");
+                {
+                    Log.d(Tags.LBBENTO, tunerResult.getExpectedFrequency() + "|" + tunerResult.getDiffFrequency());
+                    testFrequency = (float) tunerResult.getExpectedFrequency();
+                }
             }
 
             @Override
@@ -76,13 +82,19 @@ public class PitchDetectorHandler
         if (dispatcher != null && isRunning)
             dispatcher.stop();
         isRunning = false;
-        Log.d("Hertz Update", "dispatcher stopped");
+        Log.d(Tags.HERTZ_UPDATE, "dispatcher stopped");
     }
 
     public float getFrequency()
     {
         return frequency;
     }
+
+    public float getTestFrequency()
+    {
+        return testFrequency;
+    }
+
 
     public boolean isRunning()
     {
