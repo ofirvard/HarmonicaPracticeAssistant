@@ -46,4 +46,5 @@ public class Constants
 
     public static final int DEFAULT_FREQ = 440;
     public static final HarmonicaTuningType DEFAULT_TUNING = HarmonicaTuningType.RICHTER;
+    public static final long SLEEP_TIME = 200;
 }

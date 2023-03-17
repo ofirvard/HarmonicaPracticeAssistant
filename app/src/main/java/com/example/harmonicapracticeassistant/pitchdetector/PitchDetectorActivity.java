@@ -21,13 +21,12 @@ import com.example.harmonicapracticeassistant.harmonica.Harmonica;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
+import com.example.harmonicapracticeassistant.utils.Constants;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.IntentBuilder;
 import com.example.harmonicapracticeassistant.utils.Tags;
-import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -42,8 +41,6 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import static com.example.harmonicapracticeassistant.utils.Constants.DEFAULT_FREQ;
-
 public class PitchDetectorActivity extends AppCompatActivity
 {
     private final List<List<Hole>> holesDetectedList = new ArrayList<>();
@@ -55,7 +52,6 @@ public class PitchDetectorActivity extends AppCompatActivity
     private TextView hertz;
     private RecyclerView notesRecyclerView;
     private Note lastNote = null;
-    private AppSettings appSettings;
 
     // TODO: 10/11/2021 add save/record song button
     @Override
@@ -64,7 +60,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitch_detector);
 
-        appSettings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
+        AppSettings appSettings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
 
         this.pitchDetectorHandler = new PitchDetectorHandler();
         this.pitchDetectorProcessor = new PitchDetectorProcessor(appSettings);
@@ -148,7 +144,7 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         List<Hole> holesDetected = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency());
         List<Hole> holesDetectedTest = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getTestFrequency());
-        // TODO: 17/01/2023 test new lib, check if they give diffrent stuff
+        // TODO: 17/01/2023 test new lib, check if they give different stuff
 
         if (!holesDetected.isEmpty())
         {
@@ -201,11 +197,8 @@ public class PitchDetectorActivity extends AppCompatActivity
                 {
                     try
                     {
-                        Thread.sleep(100);//todo restore
-//                        Thread.sleep(500);
-                        Log.d(Tags.HERTZ_UPDATE, "slept for 100 millis");
-                        Thread.sleep(200);
-                        Log.d("Hertz Update", "slept for 100 millis");
+                        Thread.sleep(Constants.SLEEP_TIME);
+                        Log.d(Tags.HERTZ_UPDATE, String.format("slept for %d millis", Constants.SLEEP_TIME));
                     } catch (InterruptedException e)
                     {
                         e.printStackTrace();
@@ -218,48 +211,6 @@ public class PitchDetectorActivity extends AppCompatActivity
         };
         uiUpdaterThread.start();
         Log.d(Tags.HERTZ_UPDATE, "started update ui thread");
-    }
-
-    private void startTestUIThread()
-    {
-        Handler handler = new Handler();
-        Thread uiUpdaterThread = new Thread("UI updater test")
-        {
-            @Override
-            public void run()
-            {
-                Harmonica harmonica = HarmonicaUtils.getHarmonica(appSettings.getDefaultTuningType(), appSettings.getDefaultKey());
-
-                while (pitchDetectorHandler.isRunning())
-                {
-                    try
-                    {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                    handler.post(() -> {
-                        List<Hole> holesDetected = getHolesForTest(harmonica);
-
-                        lastNote = holesDetected.get(0).getNote();
-                        holesDetectedList.add(holesDetected);
-                        pitchDetectorRecyclerViewAdapter.notifyItemInserted(holesDetectedList.size() - 1);
-
-
-                        notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(holesDetectedList.size() - 1)); //not too bad
-                        String translatedHolesDetected = NoteTranslator.holesToString(
-                                pitchDetectorProcessor.getKey().isSharp(), holesDetected);
-                        hertz.setText(translatedHolesDetected);
-                        Log.d("Hertz Update", "updated ui: " + translatedHolesDetected);
-                    });
-                }
-                Log.d("Hertz Update", "stopped update ui thread");
-            }
-        };
-        uiUpdaterThread.start();
-        Log.d("Hertz Update", "started update ui thread");
     }
 
     private void setupKeySpinner(AppSettings appSettings)
@@ -287,11 +238,5 @@ public class PitchDetectorActivity extends AppCompatActivity
             }
         });
         keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(appSettings));
-    }
-
-    private List<Hole> getHolesForTest(Harmonica harmonica)
-    {
-        Random random = new Random();
-        return Collections.singletonList(harmonica.getHole(random.nextInt(10) + 1, Bend.NONE));
     }
 }
