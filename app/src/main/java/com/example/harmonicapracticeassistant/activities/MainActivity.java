@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.example.harmonicapracticeassistant.R;
 import com.example.harmonicapracticeassistant.pitchdetector.PitchDetectorActivity;
-import com.example.harmonicapracticeassistant.pitchdetector.PitchDetectorHandler;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.settings.SettingsActivity;
 import com.example.harmonicapracticeassistant.songlist.SongListActivity;
@@ -42,9 +41,6 @@ public class MainActivity extends AppCompatActivity
 
         settings = LoadUtils.loadSettings(this);
         HarmonicaUtils.setUp(getApplicationContext(), settings);
-
-//        PitchDetectorHandler pitchDetectorHandler = new PitchDetectorHandler();
-//        pitchDetectorHandler.newStart(this);
     }
 
     public void newSong(View view)
