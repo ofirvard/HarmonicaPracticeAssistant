@@ -36,6 +36,11 @@ public class Hole
         return this.note.equals(note);
     }
 
+    public boolean isSameHole(int number, Bend bend)
+    {
+        return this.number == number && this.bend.equals(bend);
+    }
+
     public String getNoteWithOctave()
     {
         return note.toString();

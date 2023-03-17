@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity
         settings = LoadUtils.loadSettings(this);
         HarmonicaUtils.setUp(getApplicationContext(), settings);
 
-        PitchDetectorHandler pitchDetectorHandler = new PitchDetectorHandler();
-        pitchDetectorHandler.newStart(this);
+//        PitchDetectorHandler pitchDetectorHandler = new PitchDetectorHandler();
+//        pitchDetectorHandler.newStart(this);
     }
 
     public void newSong(View view)

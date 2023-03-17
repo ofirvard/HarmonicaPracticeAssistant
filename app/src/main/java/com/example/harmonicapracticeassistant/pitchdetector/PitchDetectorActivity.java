@@ -16,14 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.harmonicapracticeassistant.R;
+import com.example.harmonicapracticeassistant.enums.Bend;
+import com.example.harmonicapracticeassistant.harmonica.Harmonica;
 import com.example.harmonicapracticeassistant.harmonica.Hole;
 import com.example.harmonicapracticeassistant.harmonica.Note;
 import com.example.harmonicapracticeassistant.settings.AppSettings;
 import com.example.harmonicapracticeassistant.utils.HarmonicaUtils;
 import com.example.harmonicapracticeassistant.utils.IntentBuilder;
+import com.example.harmonicapracticeassistant.utils.NoteFinder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -34,6 +40,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
+
+import static com.example.harmonicapracticeassistant.utils.Constants.DEFAULT_FREQ;
 
 public class PitchDetectorActivity extends AppCompatActivity
 {
@@ -46,6 +54,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     private TextView hertz;
     private RecyclerView notesRecyclerView;
     private Note lastNote = null;
+    private AppSettings appSettings;
 
     // TODO: 10/11/2021 add save/record song button
     @Override
@@ -54,7 +63,7 @@ public class PitchDetectorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pitch_detector);
 
-        AppSettings appSettings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
+        appSettings = getIntent().getExtras().getParcelable(IntentBuilder.SETTINGS_PARCEL_ID);
 
         this.pitchDetectorHandler = new PitchDetectorHandler();
         this.pitchDetectorProcessor = new PitchDetectorProcessor(appSettings);
@@ -113,11 +122,6 @@ public class PitchDetectorActivity extends AppCompatActivity
             stopRecording();
     }
 
-    private int getLastPosition()
-    {
-        return holesDetectedList.size() > 0 ? holesDetectedList.size() - 1 : 0;
-    }
-
     public void switchVisual(View view)
     {
         ((Button) view).setText(NoteTranslator.switchVisual());
@@ -144,16 +148,12 @@ public class PitchDetectorActivity extends AppCompatActivity
 
         if (!holesDetected.isEmpty())
         {
-            // TODO: 9/1/2022 dont update unless you need to
-
             if (lastNote == null || !lastNote.equals(holesDetected.get(0).getNote()))
             {
                 lastNote = holesDetected.get(0).getNote();
                 holesDetectedList.add(holesDetected);
-                pitchDetectorRecyclerViewAdapter.notifyDataSetChanged();
-                // TODO: 08/03/2022 this feels a little weird
-//                notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(getLastPosition()));
-                notesRecyclerView.post(() -> notesRecyclerView.scrollToPosition(getLastPosition()));
+                pitchDetectorRecyclerViewAdapter.notifyItemInserted(holesDetectedList.size() - 1);
+                notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(holesDetectedList.size() - 1));
                 String translatedHolesDetected = NoteTranslator.holesToString(
                         pitchDetectorProcessor.getKey().isSharp(), holesDetected);
                 hertz.setText(translatedHolesDetected);
@@ -196,8 +196,7 @@ public class PitchDetectorActivity extends AppCompatActivity
                 {
                     try
                     {
-                        Thread.sleep(100);//todo restore
-//                        Thread.sleep(500);
+                        Thread.sleep(200);
                         Log.d("Hertz Update", "slept for 100 millis");
                     } catch (InterruptedException e)
                     {
@@ -205,6 +204,48 @@ public class PitchDetectorActivity extends AppCompatActivity
                     }
 
                     handler.post(() -> updateHertz());
+                }
+                Log.d("Hertz Update", "stopped update ui thread");
+            }
+        };
+        uiUpdaterThread.start();
+        Log.d("Hertz Update", "started update ui thread");
+    }
+
+    private void startTestUIThread()
+    {
+        Handler handler = new Handler();
+        Thread uiUpdaterThread = new Thread("UI updater test")
+        {
+            @Override
+            public void run()
+            {
+                Harmonica harmonica = HarmonicaUtils.getHarmonica(appSettings.getDefaultTuningType(), appSettings.getDefaultKey());
+
+                while (pitchDetectorHandler.isRunning())
+                {
+                    try
+                    {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    handler.post(() -> {
+                        List<Hole> holesDetected = getHolesForTest(harmonica);
+
+                        lastNote = holesDetected.get(0).getNote();
+                        holesDetectedList.add(holesDetected);
+                        pitchDetectorRecyclerViewAdapter.notifyItemInserted(holesDetectedList.size() - 1);
+
+
+                        notesRecyclerView.post(() -> notesRecyclerView.smoothScrollToPosition(holesDetectedList.size() - 1)); //not too bad
+                        String translatedHolesDetected = NoteTranslator.holesToString(
+                                pitchDetectorProcessor.getKey().isSharp(), holesDetected);
+                        hertz.setText(translatedHolesDetected);
+                        Log.d("Hertz Update", "updated ui: " + translatedHolesDetected);
+                    });
                 }
                 Log.d("Hertz Update", "stopped update ui thread");
             }
@@ -238,5 +279,11 @@ public class PitchDetectorActivity extends AppCompatActivity
             }
         });
         keySpinner.setSelection(HarmonicaUtils.getPositionOfKey(appSettings));
+    }
+
+    private List<Hole> getHolesForTest(Harmonica harmonica)
+    {
+        Random random = new Random();
+        return Collections.singletonList(harmonica.getHole(random.nextInt(10) + 1, Bend.NONE));
     }
 }

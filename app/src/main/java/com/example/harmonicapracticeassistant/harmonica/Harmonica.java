@@ -1,5 +1,7 @@
 package com.example.harmonicapracticeassistant.harmonica;
 
+import com.example.harmonicapracticeassistant.enums.Bend;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -36,6 +38,13 @@ public class Harmonica
         return holes.stream()
                 .filter(hole -> hole.isNoteEqual(note))
                 .collect(Collectors.toList());
+    }
+
+    public Hole getHole(int number, Bend bend)
+    {
+        return holes.stream()
+                .filter(hole -> hole.isSameHole(number, bend))
+                .findFirst().orElse(null);
     }
 
     public List<Note> getAllNotes()
