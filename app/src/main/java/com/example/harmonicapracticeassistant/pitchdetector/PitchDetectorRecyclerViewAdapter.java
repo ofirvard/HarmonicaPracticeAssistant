@@ -55,7 +55,7 @@ public class PitchDetectorRecyclerViewAdapter extends RecyclerView.Adapter<Pitch
         return holesDetectedList.size();
     }
 
-    public void setCenterNote(int newSnapPosition)
+    public void setCenterPos(int newSnapPosition)
     {
         centerPos = newSnapPosition;
     }
@@ -85,7 +85,7 @@ public class PitchDetectorRecyclerViewAdapter extends RecyclerView.Adapter<Pitch
                     setViewDecor(layoutManager, newSnapPosition, true);
 
                     snapPosition = newSnapPosition;
-                    setCenterNote(newSnapPosition);
+                    setCenterPos(newSnapPosition);
                 }
             }
         };
@@ -119,6 +119,11 @@ public class PitchDetectorRecyclerViewAdapter extends RecyclerView.Adapter<Pitch
     {
         noteText.setTextColor(textColor);
         coloredBar.setBackgroundColor(barColor);
+    }
+
+    public int getCenterPos()
+    {
+        return centerPos;
     }
 
     protected static class NoteItemViewHolder extends RecyclerView.ViewHolder
