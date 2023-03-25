@@ -143,6 +143,7 @@ public class PitchDetectorActivity extends AppCompatActivity
     @SuppressLint("DefaultLocale")
     private void updateHertz()
     {
+        // TODO: 3/23/2023 see if you can make this whole part part of another class
         List<Hole> holesDetected = pitchDetectorProcessor.processNewPitch(pitchDetectorHandler.getFrequency());
 
         if (!holesDetected.isEmpty())
@@ -213,7 +214,6 @@ public class PitchDetectorActivity extends AppCompatActivity
 
     private void setupKeySpinner(AppSettings appSettings)
     {
-        // TODO: 12/20/2022 make this code more reusable
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item_text,
                 HarmonicaUtils.getKeysName(appSettings.getDefaultTuningType()));
